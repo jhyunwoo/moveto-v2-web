@@ -1,17 +1,19 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { ReactNode } from 'react'
+import RecoilProvider from '@/components/recoil-provider'
 
 export const metadata: Metadata = {
-  title: 'Boilerplate',
-  description:
-    'Boilerplate with Next.js, TypeScript, Drizzle ORM, TailwindCSS, Auth.js and Yarn PnP',
+  title: '모베토',
+  description: '모베토 Moveto - 로그인 없이 쉽고 빠른 파일 전송',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="ko">
-      <body>{children}</body>
+    <html lang="ko" className={'bg-black'}>
+      <body>
+        <RecoilProvider>{children}</RecoilProvider>
+      </body>
     </html>
   )
 }

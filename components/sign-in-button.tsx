@@ -1,14 +1,25 @@
 import { signIn } from '@/auth'
+import { ReactNode } from 'react'
 
-export default function SignInButton() {
+export default function SignInButton({
+  className,
+  provider,
+  children,
+}: {
+  className?: string
+  provider: string
+  children: ReactNode
+}) {
   return (
     <form
       action={async () => {
         'use server'
-        await signIn()
+        await signIn(provider, { redirectTo: '/' })
       }}
     >
-      <button type="submit">Sign in</button>
+      <button type="submit" className={className}>
+        {children}
+      </button>
     </form>
   )
 }
