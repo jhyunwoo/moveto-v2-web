@@ -15,7 +15,7 @@ export default function SearchBar() {
   }, [isExpanded])
 
   return (
-    <div>
+    <div className={'transform-gpu'}>
       <motion.input
         key={isExpanded ? 'close' : 'open'}
         className={`rounded-full border-2 p-1 px-4 border-white focus:outline-none flex justify-center items-center bg-black`}
