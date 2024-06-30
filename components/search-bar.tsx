@@ -1,69 +1,95 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useAnimation } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+interface Code {
+  code: string
+}
 
 export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false)
-  const searchRef = useRef<HTMLInputElement>(null)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setFocus,
+    watch,
+    resetField,
+  } = useForm<Code>()
+
+  const controls = useAnimation()
+
+  const onSubmit: SubmitHandler<Code> = (data) => console.log(data)
 
   useEffect(() => {
-    if (isExpanded) {
-      searchRef.current?.focus()
+    function detectEscape(e: KeyboardEvent) {
+      controls.stop()
+      if (isExpanded) {
+        if (e.key === 'Escape') {
+          if (watch('code')) {
+            resetField('code')
+          } else {
+            setIsExpanded(false)
+          }
+        }
+      } else {
+        if (e.key === 'Enter') {
+          setIsExpanded(true)
+          setFocus('code')
+        }
+      }
     }
-  }, [isExpanded])
+    window.addEventListener('keydown', detectEscape)
+    return () => window.removeEventListener('keydown', detectEscape)
+  }, [controls, isExpanded, resetField, setFocus, watch])
+
+  useEffect(() => {
+    if (isExpanded) setFocus('code')
+  }, [isExpanded, setFocus])
 
   return (
     <div>
       <motion.input
-        key={isExpanded ? 'close' : 'open'}
-        className={`rounded-full border-2 p-1 px-4 border-white focus:outline-none flex justify-center items-center bg-black`}
+        className={
+          'rounded-full border-2 p-1 px-4 w-24 sm:w-80 md:w-96 border-white focus:outline-none flex justify-center items-center bg-black'
+        }
         onFocus={() => setIsExpanded(true)}
-        initial={{ scale: 1 }}
         placeholder={'코드 검색'}
-        animate={{ scale: isExpanded ? 1.1 : 1 }}
         layoutId={'search'}
+        autoComplete={'off'}
       />
       <AnimatePresence>
         {isExpanded && (
           <motion.div
             className={
-              'fixed top-0 left-0 w-full h-screen bg-black/70 backdrop-blur-sm z-10 flex items-center justify-center p-4'
+              'fixed top-0 left-0 w-full h-screen bg-black/70 backdrop-blur-sm z-10 flex items-center justify-center p-4 flex-col'
             }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={(e) => setIsExpanded(e.target !== e.currentTarget)}
           >
-            <motion.form
+            <form
               className={'flex w-full items-center justify-center'}
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSubmit(onSubmit)}
             >
               <motion.input
-                key={isExpanded ? 'close' : 'open'}
+                {...register('code', { required: { value: true, message: '코드를 입력해주세요' } })}
                 className={
-                  'p-2 z-10 px-5 rounded-full border-2 border-white w-full max-w-2xl outline-none bg-gray-950 text-xl font-bold placeholder:text-xl placeholder:text-gray-300'
+                  'p-2 z-10 px-5 rounded-full border-4 border-white w-full max-w-2xl outline-none bg-gray-950 text-xl font-bold placeholder:text-xl placeholder:text-gray-300'
                 }
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 layoutId={'search'}
                 placeholder={'코드 검색'}
-                ref={searchRef}
-                onClick={() => setIsExpanded(true)}
+                autoComplete={'off'}
+                animate={controls}
               />
-              <motion.button
-                type={'submit'}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setIsExpanded(true)}
-                className={'z-10'}
-              >
-                <MagnifyingGlassCircleIcon className={'size-12'} />
+              <motion.button type={'submit'}>
+                <MagnifyingGlassCircleIcon className={'size-14'} />
               </motion.button>
-            </motion.form>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
