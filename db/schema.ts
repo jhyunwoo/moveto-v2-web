@@ -1,4 +1,13 @@
-import { boolean, timestamp, pgTable, text, primaryKey, integer } from 'drizzle-orm/pg-core'
+import {
+  boolean,
+  timestamp,
+  pgTable,
+  text,
+  primaryKey,
+  integer,
+  jsonb,
+  bigint,
+} from 'drizzle-orm/pg-core'
 import type { AdapterAccountType } from 'next-auth/adapters'
 
 export const users = pgTable('user', {
@@ -77,3 +86,16 @@ export const authenticators = pgTable(
     }),
   }),
 )
+
+export const share = pgTable('share', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  code: text('code'),
+  file: jsonb('file').$type<string[]>().default([]),
+  storageSize: bigint('bigint', { mode: 'number' }).notNull().default(0),
+  downloadLog: jsonb('downloadLog').$type<{ ip: string; fileName: string }[]>().default([]),
+  expireAt: timestamp('expireAt', { withTimezone: true }).notNull(),
+  createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),
+  userId: text('userId').references(() => users.id, { onDelete: 'cascade' }),
+})

@@ -11,18 +11,15 @@ interface Code {
 
 export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setFocus,
-    watch,
-    resetField,
-  } = useForm<Code>()
+  const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
 
   const controls = useAnimation()
 
-  const onSubmit: SubmitHandler<Code> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<Code> = async (data) => {
+    const searchShare = await fetch(`/api/shares/${data.code}`)
+    const share = await searchShare.json()
+    console.log(share)
+  }
 
   useEffect(() => {
     function detectEscape(e: KeyboardEvent) {
