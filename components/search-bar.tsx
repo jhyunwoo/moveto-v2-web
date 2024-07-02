@@ -2,11 +2,9 @@
 
 import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
+import { Cog6ToothIcon, MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { useSetRecoilState } from 'recoil'
-import { loadingState } from '@/lib/recoil'
 
 interface Code {
   code: string
@@ -16,14 +14,14 @@ export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
   const [error, setError] = useState('')
-  const setLoading = useSetRecoilState(loadingState)
+  const [loading, setLoading] = useState('')
 
   const controls = useAnimation()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async (data) => {
     setError('')
-    setLoading('코드를 찾는 중...')
+    setLoading('코드를 찾는 중')
     const searchShare = await fetch(`/api/shares/${data.code}`)
     if (searchShare.ok) {
       const share = await searchShare.json()
@@ -101,6 +99,12 @@ export default function SearchBar() {
               </motion.button>
             </form>
             {error && <div className={'text-red-500 text-sm'}>{error}</div>}
+            {loading && (
+              <div className={'flex space-x-1 items-center'}>
+                <div className={'text-white text-sm'}>{loading}</div>
+                <Cog6ToothIcon className={'size-6 text-white animate-spin'} />
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
