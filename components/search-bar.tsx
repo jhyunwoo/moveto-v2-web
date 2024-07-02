@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 
 interface Code {
   code: string
@@ -12,13 +13,19 @@ interface Code {
 export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
+  const [error, setError] = useState('')
 
   const controls = useAnimation()
+  const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async (data) => {
     const searchShare = await fetch(`/api/shares/${data.code}`)
-    const share = await searchShare.json()
-    console.log(share)
+    if (searchShare.ok) {
+      const share = await searchShare.json()
+      router.push(`/search/${share.code.replaceAll(' ', '_')}`)
+    } else {
+      setError('코드를 찾을 수 없습니다')
+    }
   }
 
   useEffect(() => {
@@ -87,6 +94,7 @@ export default function SearchBar() {
                 <MagnifyingGlassCircleIcon className={'size-14'} />
               </motion.button>
             </form>
+            {error && <div className={'text-red-500 text-sm'}>{error}</div>}
           </motion.div>
         )}
       </AnimatePresence>
