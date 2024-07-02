@@ -102,7 +102,7 @@ export default function SearchBar() {
             {loading && (
               <div className={'flex space-x-1 items-center'}>
                 <div className={'text-white text-sm'}>{loading}</div>
-                <Cog6ToothIcon className={'size-6 text-white animate-spin'} />
+                <Cog6ToothIcon className={'size-5 text-white animate-spin'} />
               </div>
             )}
           </motion.div>
