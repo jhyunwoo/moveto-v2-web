@@ -22,6 +22,7 @@ export default function SearchBar() {
   const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async (data) => {
+    setError('')
     setLoading('코드를 찾는 중...')
     const searchShare = await fetch(`/api/shares/${data.code}`)
     if (searchShare.ok) {
