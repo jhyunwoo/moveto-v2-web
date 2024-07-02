@@ -1,8 +1,8 @@
 import { atom } from 'recoil'
 
-const loadingState = atom({
+const loadingState = atom<string>({
   key: 'loadingState',
-  default: false,
+  default: '',
 })
 
 const filesState = atom<File[]>({

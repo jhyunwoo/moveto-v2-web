@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { useSetRecoilState } from 'recoil'
+import { loadingState } from '@/lib/recoil'
 
 interface Code {
   code: string
@@ -14,11 +16,13 @@ export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
   const [error, setError] = useState('')
+  const setLoading = useSetRecoilState(loadingState)
 
   const controls = useAnimation()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async (data) => {
+    setLoading('코드를 찾는 중...')
     const searchShare = await fetch(`/api/shares/${data.code}`)
     if (searchShare.ok) {
       const share = await searchShare.json()
@@ -26,6 +30,7 @@ export default function SearchBar() {
     } else {
       setError('코드를 찾을 수 없습니다')
     }
+    setLoading('')
   }
 
   useEffect(() => {
