@@ -91,6 +91,7 @@ export default function SearchBar({
         <motion.button
           type={'submit'}
           disabled={loading}
+          layoutId={'search-button'}
           className={`disabled:text-sky-400 disabled:animate-pulse ${error ? 'text-red-500' : 'text-white'} transition-colors`}
         >
           <MagnifyingGlassCircleIcon className={'size-14'} />
