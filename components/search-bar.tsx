@@ -74,7 +74,7 @@ export default function SearchBar({
   }, [loading, setFocus])
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative w-full ${className}`}>
       <form className={'flex w-full items-center justify-center'} onSubmit={handleSubmit(onSubmit)}>
         <motion.input
           {...register('code', {
