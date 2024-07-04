@@ -93,7 +93,7 @@ export const share = pgTable('share', {
     .$defaultFn(() => crypto.randomUUID()),
   code: text('code'),
   file: jsonb('file').$type<string[]>().default([]),
-  storageSize: bigint('bigint', { mode: 'number' }).notNull().default(0),
+  storageSize: bigint('storageSize', { mode: 'number' }).notNull().default(0),
   downloadLog: jsonb('downloadLog').$type<{ ip: string; fileName: string }[]>().default([]),
   expireAt: timestamp('expireAt', { withTimezone: true }).notNull(),
   createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),

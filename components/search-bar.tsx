@@ -2,9 +2,9 @@
 
 import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { Cog6ToothIcon, MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 
 interface Code {
   code: string
@@ -14,22 +14,26 @@ export default function SearchBar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const controls = useAnimation()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async (data) => {
     setError('')
-    setLoading('코드를 찾는 중')
+    setLoading(true)
     const searchShare = await fetch(`/api/shares/${data.code}`)
     if (searchShare.ok) {
       const share = await searchShare.json()
       router.push(`/search/${share.code.replaceAll(' ', '_')}`)
     } else {
-      setError('코드를 찾을 수 없습니다')
+      if (searchShare.status === 404) {
+        setError('코드를 찾을 수 없습니다')
+      } else if (searchShare.status === 500) {
+        setError('서버 오류가 발생했습니다')
+      }
     }
-    setLoading('')
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -57,6 +61,12 @@ export default function SearchBar() {
   useEffect(() => {
     if (isExpanded) setFocus('code')
   }, [isExpanded, setFocus])
+  useEffect(() => {
+    console.log('refocus')
+    if (!loading) {
+      setFocus('code')
+    }
+  }, [loading, setFocus])
 
   return (
     <div>
@@ -80,31 +90,37 @@ export default function SearchBar() {
             exit={{ opacity: 0 }}
             onClick={(e) => setIsExpanded(e.target !== e.currentTarget)}
           >
-            <form
-              className={'flex w-full items-center justify-center'}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <motion.input
-                {...register('code', { required: { value: true, message: '코드를 입력해주세요' } })}
-                className={
-                  'p-2 z-10 px-5 rounded-full border-4 border-white w-full max-w-2xl outline-none bg-gray-950 text-xl font-bold placeholder:text-xl placeholder:text-gray-300'
-                }
-                layoutId={'search'}
-                placeholder={'코드 검색'}
-                autoComplete={'off'}
-                animate={controls}
-              />
-              <motion.button type={'submit'}>
-                <MagnifyingGlassCircleIcon className={'size-14'} />
-              </motion.button>
-            </form>
-            {error && <div className={'text-red-500 text-sm'}>{error}</div>}
-            {loading && (
-              <div className={'flex space-x-1 items-center'}>
-                <div className={'text-white text-sm'}>{loading}</div>
-                <Cog6ToothIcon className={'size-5 text-white animate-spin'} />
-              </div>
-            )}
+            <div className={'relative'}>
+              <form
+                className={'flex w-full items-center justify-center'}
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <motion.input
+                  {...register('code', {
+                    required: { value: true, message: '코드를 입력해주세요' },
+                    onChange: () => setError(''),
+                  })}
+                  className={`p-2 z-10 transition-colors px-5 rounded-full border-4 disabled:border-sky-400 disabled:animate-pulse ${error ? 'border-red-500' : 'border-white'} transition-colors w-full max-w-2xl outline-none bg-transparent text-xl font-bold placeholder:text-xl placeholder:text-gray-300`}
+                  layoutId={'search'}
+                  disabled={loading}
+                  placeholder={'코드 검색'}
+                  autoComplete={'off'}
+                  animate={controls}
+                />
+                <motion.button
+                  type={'submit'}
+                  disabled={loading}
+                  className={`disabled:text-sky-400 disabled:animate-pulse ${error ? 'text-red-500' : 'text-white'} transition-colors`}
+                >
+                  <MagnifyingGlassCircleIcon className={'size-14'} />
+                </motion.button>
+              </form>
+              {error && (
+                <div className={'text-red-500 text-sm absolute top-14 w-full flex justify-center'}>
+                  <div>{error}</div>
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
