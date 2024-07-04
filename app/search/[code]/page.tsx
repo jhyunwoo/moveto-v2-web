@@ -13,7 +13,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
 
   if (shareData) {
     return (
-      <div className={'w-full min-h-screen text-white p-4 flex flex-col gap-2'}>
+      <div className={'w-full min-h-screen text-white p-4 flex flex-col gap-2 sm:pt-24'}>
         <div
           className={'flex gap-2 items-center justify-between p-2 px-3 bg-neutral-900 rounded-xl'}
         >
