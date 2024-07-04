@@ -1,7 +1,7 @@
 import FileUpload from '@/components/file-upload'
 import ProfileButton from '@/components/profile-button'
 import { Suspense } from 'react'
-import SearchBar from '@/components/search-bar'
+import SearchBar from '@/components/search-animation'
 
 export default function HomePage() {
   return (

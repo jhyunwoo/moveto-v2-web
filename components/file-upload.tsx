@@ -127,7 +127,7 @@ export default function FileUpload() {
   return (
     <form
       className={
-        'w-full rounded-xl border-2 border-white border-dashed h-[30vh] hover:bg-gray-950 transition relative'
+        'w-full rounded-xl border-2 border-white border-dashed h-[30vh] hover:bg-neutral-900 transition relative'
       }
     >
       <input
