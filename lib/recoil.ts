@@ -1,4 +1,5 @@
-import { atom } from 'recoil'
+import { atom, selector } from 'recoil'
+import getTotalFileSize from '@/lib/get-total-file-size'
 
 const loadingState = atom<string>({
   key: 'loadingState',
@@ -15,4 +16,11 @@ const fileDataState = atom<string[]>({
   default: [],
 })
 
-export { loadingState, filesState, fileDataState }
+const totalFileSizeState = selector({
+  key: 'totalFileSizeState',
+  get: ({ get }) => {
+    return getTotalFileSize(get(filesState))
+  },
+})
+
+export { loadingState, filesState, fileDataState, totalFileSizeState }

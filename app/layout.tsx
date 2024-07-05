@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ReactNode } from 'react'
 import RecoilProvider from '@/components/recoil-provider'
+import AuthProvider from '@/components/auth-provider'
 
 export const metadata: Metadata = {
   title: '모베토',
@@ -12,7 +13,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="ko" className={'bg-neutral-950'}>
       <body>
-        <RecoilProvider>{children}</RecoilProvider>
+        <RecoilProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </RecoilProvider>
       </body>
     </html>
   )
