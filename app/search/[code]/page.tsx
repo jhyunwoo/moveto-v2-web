@@ -2,7 +2,7 @@ import decodeKoCode from '@/lib/decode-ko-code'
 import db from '@/db'
 import { eq } from 'drizzle-orm'
 import { share } from '@/db/schema'
-import { FolderIcon } from '@heroicons/react/24/outline'
+import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import ShareButton from '@/components/share-button'
 import HomePageButton from '@/components/homepage-button'
 
@@ -24,7 +24,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
           className={'flex gap-2 items-center justify-between p-2 px-3 bg-neutral-900 rounded-xl'}
         >
           <div className={'flex gap-2 items-center'}>
-            <FolderIcon className={'size-8 text-white'} />
+            <FolderOpenIcon className={'size-8 text-white'} />
             <div className={'text-2xl font-bold'}> {code}</div>
           </div>
           <ShareButton
