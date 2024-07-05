@@ -56,7 +56,6 @@ export default function SearchBar({
         }
       } else {
         if (e.key === 'Enter') {
-          if (setIsExpanded) setIsExpanded(true)
           setFocus('code')
         }
       }

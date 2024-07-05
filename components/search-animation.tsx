@@ -1,11 +1,21 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchBar from '@/components/search-bar'
 
 export default function SearchAnimation() {
   const [isExpanded, setIsExpanded] = useState(false)
+
+  useEffect(() => {
+    function detectEscape(e: KeyboardEvent) {
+      if (e.key === 'Enter') {
+        if (setIsExpanded) setIsExpanded(true)
+      }
+    }
+    window.addEventListener('keydown', detectEscape)
+    return () => window.removeEventListener('keydown', detectEscape)
+  }, [])
 
   return (
     <>

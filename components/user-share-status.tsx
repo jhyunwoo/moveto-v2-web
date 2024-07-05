@@ -9,6 +9,7 @@ export default function UserShareStatus() {
   const session = useSession()
   const totalSize = useRecoilValue(totalFileSizeState)
   console.log(totalSize, session)
+
   return (
     <div className={'w-full p-2 bg-neutral-900 rounded-xl px-4 mt-4'}>
       {totalSize > 0 && (
