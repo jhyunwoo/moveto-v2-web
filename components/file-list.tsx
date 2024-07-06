@@ -1,5 +1,6 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
 import formatBytes from '@/lib/format-bytes'
+import { motion } from 'framer-motion'
 
 export default function FileList({
   files,
@@ -11,7 +12,9 @@ export default function FileList({
   return (
     <div className={'text-white py-2 flex flex-col gap-2'}>
       {files?.map((file, index) => (
-        <div
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           key={index}
           className={'bg-neutral-900 p-1 px-3 rounded-lg flex items-center justify-between'}
         >
@@ -25,7 +28,7 @@ export default function FileList({
           >
             <TrashIcon className={'size-6'} />
           </button>
-        </div>
+        </motion.div>
       ))}
     </div>
   )

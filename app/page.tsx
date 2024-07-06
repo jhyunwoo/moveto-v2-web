@@ -6,9 +6,9 @@ import SearchAnimation from '@/components/search-animation'
 export default function HomePage() {
   return (
     <div className={'w-full min-h-screen flex flex-col items-center p-4'}>
-      <div className={'w-full h-[33vh]'} />
-      <div className={'w-full max-w-2xl flex flex-col text-white relative'}>
-        <div className={'flex items-center justify-between gap-2 pb-1 absolute -top-12 w-full'}>
+      <div className={'w-full h-[35vh]'} />
+      <div className={'w-full max-w-2xl flex flex-col text-white relative gap-2'}>
+        <div className={'flex items-center justify-between gap-2 absolute -top-12 w-full'}>
           <div className={'flex items-center gap-2'}>
             <div className={'text-4xl font-bold'}>모베토</div>
             <Suspense

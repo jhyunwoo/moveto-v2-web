@@ -99,4 +99,7 @@ export const share = pgTable('share', {
   expireAt: timestamp('expireAt', { withTimezone: true }).notNull(),
   createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),
   userId: text('userId').references(() => users.id, { onDelete: 'cascade' }),
+  encryptedFile: jsonb('encryptedFile')
+    .$type<{ name: string; data: string; size: number }[]>()
+    .default([]),
 })

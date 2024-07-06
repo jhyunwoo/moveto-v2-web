@@ -23,4 +23,14 @@ const totalFileSizeState = selector({
   },
 })
 
-export { loadingState, filesState, fileDataState, totalFileSizeState }
+const shareTimeState = atom<number>({
+  key: 'shareTimeState',
+  default: 0,
+})
+
+const uploadState = atom<boolean>({
+  key: 'uploadState',
+  default: false,
+})
+
+export { loadingState, filesState, fileDataState, totalFileSizeState, shareTimeState, uploadState }
