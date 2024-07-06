@@ -47,7 +47,7 @@ export default function UserShareStatus() {
             className={'bg-sky-500 h-2 rounded-full'}
           />
         </div>
-        <div className={'flex justify-between items-center text-sm'}>
+        <div className={'flex justify-between items-center text-xs'}>
           <div>
             {leftStorage > 0
               ? `${formatBytes(leftStorage)} 남음`

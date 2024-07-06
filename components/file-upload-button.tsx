@@ -35,13 +35,13 @@ export default function FileUploadButton() {
           }
         >
           {!disabled ? (
-            <div className={'relative'}>
-              <ArrowUpOnSquareStackIcon className={'size-6 absolute -left-6 top-[2px]'} />
+            <div className={'flex items-center justify-center gap-1'}>
+              <ArrowUpOnSquareStackIcon className={'size-6'} />
               <div>공유</div>
             </div>
           ) : (
-            <div className={'relative'}>
-              <ExclamationTriangleIcon className={'size-6 absolute -left-8 top-1'} />
+            <div className={'flex items-center justify-center gap-1'}>
+              <ExclamationTriangleIcon className={'size-6'} />
               <div>저장공간 부족</div>
             </div>
           )}
