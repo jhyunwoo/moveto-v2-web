@@ -3,9 +3,9 @@
 import { useRef } from 'react';
 import { FolderOpenIcon } from '@heroicons/react/24/outline';
 import useHandleFile from '@/lib/hooks/useHandleFile';
-import FileList from '@/components/file-list';
-import UserShareStatus from '@/components/user-share-status';
-import FileUploadButton from '@/components/file-upload-button';
+import FileList from '@/components/file-upload/file-list';
+import UserShareStatus from '@/components/file-upload/user-share-status';
+import ShareTimePopupButton from '@/components/file-upload/share-time-popup-button';
 
 export default function FileUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +46,7 @@ export default function FileUpload() {
         </label>
       </div>
       <UserShareStatus />
-      <FileUploadButton />
+      <ShareTimePopupButton />
       <FileList files={files} deleteFile={deleteFile} />
     </>
   );

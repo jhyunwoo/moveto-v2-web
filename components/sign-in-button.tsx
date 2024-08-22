@@ -12,6 +12,7 @@ export default function SignInButton({
 }) {
   return (
     <form
+      className={'w-full'}
       action={async () => {
         'use server';
         await signIn(provider, { redirectTo: '/' });

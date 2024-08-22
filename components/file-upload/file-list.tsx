@@ -10,10 +10,10 @@ export default function FileList({ files, deleteFile }: { files: File[]; deleteF
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           key={index}
-          className={'bg-neutral-900 p-1 px-3 rounded-lg flex items-center justify-between'}
+          className={'bg-neutral-900 p-2 rounded-lg flex items-start justify-between'}
         >
-          <div>
-            <div>{file.name}</div>
+          <div className={'pr-2'}>
+            <div className={'break-all'}>{file.name}</div>
             <div className={'text-sm text-neutral-400'}>{formatBytes(file.size, 2)}</div>
           </div>
           <button

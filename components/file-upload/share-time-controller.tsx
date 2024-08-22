@@ -1,10 +1,17 @@
 'use client';
 
-import { useSetRecoilState } from 'recoil';
-import { uploadState } from '@/lib/recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { shareTimeState, shareTimePopUpState } from '@/lib/recoil';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import FileUploadButton from '@/components/file-upload/file-upload-button';
+import { motion } from 'framer-motion';
+
+interface PlanShareTimeType {
+  value: number;
+  text: string;
+}
 
 const planShareTime = {
   Free: [
@@ -42,41 +49,48 @@ function shareTimeOption(userPlan: string | null | undefined) {
 }
 
 export default function ShareTimeController() {
-  const setUploadState = useSetRecoilState(uploadState);
-  const [selected, setSelected] = useState(0);
+  const setShareTimePopUp = useSetRecoilState(shareTimePopUpState);
+  const [shareTime, setShareTime] = useRecoilState(shareTimeState);
+  const [planShareTime, setPlanShareTimes] = useState<PlanShareTimeType[]>([]);
   const session = useSession();
 
+  useEffect(() => {
+    setPlanShareTimes(shareTimeOption(session.data?.user.plan));
+  }, [session.data?.user.plan]);
+
+  useEffect(() => {
+    setShareTime(planShareTime[0]?.value);
+  }, [planShareTime, setShareTime]);
+
   return (
-    <div
+    <motion.div
       className={
         'fixed top-0 left-0 w-full h-screen z-10 bg-neutral-950/90 flex flex-col items-center justify-center p-4 backdrop-blur-sm'
       }
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.1,
+      }}
     >
       <div className={'w-full max-w-3xl flex flex-col bg-neutral-900 rounded-xl relative p-4'}>
-        <button onClick={() => setUploadState(false)} className={'absolute right-2 top-2'}>
+        <button onClick={() => setShareTimePopUp(false)} className={'absolute right-2 top-2'}>
           <XCircleIcon className={'size-8 text-white'} />
         </button>
         <div className={'text-2xl font-semibold py-2'}>공유 시간</div>
         <div className={'grid grid-cols-3 grid-rows-3 gap-2'}>
-          {shareTimeOption(session.data?.user.plan).map((data, index) => (
+          {planShareTime.map(data => (
             <button
-              onClick={() => setSelected(index)}
-              key={index}
-              className={`p-3 rounded-lg ${index === selected ? 'bg-neutral-300 text-black hover:bg-neutral-400' : 'bg-neutral-700 hover:bg-neutral-800'} flex items-center justify-center transition-colors`}
+              onClick={() => setShareTime(data.value)}
+              key={data.text}
+              className={`p-3 rounded-lg ${shareTime === data.value ? 'bg-neutral-100 text-black' : 'bg-neutral-800 text-neutral-50'} flex items-center justify-center transition-colors`}
             >
               <div>{data.text}</div>
             </button>
           ))}
         </div>
-        <button
-          type={'button'}
-          className={
-            'bg-white text-lg font-semibold p-2 rounded-full text-black mt-8 hover:bg-neutral-200 transition-colors'
-          }
-        >
-          공유
-        </button>
+        <FileUploadButton />
       </div>
-    </div>
+    </motion.div>
   );
 }

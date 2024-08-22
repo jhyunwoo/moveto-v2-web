@@ -1,43 +1,42 @@
 'use client';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { totalFileSizeState, uploadState } from '@/lib/recoil';
-import { ArrowUpOnSquareStackIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
+import { totalFileSizeState, shareTimePopUpState } from '@/lib/recoil';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import getUserLimit from '@/lib/get-user-limit';
-import ShareTimeController from '@/components/share-time-controller';
+import ShareTimeController from '@/components/file-upload/share-time-controller';
+import { useSession } from 'next-auth/react';
 
-export default function FileUploadButton() {
+export default function ShareTimePopupButton() {
   const totalSize = useRecoilValue(totalFileSizeState);
-  const session = useSession();
   const [disabled, setDisabled] = useState(false);
-  const [upload, setUpload] = useRecoilState(uploadState);
+  const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState);
+  const { data: session } = useSession();
 
   useEffect(() => {
-    if (getUserLimit(session.data?.user.plan).storage < totalSize) {
+    if (getUserLimit(session?.user.plan).storage < totalSize) {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [session.data?.user.plan, totalSize]);
+  }, [session, totalSize]);
 
   if (totalSize > 0) {
     return (
       <>
-        {upload && <ShareTimeController />}
+        {shareTimePopUp && <ShareTimeController />}
         <button
           type={'button'}
           disabled={disabled}
-          onClick={() => setUpload(true)}
+          onClick={() => setShareTimePopUp(true)}
           className={
             'p-1 rounded-lg bg-white text-black group text-lg font-semibold flex items-center justify-center hover:bg-neutral-300 transition-colors disabled:bg-red-800 disabled:text-white'
           }
         >
           {!disabled ? (
             <div className={'flex items-center justify-center gap-1'}>
-              <ArrowUpOnSquareStackIcon className={'size-6'} />
-              <div>공유</div>
+              <div>공유...</div>
             </div>
           ) : (
             <div className={'flex items-center justify-center gap-1'}>

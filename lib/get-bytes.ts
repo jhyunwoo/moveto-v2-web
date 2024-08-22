@@ -1,6 +1,8 @@
 /**
  * storage size -> Bytes
+ *
  * input number and unit
+ *
  * return bytes
  */
 const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
