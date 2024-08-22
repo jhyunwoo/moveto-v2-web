@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import SearchBar from '@/components/search-bar'
+import { ReactNode } from 'react';
+import SearchBar from '@/components/search-bar';
 
 export default function SearchCodeLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,5 +9,5 @@ export default function SearchCodeLayout({ children }: { children: ReactNode }) 
         <SearchBar />
       </div>
     </>
-  )
+  );
 }

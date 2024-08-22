@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
-import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
+import { ReactNode } from 'react';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
 export default async function ProfileLayout({ children }: { children: ReactNode }) {
-  const session = await auth()
+  const session = await auth();
   if (!session?.user?.id) {
-    redirect('/auth/sign-in')
+    redirect('/auth/sign-in');
   }
-  return <>{children}</>
+  return <>{children}</>;
 }

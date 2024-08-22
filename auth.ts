@@ -1,9 +1,9 @@
-import NextAuth, { DefaultSession } from 'next-auth'
-import GitHub from 'next-auth/providers/github'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
-import db from '@/db'
-import { eq } from 'drizzle-orm'
-import { users } from '@/db/schema'
+import NextAuth, { DefaultSession } from 'next-auth';
+import GitHub from 'next-auth/providers/github';
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
+import db from '@/db';
+import { eq } from 'drizzle-orm';
+import { users } from '@/db/schema';
 
 declare module 'next-auth' {
   /**
@@ -12,14 +12,14 @@ declare module 'next-auth' {
   interface Session {
     user: {
       /** The user's postal address. */
-      plan: string
+      plan: string;
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
        * with the new ones defined above. To keep the default session user properties,
        * you need to add them back into the newly declared interface.
        */
-    } & DefaultSession['user']
+    } & DefaultSession['user'];
   }
 }
 
@@ -28,12 +28,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [GitHub],
   callbacks: {
     async session({ session, user }) {
-      const userPlan = await db
-        .select({ plan: users.plan })
-        .from(users)
-        .where(eq(users.id, user.id))
-      session.user.plan = userPlan[0].plan
-      return session
+      const userPlan = await db.select({ plan: users.plan }).from(users).where(eq(users.id, user.id));
+      session.user.plan = userPlan[0].plan;
+      return session;
     },
   },
-})
+});

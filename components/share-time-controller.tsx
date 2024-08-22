@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { useSetRecoilState } from 'recoil'
-import { uploadState } from '@/lib/recoil'
-import { XCircleIcon } from '@heroicons/react/24/outline'
-import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useSetRecoilState } from 'recoil';
+import { uploadState } from '@/lib/recoil';
+import { XCircleIcon } from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 const planShareTime = {
   Free: [
@@ -28,23 +28,23 @@ const planShareTime = {
     { value: 5, text: '5분' },
     { value: 10, text: '10분' },
   ],
-}
+};
 
 function shareTimeOption(userPlan: string | null | undefined) {
   switch (userPlan) {
     case 'Free':
-      return planShareTime.Free
+      return planShareTime.Free;
     case 'Pro':
-      return planShareTime.Pro
+      return planShareTime.Pro;
     default:
-      return planShareTime.Unauthorized
+      return planShareTime.Unauthorized;
   }
 }
 
 export default function ShareTimeController() {
-  const setUploadState = useSetRecoilState(uploadState)
-  const [selected, setSelected] = useState(0)
-  const session = useSession()
+  const setUploadState = useSetRecoilState(uploadState);
+  const [selected, setSelected] = useState(0);
+  const session = useSession();
 
   return (
     <div
@@ -78,5 +78,5 @@ export default function ShareTimeController() {
         </button>
       </div>
     </div>
-  )
+  );
 }

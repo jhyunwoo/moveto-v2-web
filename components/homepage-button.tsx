@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { FolderIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link';
+import { FolderIcon } from '@heroicons/react/24/outline';
 
 export default function HomePageButton() {
   return (
@@ -12,5 +12,5 @@ export default function HomePageButton() {
       <FolderIcon className={'size-5'} />
       <div>다른 파일 공유</div>
     </Link>
-  )
+  );
 }

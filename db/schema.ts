@@ -1,14 +1,5 @@
-import {
-  boolean,
-  timestamp,
-  pgTable,
-  text,
-  primaryKey,
-  integer,
-  jsonb,
-  bigint,
-} from 'drizzle-orm/pg-core'
-import type { AdapterAccountType } from 'next-auth/adapters'
+import { boolean, timestamp, pgTable, text, primaryKey, integer, jsonb, bigint } from 'drizzle-orm/pg-core';
+import type { AdapterAccountType } from 'next-auth/adapters';
 
 export const users = pgTable('user', {
   id: text('id')
@@ -19,7 +10,7 @@ export const users = pgTable('user', {
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   image: text('image'),
   plan: text('plan').default('Free').notNull(),
-})
+});
 
 export const accounts = pgTable(
   'account',
@@ -38,12 +29,12 @@ export const accounts = pgTable(
     id_token: text('id_token'),
     session_state: text('session_state'),
   },
-  (account) => ({
+  account => ({
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-  }),
-)
+  })
+);
 
 export const sessions = pgTable('session', {
   sessionToken: text('sessionToken').primaryKey(),
@@ -51,7 +42,7 @@ export const sessions = pgTable('session', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   expires: timestamp('expires', { mode: 'date' }).notNull(),
-})
+});
 
 export const verificationTokens = pgTable(
   'verificationToken',
@@ -60,12 +51,12 @@ export const verificationTokens = pgTable(
     token: text('token').notNull(),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
   },
-  (verificationToken) => ({
+  verificationToken => ({
     compositePk: primaryKey({
       columns: [verificationToken.identifier, verificationToken.token],
     }),
-  }),
-)
+  })
+);
 
 export const authenticators = pgTable(
   'authenticator',
@@ -81,12 +72,12 @@ export const authenticators = pgTable(
     credentialBackedUp: boolean('credentialBackedUp').notNull(),
     transports: text('transports'),
   },
-  (authenticator) => ({
+  authenticator => ({
     compositePK: primaryKey({
       columns: [authenticator.userId, authenticator.credentialID],
     }),
-  }),
-)
+  })
+);
 
 export const share = pgTable('share', {
   id: text('id')
@@ -99,7 +90,5 @@ export const share = pgTable('share', {
   expireAt: timestamp('expireAt', { withTimezone: true }).notNull(),
   createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),
   userId: text('userId').references(() => users.id, { onDelete: 'cascade' }),
-  encryptedFile: jsonb('encryptedFile')
-    .$type<{ name: string; data: string; size: number }[]>()
-    .default([]),
-})
+  encryptedFile: jsonb('encryptedFile').$type<{ name: string; data: string; size: number }[]>().default([]),
+});

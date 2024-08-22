@@ -1,14 +1,8 @@
-import { TrashIcon } from '@heroicons/react/24/outline'
-import formatBytes from '@/lib/format-bytes'
-import { motion } from 'framer-motion'
+import { TrashIcon } from '@heroicons/react/24/outline';
+import formatBytes from '@/lib/format-bytes';
+import { motion } from 'framer-motion';
 
-export default function FileList({
-  files,
-  deleteFile,
-}: {
-  files: File[]
-  deleteFile: (index: number) => void
-}) {
+export default function FileList({ files, deleteFile }: { files: File[]; deleteFile: (index: number) => void }) {
   return (
     <div className={'text-white py-2 flex flex-col gap-2'}>
       {files?.map((file, index) => (
@@ -31,5 +25,5 @@ export default function FileList({
         </motion.div>
       ))}
     </div>
-  )
+  );
 }

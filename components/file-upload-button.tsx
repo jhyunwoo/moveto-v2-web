@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { totalFileSizeState, uploadState } from '@/lib/recoil'
-import { ArrowUpOnSquareStackIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
-import getUserLimit from '@/lib/get-user-limit'
-import ShareTimeController from '@/components/share-time-controller'
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { totalFileSizeState, uploadState } from '@/lib/recoil';
+import { ArrowUpOnSquareStackIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import getUserLimit from '@/lib/get-user-limit';
+import ShareTimeController from '@/components/share-time-controller';
 
 export default function FileUploadButton() {
-  const totalSize = useRecoilValue(totalFileSizeState)
-  const session = useSession()
-  const [disabled, setDisabled] = useState(false)
-  const [upload, setUpload] = useRecoilState(uploadState)
+  const totalSize = useRecoilValue(totalFileSizeState);
+  const session = useSession();
+  const [disabled, setDisabled] = useState(false);
+  const [upload, setUpload] = useRecoilState(uploadState);
 
   useEffect(() => {
     if (getUserLimit(session.data?.user.plan).storage < totalSize) {
-      setDisabled(true)
+      setDisabled(true);
     } else {
-      setDisabled(false)
+      setDisabled(false);
     }
-  }, [session.data?.user.plan, totalSize])
+  }, [session.data?.user.plan, totalSize]);
 
   if (totalSize > 0) {
     return (
@@ -47,8 +47,8 @@ export default function FileUploadButton() {
           )}
         </button>
       </>
-    )
+    );
   } else {
-    return <></>
+    return <></>;
   }
 }

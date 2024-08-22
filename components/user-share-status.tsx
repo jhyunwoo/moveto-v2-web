@@ -1,29 +1,29 @@
-'use client'
+'use client';
 
-import { useSession } from 'next-auth/react'
-import { useRecoilValue } from 'recoil'
-import { totalFileSizeState } from '@/lib/recoil'
-import formatBytes from '@/lib/format-bytes'
-import { motion } from 'framer-motion'
-import getUserLimit from '@/lib/get-user-limit'
-import { useEffect, useState } from 'react'
-import getBytes from '@/lib/get-bytes'
+import { useSession } from 'next-auth/react';
+import { useRecoilValue } from 'recoil';
+import { totalFileSizeState } from '@/lib/recoil';
+import formatBytes from '@/lib/format-bytes';
+import { motion } from 'framer-motion';
+import getUserLimit from '@/lib/get-user-limit';
+import { useEffect, useState } from 'react';
+import getBytes from '@/lib/get-bytes';
 
 export default function UserShareStatus() {
-  const session = useSession()
-  const totalSize = useRecoilValue(totalFileSizeState)
-  const [userLimit, setUserLimit] = useState({ time: 10, storage: getBytes(50, 'MB') })
-  const [leftStorage, setLeftStorage] = useState(0)
+  const session = useSession();
+  const totalSize = useRecoilValue(totalFileSizeState);
+  const [userLimit, setUserLimit] = useState({ time: 10, storage: getBytes(50, 'MB') });
+  const [leftStorage, setLeftStorage] = useState(0);
 
   useEffect(() => {
-    setLeftStorage(userLimit.storage - totalSize)
-  }, [totalSize, userLimit.storage])
+    setLeftStorage(userLimit.storage - totalSize);
+  }, [totalSize, userLimit.storage]);
 
   useEffect(() => {
     if (session.data?.user.plan) {
-      setUserLimit(getUserLimit(session.data?.user.plan))
+      setUserLimit(getUserLimit(session.data?.user.plan));
     }
-  }, [session.data?.user.plan])
+  }, [session.data?.user.plan]);
 
   return (
     <motion.div
@@ -34,9 +34,7 @@ export default function UserShareStatus() {
       <div>{session.data?.user.plan ? session.data?.user.plan + ' Plan' : '미인증 사용자'}</div>
 
       <div className={'w-full flex flex-col'}>
-        <div
-          className={`w-full h-2 rounded-full ${leftStorage < 0 ? 'bg-red-500' : 'bg-neutral-700'}`}
-        >
+        <div className={`w-full h-2 rounded-full ${leftStorage < 0 ? 'bg-red-500' : 'bg-neutral-700'}`}>
           <motion.div
             initial={{ width: '100%' }}
             animate={{
@@ -57,5 +55,5 @@ export default function UserShareStatus() {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
