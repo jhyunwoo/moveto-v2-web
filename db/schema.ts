@@ -1,5 +1,5 @@
-import { boolean, timestamp, pgTable, text, primaryKey, integer, jsonb, bigint } from 'drizzle-orm/pg-core';
-import type { AdapterAccountType } from 'next-auth/adapters';
+import { boolean, timestamp, pgTable, text, primaryKey, integer, jsonb, bigint, serial } from 'drizzle-orm/pg-core'
+import type { AdapterAccountType } from 'next-auth/adapters'
 
 export const users = pgTable('user', {
   id: text('id')
@@ -10,7 +10,7 @@ export const users = pgTable('user', {
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   image: text('image'),
   plan: text('plan').default('Free').notNull(),
-});
+})
 
 export const accounts = pgTable(
   'account',
@@ -34,7 +34,7 @@ export const accounts = pgTable(
       columns: [account.provider, account.providerAccountId],
     }),
   })
-);
+)
 
 export const sessions = pgTable('session', {
   sessionToken: text('sessionToken').primaryKey(),
@@ -42,7 +42,7 @@ export const sessions = pgTable('session', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   expires: timestamp('expires', { mode: 'date' }).notNull(),
-});
+})
 
 export const verificationTokens = pgTable(
   'verificationToken',
@@ -56,7 +56,7 @@ export const verificationTokens = pgTable(
       columns: [verificationToken.identifier, verificationToken.token],
     }),
   })
-);
+)
 
 export const authenticators = pgTable(
   'authenticator',
@@ -77,7 +77,7 @@ export const authenticators = pgTable(
       columns: [authenticator.userId, authenticator.credentialID],
     }),
   })
-);
+)
 
 export const share = pgTable('share', {
   id: text('id')
@@ -87,8 +87,18 @@ export const share = pgTable('share', {
   file: jsonb('file').$type<string[]>().default([]),
   storageSize: bigint('storageSize', { mode: 'number' }).notNull().default(0),
   downloadLog: jsonb('downloadLog').$type<{ ip: string; fileName: string }[]>().default([]),
-  expireAt: timestamp('expireAt', { withTimezone: true }).notNull(),
+  expireAt: timestamp('expireAt', { withTimezone: true }),
   createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),
   userId: text('userId').references(() => users.id, { onDelete: 'cascade' }),
-  encryptedFile: jsonb('encryptedFile').$type<{ name: string; data: string; size: number }[]>().default([]),
-});
+  ip: text('ip').notNull(),
+})
+
+export const nouns = pgTable('noun', {
+  id: serial('id').primaryKey(),
+  word: text('word').notNull().unique(),
+})
+
+export const adjectives = pgTable('adjectives', {
+  id: serial('id').primaryKey(),
+  word: text('word').notNull().unique(),
+})
