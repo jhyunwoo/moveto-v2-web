@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { shareTimeState, shareTimePopUpState } from '@/lib/recoil';
-import { XCircleIcon } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import FileUploadButton from '@/components/file-upload/file-upload-button';
-import { motion } from 'framer-motion';
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { shareTimeState, shareTimePopUpState } from '@/lib/recoil'
+import { XCircleIcon } from '@heroicons/react/24/outline'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import FileUploadButton from '@/components/file-upload/file-upload-button'
+import { motion } from 'framer-motion'
 
 interface PlanShareTimeType {
-  value: number;
-  text: string;
+  value: number
+  text: string
 }
 
 const planShareTime = {
@@ -35,32 +35,32 @@ const planShareTime = {
     { value: 5, text: '5분' },
     { value: 10, text: '10분' },
   ],
-};
+}
 
 function shareTimeOption(userPlan: string | null | undefined) {
   switch (userPlan) {
     case 'Free':
-      return planShareTime.Free;
+      return planShareTime.Free
     case 'Pro':
-      return planShareTime.Pro;
+      return planShareTime.Pro
     default:
-      return planShareTime.Unauthorized;
+      return planShareTime.Unauthorized
   }
 }
 
-export default function ShareTimeController() {
-  const setShareTimePopUp = useSetRecoilState(shareTimePopUpState);
-  const [shareTime, setShareTime] = useRecoilState(shareTimeState);
-  const [planShareTime, setPlanShareTimes] = useState<PlanShareTimeType[]>([]);
-  const session = useSession();
+export default function ShareTimeController({ uploadFunc }: { uploadFunc: () => void }) {
+  const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
+  const [shareTime, setShareTime] = useRecoilState(shareTimeState)
+  const [planShareTime, setPlanShareTimes] = useState<PlanShareTimeType[]>([])
+  const session = useSession()
 
   useEffect(() => {
-    setPlanShareTimes(shareTimeOption(session.data?.user.plan));
-  }, [session.data?.user.plan]);
+    setPlanShareTimes(shareTimeOption(session.data?.user.plan))
+  }, [session.data?.user.plan])
 
   useEffect(() => {
-    setShareTime(planShareTime[0]?.value);
-  }, [planShareTime, setShareTime]);
+    setShareTime(planShareTime[0]?.value)
+  }, [planShareTime, setShareTime])
 
   return (
     <motion.div
@@ -89,8 +89,8 @@ export default function ShareTimeController() {
             </button>
           ))}
         </div>
-        <FileUploadButton />
+        <FileUploadButton uploadFunc={uploadFunc} />
       </div>
     </motion.div>
-  );
+  )
 }

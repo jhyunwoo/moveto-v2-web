@@ -1,31 +1,31 @@
-'use client';
+'use client'
 
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { totalFileSizeState, shareTimePopUpState } from '@/lib/recoil';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
-import getUserLimit from '@/lib/get-user-limit';
-import ShareTimeController from '@/components/file-upload/share-time-controller';
-import { useSession } from 'next-auth/react';
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { totalFileSizeState, shareTimePopUpState } from '@/lib/recoil'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState } from 'react'
+import getUserLimit from '@/lib/get-user-limit'
+import ShareTimeController from '@/components/file-upload/share-time-controller'
+import { useSession } from 'next-auth/react'
 
-export default function ShareTimePopupButton() {
-  const totalSize = useRecoilValue(totalFileSizeState);
-  const [disabled, setDisabled] = useState(false);
-  const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState);
-  const { data: session } = useSession();
+export default function ShareTimePopupButton({ uploadFunc }: { uploadFunc: () => void }) {
+  const totalSize = useRecoilValue(totalFileSizeState)
+  const [disabled, setDisabled] = useState(false)
+  const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
+  const { data: session } = useSession()
 
   useEffect(() => {
     if (getUserLimit(session?.user.plan).storage < totalSize) {
-      setDisabled(true);
+      setDisabled(true)
     } else {
-      setDisabled(false);
+      setDisabled(false)
     }
-  }, [session, totalSize]);
+  }, [session, totalSize])
 
   if (totalSize > 0) {
     return (
       <>
-        {shareTimePopUp && <ShareTimeController />}
+        {shareTimePopUp && <ShareTimeController uploadFunc={uploadFunc} />}
         <button
           type={'button'}
           disabled={disabled}
@@ -46,8 +46,8 @@ export default function ShareTimePopupButton() {
           )}
         </button>
       </>
-    );
+    )
   } else {
-    return <></>;
+    return <></>
   }
 }
