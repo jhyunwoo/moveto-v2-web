@@ -22,7 +22,7 @@ export default function AccessCode() {
   return (
     <div
       className={
-        'fixed top-0 left-0 w-screen h-screen flex flex-col items-start justify-center bg-neutral-950/80 p-4 z-10 backdrop-blur-sm'
+        'fixed top-0 left-0 w-screen h-screen flex flex-col items-center justify-center bg-neutral-950/80 p-4 z-10 backdrop-blur-sm'
       }
     >
       <div className={'w-full max-w-xl p-4 rounded-xl bg-neutral-900 flex flex-col gap-4'}>
