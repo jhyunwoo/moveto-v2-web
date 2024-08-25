@@ -1,27 +1,27 @@
-'use client';
+'use client'
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import SearchBar from '@/components/search-bar';
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import SearchBar from '@/components/search-bar'
 
 export default function SearchAnimation() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false)
 
   useEffect(() => {
     function detectEscape(e: KeyboardEvent) {
       if (e.key === 'Enter') {
-        if (setIsExpanded) setIsExpanded(true);
+        if (setIsExpanded) setIsExpanded(true)
       }
     }
-    window.addEventListener('keydown', detectEscape);
-    return () => window.removeEventListener('keydown', detectEscape);
-  }, []);
+    window.addEventListener('keydown', detectEscape)
+    return () => window.removeEventListener('keydown', detectEscape)
+  }, [])
 
   return (
     <>
       <motion.input
         className={
-          'rounded-full border-2 p-1 px-4 w-24 sm:w-80 md:w-96 border-white focus:outline-none flex justify-center items-center bg-black'
+          'rounded-full border-2 p-1 px-4 w-32 sm:w-80 md:w-96 border-white focus:outline-none flex justify-center items-center bg-black'
         }
         onFocus={() => setIsExpanded(true)}
         placeholder={'코드 검색'}
@@ -44,5 +44,5 @@ export default function SearchAnimation() {
         )}
       </AnimatePresence>
     </>
-  );
+  )
 }

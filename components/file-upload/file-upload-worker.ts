@@ -16,6 +16,9 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
   const uppy = new Uppy().use(AwsS3, { endpoint: '/api/' }).on('progress', progress => {
     self.postMessage({ progress })
   })
+  // .on('upload-progress', (file, progress) => {
+  //   console.log(file, progress)
+  // })
   for (const file of event.data.files) {
     uppy.addFile({
       name: `${createdShare.shareId}/${file.name}`,

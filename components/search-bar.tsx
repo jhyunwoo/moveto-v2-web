@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import { motion, useAnimation } from 'framer-motion';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline';
+import { motion, useAnimation } from 'framer-motion'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 
 interface Code {
-  code: string;
+  code: string
 }
 
 export default function SearchBar({
@@ -15,62 +15,62 @@ export default function SearchBar({
   setIsExpanded,
   className,
 }: {
-  isExpanded?: boolean;
-  setIsExpanded?: Dispatch<SetStateAction<boolean>>;
-  className?: string;
+  isExpanded?: boolean
+  setIsExpanded?: Dispatch<SetStateAction<boolean>>
+  className?: string
 }) {
-  const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>();
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const controls = useAnimation();
-  const router = useRouter();
+  const controls = useAnimation()
+  const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async data => {
-    setError('');
-    setLoading(true);
-    const searchShare = await fetch(`/api/share/${data.code}`);
+    setError('')
+    setLoading(true)
+    const searchShare = await fetch(`/api/share/${data.code}`)
     if (searchShare.ok) {
-      const share = await searchShare.json();
-      router.push(`/search/${share.code.replaceAll(' ', '_')}`);
+      const share = await searchShare.json()
+      router.push(`/search/${share.code.replaceAll(' ', '_')}`)
     } else {
       if (searchShare.status === 404) {
-        setError('코드를 찾을 수 없습니다');
+        setError('코드를 찾을 수 없습니다')
       } else {
-        setError('서버 오류가 발생했습니다');
+        setError('서버 오류가 발생했습니다')
       }
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   useEffect(() => {
     function detectEscape(e: KeyboardEvent) {
-      controls.stop();
+      controls.stop()
       if (isExpanded) {
         if (e.key === 'Escape') {
           if (watch('code')) {
-            resetField('code');
+            resetField('code')
           } else {
-            if (setIsExpanded) setIsExpanded(false);
+            if (setIsExpanded) setIsExpanded(false)
           }
         }
       } else {
         if (e.key === 'Enter') {
-          setFocus('code');
+          setFocus('code')
         }
       }
     }
-    window.addEventListener('keydown', detectEscape);
-    return () => window.removeEventListener('keydown', detectEscape);
-  }, [controls, isExpanded, resetField, setFocus, setIsExpanded, watch]);
+    window.addEventListener('keydown', detectEscape)
+    return () => window.removeEventListener('keydown', detectEscape)
+  }, [controls, isExpanded, resetField, setFocus, setIsExpanded, watch])
   useEffect(() => {
-    if (isExpanded) setFocus('code');
-  }, [isExpanded, setFocus]);
+    if (isExpanded) setFocus('code')
+  }, [isExpanded, setFocus])
   useEffect(() => {
     if (!loading) {
-      setFocus('code');
+      setFocus('code')
     }
-  }, [loading, setFocus]);
+  }, [loading, setFocus])
 
   return (
     <div className={`relative w-full ${className}`}>
@@ -80,7 +80,7 @@ export default function SearchBar({
             required: { value: true, message: '코드를 입력해주세요' },
             onChange: () => setError(''),
           })}
-          className={`p-2 z-10 transition-colors px-5 rounded-full border-4 disabled:border-sky-400 disabled:animate-pulse ${error ? 'border-red-500' : 'border-white'} transition-colors w-full max-w-2xl outline-none bg-neutral-900/50 text-xl font-bold placeholder:text-xl placeholder:text-gray-300`}
+          className={`p-2 z-10 transition-colors px-5 rounded-full border-4 disabled:border-sky-400 disabled:animate-pulse ${error ? 'border-red-500' : 'border-white'} transition-colors w-full max-w-3xl outline-none bg-neutral-900/50 text-xl font-bold placeholder:text-xl placeholder:text-gray-300`}
           layoutId={'search'}
           disabled={loading}
           placeholder={'코드 검색'}
@@ -106,5 +106,5 @@ export default function SearchBar({
         <div>{error}</div>
       </motion.div>
     </div>
-  );
+  )
 }

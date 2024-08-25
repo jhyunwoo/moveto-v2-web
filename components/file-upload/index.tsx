@@ -42,7 +42,6 @@ export default function FileUpload() {
     fileUploadWorker.current = new Worker(new URL('./file-upload-worker.ts', import.meta.url), { type: 'module' })
 
     const handleMessage = (event: MessageEvent<{ progress: number } | { code: string }>) => {
-      console.log(event.data)
       if ('progress' in event.data) {
         setProgress(event.data.progress)
       } else if ('code' in event.data) {
@@ -89,11 +88,11 @@ export default function FileUpload() {
         <label
           htmlFor={'fileUpload'}
           ref={dragRef}
-          className={'w-full p-4 flex flex-col items-center justify-center h-full'}
+          className={'cursor-pointer w-full p-4 flex flex-col items-center justify-center h-full'}
         >
           <button className={'text-white flex items-center justify-center flex-col'} onClick={clickFileInput}>
             <FolderOpenIcon className={'size-12 text-white mb-1'} />
-            <div className={'text-white text-sm'}>전송할 파일을 클릭 또는 드롭 하세요.</div>
+            <div className={'text-white text-sm'}>전송할 파일을 드롭하거나 선택해주세요.</div>
           </button>
         </label>
       </div>

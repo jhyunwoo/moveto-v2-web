@@ -11,7 +11,6 @@ export default function AccessCode() {
       window.navigator
         .share({
           title: `${code} | 모베토 파일 공유`,
-          text: code,
           url: `${process.env.SITE_URL}/search/${code}`,
         })
         .then(data => console.log(data))
@@ -27,7 +26,7 @@ export default function AccessCode() {
     >
       <div className={'w-full max-w-xl p-4 rounded-xl bg-neutral-900 flex flex-col gap-4'}>
         <div>
-          <div className={'text-sm text-neutral-200 mb-1'}>접속 코드</div>
+          <div className={'text-sm text-neutral-200 mb-1'}>접근 코드</div>
           <div className={'text-3xl font-bold p-4 text-center bg-neutral-800 rounded-xl'}>{code}</div>
         </div>
         <div className={'w-full flex gap-2 items-center'}>
