@@ -49,11 +49,6 @@ const uploadProgressState = atom<number>({
   default: -1,
 })
 
-const progressState = atom<number[]>({
-  key: 'progressState',
-  default: [],
-})
-
 /** 파일 접속 코드 상태 */
 const codeState = atom<string>({
   key: 'codeState',
