@@ -13,7 +13,7 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
   const createdShare = (await createShareRequest.json()) as { shareId: string }
 
   // 2. 생성한 share id를 받아오고 id를 폴더 이름으로 사용하고 각 파일을 해당 폴더에 업로드
-  const uppy = new Uppy().use(AwsS3, { endpoint: '/api/' }).on('progress', progress => {
+  const uppy = new Uppy({ debug: true }).use(AwsS3, { endpoint: '/api/' }).on('progress', progress => {
     self.postMessage({ progress })
   })
   // .on('upload-progress', (file, progress) => {

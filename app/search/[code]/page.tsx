@@ -30,7 +30,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
 
   if (shareData) {
     return (
-      <div className={'w-full min-h-screen text-white p-4 flex flex-col gap-2 max-w-4xl mx-auto pt-24'}>
+      <div className={'w-full min-h-screen md:pb-28 text-white p-4 flex flex-col gap-2 max-w-4xl mx-auto pt-24'}>
         <div className={'flex gap-2 items-center justify-between p-2 px-3 bg-neutral-900 rounded-xl'}>
           <div className={'flex gap-2 items-center'}>
             <FolderOpenIcon className={'size-8 text-white'} />
@@ -41,12 +41,12 @@ export default async function SearchPage({ params }: { params: { code: string } 
             url={`${process.env.SITE_URL}/search/${code.replaceAll(' ', '_')}`}
           />
         </div>
-        <div className={'p-2 rounded-xl '}>
+        <div className={'p-2 rounded-xl'}>
           <div className={'text-xl font-semibold'}>Files</div>
           <div className={'flex flex-col gap-1'}>
             {shareData.file?.map((fileData, index) => (
               <div key={index} className={'flex items-center justify-between bg-neutral-900 p-2 px-4 rounded-lg'}>
-                <div>{fileData}</div>
+                <div className={'break-all'}>{fileData}</div>
                 <a href={downloadUrl[index]} download={fileData}>
                   <CloudArrowDownIcon className={'size-8'} />
                 </a>
@@ -54,7 +54,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
             ))}
           </div>
         </div>
-        <div className={'w-full p-4 fixed bottom-0 left-0 flex'}>
+        <div className={'w-full p-4 md:pb-12 fixed bottom-0 left-0 flex'}>
           <div className={'flex gap-2 max-w-4xl w-full mx-auto'}>
             <button
               className={
