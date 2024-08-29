@@ -9,20 +9,22 @@ export default function UploadProgress() {
   const uppyFile = useRecoilValue(uppyFileState)
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       className={
         'fixed top-0 left-0 w-screen h-screen flex flex-col items-center justify-center bg-neutral-950/50 backdrop-blur-sm p-4 z-10'
       }
     >
-      <div className={'w-full max-w-xl p-4 rounded-xl bg-neutral-900 flex flex-col max-h-[90vh]'}>
+      <div className={'w-full max-w-xl p-4 rounded-xl bg-neutral-900 flex flex-col max-h-[70vh]'}>
         <div className={'text-xl font-semibold pb-4'}>
           {progress === 0 ? '파일 업로드 준비중...' : '파일 업로드 중...'}
         </div>
 
-        <div className={'overflow-auto'}>
+        <div className={'overflow-auto overflow-x-hidden'}>
           {uppyFile.map(data => (
-            <div key={data.id} className={'flex flex-col'}>
-              <div>{data.name}</div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={data.id} className={'flex flex-col'}>
+              <div className={'break-all'}>{data.name}</div>
               {data.progress.percentage === 0 ? (
                 <div className={'w-full h-4 bg-neutral-500 animate-pulse rounded-full'} />
               ) : (
@@ -34,13 +36,13 @@ export default function UploadProgress() {
                 </div>
               )}
               <div className={'ml-auto text-sm'}>{data.progress.percentage}%</div>
-            </div>
+            </motion.div>
           ))}
         </div>
         <div className={'text-white ml-auto text-lg font-semibold pt-4'}>
           {progress !== 100 ? `${progress}%` : '접근 코드 생성중...'}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

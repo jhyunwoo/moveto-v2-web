@@ -2,18 +2,20 @@ import decodeKoCode from '@/lib/decode-ko-code'
 import db from '@/db'
 import { and, eq, gte } from 'drizzle-orm'
 import { share } from '@/db/schema'
-import { CloudArrowDownIcon, FolderOpenIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { CloudArrowDownIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
 import ShareButton from '@/components/share-button'
 import HomePageButton from '@/components/homepage-button'
 import getS3Client from '@/lib/r2/get-s3-client'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import DeleteShareButton from '@/components/delete-share-button'
 
 export default async function SearchPage({ params }: { params: { code: string } }) {
   const code = decodeKoCode(params.code)
   const shareData = await db.query.share.findFirst({
-    where: and(eq(share.code, code), gte(share.expireAt, new Date())),
+    where: and(eq(share.code, code), gte(share.expireAt, new Date()), eq(share.active, true)),
   })
+
   const r2client = getS3Client()
   const urlRequests = []
   if (shareData?.file) {
@@ -56,14 +58,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
         </div>
         <div className={'w-full p-4 md:pb-12 fixed bottom-0 left-0 flex'}>
           <div className={'flex gap-2 max-w-4xl w-full mx-auto'}>
-            <button
-              className={
-                'border-2 border-red-600 bg-neutral-900 p-3 px-4 items-center rounded-full flex gap-1 text-red-600'
-              }
-            >
-              <TrashIcon className={'size-6'} />
-              <div className={'text-lg font-semibold'}>삭제...</div>
-            </button>
+            <DeleteShareButton code={params.code} />
             <HomePageButton />
           </div>
         </div>

@@ -91,6 +91,7 @@ export const share = pgTable('share', {
   createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),
   userId: text('userId').references(() => users.id, { onDelete: 'cascade' }),
   ip: text('ip').notNull(),
+  active: boolean('active').notNull().default(true),
 })
 
 export const nouns = pgTable('noun', {

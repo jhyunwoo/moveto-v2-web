@@ -19,7 +19,7 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
     .use(AwsS3, {
       endpoint: '/api/',
       allowedMetaFields: [],
-      limit: 10,
+      limit: 6,
       retryDelays: [0, 500, 1500, 2500],
       headers: { folder: createdShare.shareId },
     })

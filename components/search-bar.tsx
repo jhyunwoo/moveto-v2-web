@@ -29,7 +29,7 @@ export default function SearchBar({
   const onSubmit: SubmitHandler<Code> = async data => {
     setError('')
     setLoading(true)
-    const searchShare = await fetch(`/api/share/${data.code}`)
+    const searchShare = await fetch(`/api/share/code/${data.code}`)
     if (searchShare.ok) {
       const share = await searchShare.json()
       router.push(`/search/${share.code.replaceAll(' ', '_')}`)

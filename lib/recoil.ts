@@ -61,6 +61,11 @@ const uppyFileState = atom<UppyFile<Meta, Record<string, never>>[]>({
   default: [],
 })
 
+const deleteShareState = atom<boolean>({
+  key: 'deleteShareState',
+  default: false,
+})
+
 export {
   loadingState,
   filesState,
@@ -71,4 +76,5 @@ export {
   uploadProgressState,
   codeState,
   uppyFileState,
+  deleteShareState,
 }
