@@ -3,6 +3,7 @@
 import { useRecoilState } from 'recoil'
 import { codeState } from '@/lib/recoil'
 import QRCode from 'react-qr-code'
+import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
 
 export default function AccessCode() {
   const [code, setCode] = useRecoilState(codeState)
@@ -29,11 +30,17 @@ export default function AccessCode() {
     >
       <div className={'w-full max-w-xl p-4 rounded-xl bg-neutral-900 flex flex-col gap-4'}>
         <div>
-          <div className={'text-sm text-neutral-200 mb-1'}>접근 코드</div>
+          <div className={'text-sm text-neutral-200 mb-1 flex items-center gap-1'}>
+            <KeyIcon className={'size-5'} />
+            <div>접근 코드</div>
+          </div>
           <div className={'text-3xl font-bold p-4 text-center bg-neutral-800 rounded-xl'}>{code}</div>
         </div>
         <div className={'w-full flex flex-col items-start justify-center'}>
-          <div className={'text-sm text-neutral-200 mb-1'}>QR Code</div>
+          <div className={'text-sm text-neutral-200 mb-1 flex items-center gap-1'}>
+            <QrCodeIcon className={'size-6'} />
+            <div>QR Code</div>
+          </div>
           <div className={'mx-auto p-4 rounded-xl bg-neutral-600'}>
             <QRCode
               value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${encodeURIComponent(code.replaceAll(' ', '_'))}`}
@@ -44,9 +51,12 @@ export default function AccessCode() {
           <button
             onClick={shareFileLink}
             type={'button'}
-            className={'px-4 p-2 rounded-full bg-neutral-950 text-neutral-50'}
+            className={
+              'px-4 pr-5 p-2 rounded-full bg-neutral-950 border-2 border-neutral-200 text-neutral-50 flex items-center gap-1'
+            }
           >
-            공유
+            <ShareIcon className={'size-5'} />
+            <div>공유</div>
           </button>
           <button
             type={'button'}
