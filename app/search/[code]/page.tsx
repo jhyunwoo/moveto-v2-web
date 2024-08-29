@@ -76,7 +76,11 @@ export default async function SearchPage({ params }: { params: { code: string } 
         404 Not Found <br />
         코드를 찾을 수 없습니다
       </div>
-      <HomePageButton />
+      <div className={'w-full p-4 md:pb-12 fixed bottom-0 left-0 flex'}>
+        <div className={'flex gap-2 max-w-4xl w-full mx-auto'}>
+          <HomePageButton />
+        </div>
+      </div>
     </div>
   )
 }

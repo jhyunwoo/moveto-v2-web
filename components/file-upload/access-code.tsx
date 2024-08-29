@@ -35,7 +35,9 @@ export default function AccessCode() {
         <div className={'w-full flex flex-col items-start justify-center'}>
           <div className={'text-sm text-neutral-200 mb-1'}>QR Code</div>
           <div className={'mx-auto p-4 rounded-xl bg-neutral-600'}>
-            <QRCode value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code}`} />
+            <QRCode
+              value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${encodeURIComponent(code.replaceAll(' ', '_'))}`}
+            />
           </div>
         </div>
         <div className={'w-full flex gap-2 items-center'}>
