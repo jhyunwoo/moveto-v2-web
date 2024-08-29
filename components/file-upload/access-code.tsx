@@ -2,20 +2,23 @@
 
 import { useRecoilState } from 'recoil'
 import { codeState } from '@/lib/recoil'
+import QRCode from 'react-qr-code'
 
 export default function AccessCode() {
   const [code, setCode] = useRecoilState(codeState)
 
   function shareFileLink() {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+
     try {
       window.navigator
         .share({
           title: `${code} | 모베토 파일 공유`,
-          url: `${process.env.SITE_URL}/search/${code}`,
+          url: `${siteUrl}/search/${code}`,
         })
         .then(data => console.log(data))
     } catch {
-      window.navigator.clipboard.writeText(`${process.env.SITE_URL}/search/${code}`)
+      window.navigator.clipboard.writeText(`${siteUrl}/search/${code}`)
     }
   }
   return (
@@ -28,6 +31,12 @@ export default function AccessCode() {
         <div>
           <div className={'text-sm text-neutral-200 mb-1'}>접근 코드</div>
           <div className={'text-3xl font-bold p-4 text-center bg-neutral-800 rounded-xl'}>{code}</div>
+        </div>
+        <div className={'w-full flex flex-col items-start justify-center'}>
+          <div className={'text-sm text-neutral-200 mb-1'}>QR Code</div>
+          <div className={'mx-auto p-4 rounded-xl bg-neutral-600'}>
+            <QRCode value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code}`} />
+          </div>
         </div>
         <div className={'w-full flex gap-2 items-center'}>
           <button

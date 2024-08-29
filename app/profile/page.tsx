@@ -4,6 +4,7 @@ import SignOutButton from '@/components/sign-out-button'
 
 export default async function ProfilePage() {
   const session = await auth()
+
   return (
     <div className={'w-full grid grid-cols-1 md:grid-cols-2 gap-2'}>
       <div className={'text-white w-full p-4 rounded-xl bg-neutral-900 gap-1 flex flex-col'}>

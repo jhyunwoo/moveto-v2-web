@@ -13,12 +13,14 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
   const createdShare = (await createShareRequest.json()) as { shareId: string }
 
   // 2. 생성한 share id를 받아오고 id를 폴더 이름으로 사용하고 각 파일을 해당 폴더에 업로드
-  const uppy = new Uppy({ debug: true }).use(AwsS3, { endpoint: '/api/' }).on('progress', progress => {
-    self.postMessage({ progress })
-  })
-  // .on('upload-progress', (file, progress) => {
-  //   console.log(file, progress)
-  // })
+  const uppy = new Uppy({ debug: true })
+    .use(AwsS3, { endpoint: '/api/' })
+    .on('progress', progress => {
+      self.postMessage({ progress })
+    })
+    .on('upload-progress', (file, progress) => {
+      console.log(file, progress)
+    })
   for (const file of event.data.files) {
     uppy.addFile({
       name: `${createdShare.shareId}/${file.name}`,
@@ -26,6 +28,7 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
       data: file,
     })
   }
+  const files = uppy.getFiles()
   await uppy.upload()
   // 3. 업로드 완료 후 파일 크기 검증 및 접근 코드 생성
   const validateUploadRequest = await fetch(`/api/share/${createdShare.shareId}/code`, {
