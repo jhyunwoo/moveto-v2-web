@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: `${process.env.SITE_URL!}/sitemap.xml`,
-  };
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL!}/sitemap.xml`,
+  }
 }

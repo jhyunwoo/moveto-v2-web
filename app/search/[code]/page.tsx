@@ -38,7 +38,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
           </div>
           <ShareButton
             title={`파일 공유 - ${code}`}
-            url={`${process.env.SITE_URL}/search/${code.replaceAll(' ', '_')}`}
+            url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`}
           />
         </div>
         <div className={'p-2 rounded-xl'}>
