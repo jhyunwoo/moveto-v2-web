@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil'
 import getTotalFileSize from '@/lib/get-total-file-size'
+import { Meta, UppyFile } from '@uppy/core'
 
 /** 로딩 State*/
 const loadingState = atom<string>({
@@ -55,6 +56,11 @@ const codeState = atom<string>({
   default: '',
 })
 
+const uppyFileState = atom<UppyFile<Meta, Record<string, never>>[]>({
+  key: 'uppyFileState',
+  default: [],
+})
+
 export {
   loadingState,
   filesState,
@@ -64,4 +70,5 @@ export {
   shareTimePopUpState,
   uploadProgressState,
   codeState,
+  uppyFileState,
 }

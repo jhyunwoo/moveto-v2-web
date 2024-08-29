@@ -11,6 +11,7 @@ import {
   filesState,
   shareTimePopUpState,
   shareTimeState,
+  uppyFileState,
   uploadProgressState,
 } from '@/lib/recoil'
 import { useEffect, useRef } from 'react'
@@ -18,6 +19,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useSession } from 'next-auth/react'
 import UploadProgress from '@/components/file-upload/upload-progress'
 import AccessCode from '@/components/file-upload/access-code'
+import { Meta, UppyFile } from '@uppy/core'
 
 export default function FileUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -36,28 +38,40 @@ export default function FileUpload() {
   const setFiles = useSetRecoilState(filesState)
   const setFileData = useSetRecoilState(fileDataState)
   const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
+  const setUppyFile = useSetRecoilState(uppyFileState)
+
   const { data: session } = useSession()
 
   useEffect(() => {
     fileUploadWorker.current = new Worker(new URL('./file-upload-worker.ts', import.meta.url), { type: 'module' })
 
-    const handleMessage = (event: MessageEvent<{ progress: number } | { code: string }>) => {
-      if ('progress' in event.data) {
+    const handleMessage = (
+      event: MessageEvent<{
+        progress?: number
+        code?: string
+        files?: UppyFile<Meta, Record<string, never>>[]
+        file?: UppyFile<Meta, Record<string, never>>
+      }>
+    ) => {
+      if (event.data.progress) {
         setProgress(event.data.progress)
-      } else if ('code' in event.data) {
+      } else if (event.data.code) {
         setProgress(-1)
         setCode(event.data.code)
         setFileData([])
         setFiles([])
+        setUppyFile([])
+      } else if (event.data.files) {
+        setUppyFile(event.data.files)
       }
     }
 
     fileUploadWorker.current.addEventListener('message', handleMessage)
 
     return () => {
-      fileUploadWorker.current?.terminate()
+      fileUploadWorker.current!.terminate()
     }
-  }, [setCode, setFileData, setFiles, setProgress])
+  }, [setCode, setFileData, setFiles, setProgress, setUppyFile])
 
   function uploadFunc() {
     fileUploadWorker.current?.postMessage({ files: uploadFileList, session, shareTime })

@@ -17,13 +17,12 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
   })
   const result = await client.send(command)
 
-  if (!result.Contents) {
-    return NextResponse.json({ error: 'No contents found' }, { status: 404 })
-  }
   // Get total size of files
   let totalSize = 0
-  for (const content of result.Contents) {
-    totalSize += Number(content.Size)
+  if (result.Contents) {
+    for (const content of result.Contents) {
+      totalSize += Number(content.Size)
+    }
   }
   // Check if totalSize is within user limit
   const session = await auth()
@@ -50,10 +49,14 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
   const currentTime = new Date()
   const expireTime = addMinutes(currentTime, shareTime)
 
-  await db
-    .update(share)
-    .set({ storageSize: totalSize, code: randomAccessCode, expireAt: expireTime })
-    .where(eq(share.id, params.shareId))
+  if (totalSize > 0) {
+    await db
+      .update(share)
+      .set({ storageSize: totalSize, code: randomAccessCode, expireAt: expireTime })
+      .where(eq(share.id, params.shareId))
+  } else {
+    await db.update(share).set({ code: randomAccessCode, expireAt: expireTime }).where(eq(share.id, params.shareId))
+  }
 
   return NextResponse.json({ code: randomAccessCode })
 }

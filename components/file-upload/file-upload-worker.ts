@@ -1,5 +1,5 @@
 import { ClientToWorkersMessageType } from '@/lib/types'
-import { Uppy } from '@uppy/core'
+import { Meta, Uppy, UppyFile } from '@uppy/core'
 import AwsS3 from '@uppy/aws-s3'
 import getTotalFileSize from '@/lib/get-total-file-size'
 
@@ -12,14 +12,41 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
   })
   const createdShare = (await createShareRequest.json()) as { shareId: string }
 
+  let uploadProgress: UppyFile<Meta, Record<string, never>>[] = []
+
   // 2. 생성한 share id를 받아오고 id를 폴더 이름으로 사용하고 각 파일을 해당 폴더에 업로드
   const uppy = new Uppy({ debug: true })
-    .use(AwsS3, { endpoint: '/api/' })
+    .use(AwsS3, { endpoint: '/api/', allowedMetaFields: [], limit: 10, headers: { folder: createdShare.shareId } })
     .on('progress', progress => {
       self.postMessage({ progress })
     })
-    .on('upload-progress', (file, progress) => {
-      console.log(file, progress)
+    .on('upload-progress', file => {
+      uploadProgress = uploadProgress.map(data => {
+        if (data.id === file?.id) {
+          return file
+        } else {
+          return data
+        }
+      })
+      self.postMessage({ files: uploadProgress })
+    })
+    .on('upload-success', file => {
+      uploadProgress = uploadProgress.map(data => {
+        if (data.id === file?.id) {
+          file.progress.percentage = 100
+          return file
+        } else {
+          return data
+        }
+      })
+      self.postMessage({ files: uploadProgress })
+    })
+    .on('complete', () => {
+      uploadProgress = uploadProgress.map(data => {
+        data.progress.percentage = 100
+        return data
+      })
+      self.postMessage({ files: uploadProgress })
     })
   for (const file of event.data.files) {
     uppy.addFile({
@@ -28,8 +55,27 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
       data: file,
     })
   }
-  const files = uppy.getFiles()
+  uploadProgress = uppy.getFiles().map(data => {
+    if (data.name) {
+      data.name = data.name.split('/')[1]
+    }
+    return data
+  })
+  self.postMessage({ files: uploadProgress })
+
   await uppy.upload()
+
+  // let uploadCheck = false
+  // while (!uploadCheck) {
+  //   console.log('Check file uploaded')
+  //   try {
+  //     const checkAllFilesUploaded = await fetch(`/api/share/${createdShare.shareId}/file/check`)
+  //     if (checkAllFilesUploaded.status === 200) {
+  //       uploadCheck = true
+  //     }
+  //   } catch {}
+  // }
+
   // 3. 업로드 완료 후 파일 크기 검증 및 접근 코드 생성
   const validateUploadRequest = await fetch(`/api/share/${createdShare.shareId}/code`, {
     method: 'PUT',

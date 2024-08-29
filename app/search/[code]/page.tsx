@@ -30,11 +30,11 @@ export default async function SearchPage({ params }: { params: { code: string } 
 
   if (shareData) {
     return (
-      <div className={'w-full min-h-screen md:pb-28 text-white p-4 flex flex-col gap-2 max-w-4xl mx-auto pt-24'}>
+      <div className={'w-full min-h-screen md:pb-28 text-white p-4 flex flex-col gap-2 max-w-4xl mx-auto pt-24 pb-24'}>
         <div className={'flex gap-2 items-center justify-between p-2 px-3 bg-neutral-900 rounded-xl'}>
           <div className={'flex gap-2 items-center'}>
             <FolderOpenIcon className={'size-8 text-white'} />
-            <div className={'text-2xl font-bold'}> {code}</div>
+            <div className={'text-2xl font-bold'}>{code}</div>
           </div>
           <ShareButton
             title={`파일 공유 - ${code}`}
@@ -42,7 +42,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
           />
         </div>
         <div className={'p-2 rounded-xl'}>
-          <div className={'text-xl font-semibold'}>Files</div>
+          <div className={'text-xl font-semibold'}>파일</div>
           <div className={'flex flex-col gap-1'}>
             {shareData.file?.map((fileData, index) => (
               <div key={index} className={'flex items-center justify-between bg-neutral-900 p-2 px-4 rounded-lg'}>
