@@ -8,6 +8,8 @@ function validatePartNumber(partNumber: string) {
   return Number.isInteger(number) && number >= 1 && number <= 10_000
 }
 
+const expiresIn = 60 * 60 * 24 // 24 hours
+
 export async function GET(request: NextRequest, { params }: { params: { uploadId: string; partNumber: string } }) {
   const searchParams = request.nextUrl.searchParams
   const key = searchParams.get('key')
@@ -27,7 +29,6 @@ export async function GET(request: NextRequest, { params }: { params: { uploadId
       { status: 400 }
     )
   }
-  const expiresIn = 900
   const url = await getSignedUrl(
     getS3Client(),
     new UploadPartCommand({

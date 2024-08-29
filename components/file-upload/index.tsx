@@ -84,9 +84,7 @@ export default function FileUpload() {
       {progress > -1 && <UploadProgress />}
       {code && <AccessCode />}
       <div
-        className={
-          'w-full rounded-xl border-2 border-white border-dashed h-[30vh] hover:bg-neutral-900 transition relative'
-        }
+        className={`w-full rounded-xl border-2 border-white border-dashed h-[30vh] hover:bg-neutral-900 transition relative`}
       >
         <input
           ref={fileInputRef}

@@ -15,9 +15,11 @@ export default function UploadProgress() {
       }
     >
       <div className={'w-full max-w-xl p-4 rounded-xl bg-neutral-900 flex flex-col max-h-[90vh]'}>
-        <div className={'text-xl font-semibold'}>{progress === 0 ? '파일 업로드 준비중...' : '파일 업로드 중...'}</div>
+        <div className={'text-xl font-semibold pb-4'}>
+          {progress === 0 ? '파일 업로드 준비중...' : '파일 업로드 중...'}
+        </div>
 
-        <div className={'overflow-auto py-4'}>
+        <div className={'overflow-auto'}>
           {uppyFile.map(data => (
             <div key={data.id} className={'flex flex-col'}>
               <div>{data.name}</div>
@@ -31,11 +33,11 @@ export default function UploadProgress() {
                   />
                 </div>
               )}
-              <div className={'ml-auto'}>{data.progress.percentage}%</div>
+              <div className={'ml-auto text-sm'}>{data.progress.percentage}%</div>
             </div>
           ))}
         </div>
-        <div className={'text-white ml-auto text-lg font-semibold'}>
+        <div className={'text-white ml-auto text-lg font-semibold pt-4'}>
           {progress !== 100 ? `${progress}%` : '접근 코드 생성중...'}
         </div>
       </div>

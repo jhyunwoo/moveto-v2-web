@@ -1,6 +1,6 @@
 import decodeKoCode from '@/lib/decode-ko-code'
 import db from '@/db'
-import { eq } from 'drizzle-orm'
+import { and, eq, gte } from 'drizzle-orm'
 import { share } from '@/db/schema'
 import { CloudArrowDownIcon, FolderOpenIcon, TrashIcon } from '@heroicons/react/24/outline'
 import ShareButton from '@/components/share-button'
@@ -12,7 +12,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 export default async function SearchPage({ params }: { params: { code: string } }) {
   const code = decodeKoCode(params.code)
   const shareData = await db.query.share.findFirst({
-    where: eq(share.code, code),
+    where: and(eq(share.code, code), gte(share.expireAt, new Date())),
   })
   const r2client = getS3Client()
   const urlRequests = []

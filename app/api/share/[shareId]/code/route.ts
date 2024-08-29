@@ -20,8 +20,11 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
   // Get total size of files
   let totalSize = 0
   if (result.Contents) {
-    for (const content of result.Contents) {
-      totalSize += Number(content.Size)
+    const shareData = (await db.select({ file: share.file }).from(share).where(eq(share.id, params.shareId)))[0]
+    if (shareData.file?.length === result.Contents.length) {
+      for (const content of result.Contents) {
+        totalSize += Number(content.Size)
+      }
     }
   }
   // Check if totalSize is within user limit
