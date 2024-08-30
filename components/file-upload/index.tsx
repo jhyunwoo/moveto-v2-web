@@ -20,6 +20,7 @@ import { useSession } from 'next-auth/react'
 import UploadProgress from '@/components/file-upload/upload-progress'
 import AccessCode from '@/components/file-upload/access-code'
 import { Meta, UppyFile } from '@uppy/core'
+import useUsedStorage from '@/lib/hooks/useUsedStorage'
 
 export default function FileUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -29,6 +30,8 @@ export default function FileUpload() {
     fileInputRef,
     dragRef,
   })
+
+  const { mutateUsedStorage } = useUsedStorage()
 
   const fileUploadWorker = useRef<Worker | null>(null)
   const uploadFileList = useRecoilValue(filesState)
@@ -45,12 +48,13 @@ export default function FileUpload() {
   useEffect(() => {
     fileUploadWorker.current = new Worker(new URL('./file-upload-worker.ts', import.meta.url), { type: 'module' })
 
-    const handleMessage = (
+    const handleMessage = async (
       event: MessageEvent<{
         progress?: number
         code?: string
         files?: UppyFile<Meta, Record<string, never>>[]
         file?: UppyFile<Meta, Record<string, never>>
+        error?: string
       }>
     ) => {
       if (event.data.progress) {
@@ -61,8 +65,16 @@ export default function FileUpload() {
         setFileData([])
         setFiles([])
         setUppyFile([])
+        await mutateUsedStorage()
       } else if (event.data.files) {
         setUppyFile(event.data.files)
+      } else if (event.data.error) {
+        alert(event.data.error)
+        setProgress(-1)
+        setFileData([])
+        setFiles([])
+        setUppyFile([])
+        await mutateUsedStorage()
       }
     }
 
@@ -71,7 +83,7 @@ export default function FileUpload() {
     return () => {
       fileUploadWorker.current!.terminate()
     }
-  }, [setCode, setFileData, setFiles, setProgress, setUppyFile])
+  }, [mutateUsedStorage, setCode, setFileData, setFiles, setProgress, setUppyFile])
 
   function uploadFunc() {
     fileUploadWorker.current?.postMessage({ files: uploadFileList, session, shareTime })

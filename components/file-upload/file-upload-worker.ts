@@ -10,7 +10,11 @@ const handleMessage = async (event: MessageEvent<ClientToWorkersMessageType>) =>
     method: 'POST',
     body: JSON.stringify({ files: fileNameList, storageSize: getTotalFileSize(event.data.files) }),
   })
-  const createdShare = (await createShareRequest.json()) as { shareId: string }
+  const createdShare = (await createShareRequest.json()) as { shareId: string; error?: string }
+  if (!createShareRequest.ok) {
+    self.postMessage({ error: createdShare.error })
+    return
+  }
 
   let uploadProgress: UppyFile<Meta, Record<string, never>>[] = []
 

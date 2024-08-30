@@ -66,6 +66,11 @@ const deleteShareState = atom<boolean>({
   default: false,
 })
 
+const disableUploadState = atom<boolean>({
+  key: 'disableUploadState',
+  default: false,
+})
+
 export {
   loadingState,
   filesState,
@@ -77,4 +82,5 @@ export {
   codeState,
   uppyFileState,
   deleteShareState,
+  disableUploadState,
 }

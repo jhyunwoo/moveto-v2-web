@@ -1,28 +1,29 @@
 import db from '@/db'
 import { share } from '@/db/schema'
-import { and, eq, isNull } from 'drizzle-orm'
+import { and, eq, gte } from 'drizzle-orm'
 import getIp from '@/lib/get-ip'
+import { auth } from '@/auth'
 
-export default async function getUsedStorage(userId: string | undefined | null) {
-  let usedStorage = 0
-  if (userId) {
-    const userShareList = await db
-      .select({ storageSize: share.storageSize })
+export default async function getUsedStorage() {
+  const session = await auth()
+
+  let activeShares
+
+  if (session?.user.id) {
+    activeShares = await db
+      .select({ storage: share.storageSize })
       .from(share)
-      .where(eq(share.userId, userId))
-
-    for (const userShare of userShareList) {
-      usedStorage += userShare.storageSize
-    }
+      .where(and(eq(share.userId, session.user.id), eq(share.active, true), gte(share.expireAt, new Date())))
   } else {
-    const publicShareList = await db
-      .select({ storageSize: share.storageSize })
+    activeShares = await db
+      .select({ storage: share.storageSize })
       .from(share)
-      .where(and(eq(share.id, getIp()), isNull(share.userId)))
-
-    for (const publicShare of publicShareList) {
-      usedStorage += publicShare.storageSize
-    }
+      .where(and(eq(share.ip, getIp()), eq(share.active, true), gte(share.expireAt, new Date())))
   }
-  return usedStorage
+
+  let storageSize = 0
+  for (const share of activeShares) {
+    storageSize += share.storage
+  }
+  return storageSize
 }

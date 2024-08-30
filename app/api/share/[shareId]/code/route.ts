@@ -31,7 +31,7 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
   const session = await auth()
   const limit = getUserLimit(session?.user.plan)
 
-  const usedStorage = await getUsedStorage(session?.user.id)
+  const usedStorage = await getUsedStorage()
 
   if (usedStorage + totalSize > limit.storage) {
     return NextResponse.json({ error: 'Exceeded storage limit' }, { status: 403 })

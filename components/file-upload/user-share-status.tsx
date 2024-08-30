@@ -1,29 +1,39 @@
-'use client';
+'use client'
 
-import { useSession } from 'next-auth/react';
-import { useRecoilValue } from 'recoil';
-import { totalFileSizeState } from '@/lib/recoil';
-import formatBytes from '@/lib/format-bytes';
-import { motion } from 'framer-motion';
-import getUserLimit from '@/lib/get-user-limit';
-import { useEffect, useState } from 'react';
-import getBytes from '@/lib/get-bytes';
+import { useSession } from 'next-auth/react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { disableUploadState, totalFileSizeState } from '@/lib/recoil'
+import formatBytes from '@/lib/format-bytes'
+import { motion } from 'framer-motion'
+import getUserLimit from '@/lib/get-user-limit'
+import { useEffect, useState } from 'react'
+import getBytes from '@/lib/get-bytes'
+import useUsedStorage from '@/lib/hooks/useUsedStorage'
 
 export default function UserShareStatus() {
-  const session = useSession();
-  const totalSize = useRecoilValue(totalFileSizeState);
-  const [userLimit, setUserLimit] = useState({ time: 10, storage: getBytes(50, 'MB') });
-  const [leftStorage, setLeftStorage] = useState(0);
+  const session = useSession()
+  const totalSize = useRecoilValue(totalFileSizeState)
+  const [userLimit, setUserLimit] = useState({ time: 10, storage: getBytes(50, 'MB') })
+  const [leftStorage, setLeftStorage] = useState(0)
+  const { usedStorage } = useUsedStorage()
+
+  const setDisableUpload = useSetRecoilState(disableUploadState)
 
   useEffect(() => {
-    setLeftStorage(userLimit.storage - totalSize);
-  }, [totalSize, userLimit.storage]);
+    setLeftStorage(userLimit.storage - totalSize - usedStorage)
+  }, [totalSize, usedStorage, userLimit.storage])
 
   useEffect(() => {
     if (session.data?.user.plan) {
-      setUserLimit(getUserLimit(session.data?.user.plan));
+      setUserLimit(getUserLimit(session.data?.user.plan))
     }
-  }, [session.data?.user.plan]);
+  }, [session.data?.user.plan])
+
+  useEffect(() => {
+    if (leftStorage < 0) {
+      setDisableUpload(true)
+    }
+  }, [leftStorage, setDisableUpload])
 
   return (
     <motion.div
@@ -46,14 +56,10 @@ export default function UserShareStatus() {
           />
         </div>
         <div className={'flex justify-between items-center text-xs'}>
-          <div>
-            {leftStorage > 0
-              ? `${formatBytes(leftStorage)} 남음`
-              : `${formatBytes(totalSize - userLimit.storage)} 부족`}
-          </div>
+          <div>{leftStorage >= 0 ? `${formatBytes(leftStorage)} 남음` : `${formatBytes(-leftStorage)} 부족`}</div>
           <div>{formatBytes(userLimit.storage)}</div>
         </div>
       </div>
     </motion.div>
-  );
+  )
 }
