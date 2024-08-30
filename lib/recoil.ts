@@ -61,9 +61,9 @@ const uppyFileState = atom<UppyFile<Meta, Record<string, never>>[]>({
   default: [],
 })
 
-const deleteShareState = atom<boolean>({
+const deleteShareState = atom<string>({
   key: 'deleteShareState',
-  default: false,
+  default: '',
 })
 
 const disableUploadState = atom<boolean>({

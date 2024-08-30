@@ -32,6 +32,8 @@ export default function UserShareStatus() {
   useEffect(() => {
     if (leftStorage < 0) {
       setDisableUpload(true)
+    } else {
+      setDisableUpload(false)
     }
   }, [leftStorage, setDisableUpload])
 

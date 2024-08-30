@@ -9,7 +9,7 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
     redirect('/auth/sign-in')
   }
   return (
-    <div className={'w-full mx-auto max-w-3xl min-h-screen flex flex-col p-4'}>
+    <div className={'w-full mx-auto max-w-4xl min-h-screen flex flex-col p-4'}>
       <Link href={'/'} className={'text-white text-3xl font-bold pb-4'}>
         모베토
       </Link>
