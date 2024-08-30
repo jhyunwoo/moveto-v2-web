@@ -9,7 +9,7 @@ export default function DeleteShareButton({ code }: { code: string }) {
   const setDeleteShare = useSetRecoilState(deleteShareState)
   return (
     <>
-      <ConfirmShareDelete />
+      <ConfirmShareDelete redirect={'/'} />
       <button
         onClick={() => setDeleteShare(code)}
         className={'border-2 border-red-600 bg-neutral-900 p-3 px-4 items-center rounded-full flex gap-1 text-red-600'}
