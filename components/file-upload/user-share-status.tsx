@@ -15,7 +15,7 @@ export default function UserShareStatus() {
   const totalSize = useRecoilValue(totalFileSizeState)
   const [userLimit, setUserLimit] = useState({ time: 10, storage: getBytes(50, 'MB') })
   const [leftStorage, setLeftStorage] = useState(0)
-  const { usedStorage } = useUsedStorage()
+  const { usedStorage, usedStorageLoading } = useUsedStorage()
 
   const setDisableUpload = useSetRecoilState(disableUploadState)
 
@@ -41,7 +41,17 @@ export default function UserShareStatus() {
       animate={{ opacity: 1 }}
       className={'w-full p-2 bg-neutral-900 rounded-xl px-4 ring-1 ring-white flex flex-col'}
     >
-      <div>{session.data?.user.plan ? session.data?.user.plan + ' Plan' : '미인증 사용자'}</div>
+      {usedStorageLoading ? (
+        <motion.div
+          className={'w-24 h-6 rounded-full bg-neutral-700 animate-pulse'}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        />
+      ) : (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          {session.data?.user.plan ? session.data?.user.plan + ' Plan' : '미인증 사용자'}
+        </motion.div>
+      )}
 
       <div className={'w-full flex flex-col'}>
         <div className={`w-full h-2 rounded-full ${leftStorage < 0 ? 'bg-red-500' : 'bg-neutral-700'}`}>
