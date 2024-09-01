@@ -1,6 +1,7 @@
 import { auth } from '@/auth'
 import Link from 'next/link'
 import SignOutButton from '@/components/sign-out-button'
+import UserStorageStatusBar from '@/app/profile/subscription/user-storage-status-bar'
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -26,7 +27,8 @@ export default async function ProfilePage() {
         </Link>
       </div>
       <div className={'text-white p-4 rounded-xl bg-neutral-900 flex flex-col gap-1'}>
-        <div className={'border-b-[1px] border-neutral-400 mb-2 text-sm'}>파일 공유 기록</div>
+        <div className={'border-b-[1px] border-neutral-400 mb-2 text-sm'}>파일 공유</div>
+        <UserStorageStatusBar />
         <Link
           href={'/profile/history'}
           className={'w-full mt-auto p-2 rounded-xl bg-neutral-200 text-neutral-950 font-semibold text-center'}

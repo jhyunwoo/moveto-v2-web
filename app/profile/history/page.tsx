@@ -7,6 +7,8 @@ import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import ConfirmShareDelete from '@/components/confirm-share-delete'
 import DeleteShareTrashIconButton from '@/components/delete-share-trash-icon-button'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HistoryPage() {
   const session = await auth()
 
