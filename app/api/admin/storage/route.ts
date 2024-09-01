@@ -14,20 +14,24 @@ export async function GET() {
     .where(and(lt(share.expireAt, new Date()), or(isNotNull(share.code), eq(share.active, true))))
     .returning({ id: share.id, file: share.file })
 
-  const files: { Key: string }[] = []
-  for (const share of expiringShares) {
-    if (share.file) {
-      for (const file of share.file) {
-        files.push({ Key: `${share.id}/${file}` })
+  if (expiringShares.length > 0) {
+    const files: { Key: string }[] = []
+    for (const share of expiringShares) {
+      if (share.file) {
+        for (const file of share.file) {
+          files.push({ Key: `${share.id}/${file}` })
+        }
       }
     }
-  }
-  const client = getS3Client()
-  const command = new DeleteObjectsCommand({
-    Bucket: process.env.R2_BUCKET!,
-    Delete: { Objects: files },
-  })
-  const result = await client.send(command)
+    const client = getS3Client()
+    const command = new DeleteObjectsCommand({
+      Bucket: process.env.R2_BUCKET!,
+      Delete: { Objects: files },
+    })
+    const result = await client.send(command)
 
-  return NextResponse.json({ expired: expiringShares.length, result })
+    return NextResponse.json({ expired: expiringShares.length, result })
+  } else {
+    return NextResponse.json({ expired: 0, result: 'No expired shares' })
+  }
 }
