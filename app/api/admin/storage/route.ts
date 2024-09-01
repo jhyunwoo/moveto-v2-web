@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server'
 import getS3Client from '@/lib/r2/get-s3-client'
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const expiringShares = await db
     .update(share)
