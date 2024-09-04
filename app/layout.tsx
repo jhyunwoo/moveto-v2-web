@@ -1,13 +1,14 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { ReactNode } from 'react';
-import RecoilProvider from '@/components/recoil-provider';
-import AuthProvider from '@/components/auth-provider';
+import type { Metadata } from 'next'
+import './globals.css'
+import { ReactNode } from 'react'
+import RecoilProvider from '@/components/recoil-provider'
+import AuthProvider from '@/components/auth-provider'
+import Footer from '@/app/footer'
 
 export const metadata: Metadata = {
   title: '모베토',
   description: '모베토 Moveto | 로그인 없이 쉽고 빠른 파일 전송',
-};
+}
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
@@ -16,7 +17,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <RecoilProvider>
           <AuthProvider>{children}</AuthProvider>
         </RecoilProvider>
+        <Footer />
       </body>
     </html>
-  );
+  )
 }

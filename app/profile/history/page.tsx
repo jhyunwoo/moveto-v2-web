@@ -40,6 +40,7 @@ export default async function HistoryPage() {
         <div className={'group-hover:underline'}>프로필 페이지</div>
       </Link>
       <div className={'text-xl font-semibold py-4'}>파일 공유 기록</div>
+      {shareList.length === 0 && <div className={'text-center p-4'}>아직 공유한 파일이 없습니다.</div>}
       <div className={'grid grid-cols-1 md:grid-cols-2 gap-2'}>
         {shareList.map(share => (
           <div key={share.id} className={'p-2 rounded-lg bg-neutral-900 flex flex-col gap-2'}>
