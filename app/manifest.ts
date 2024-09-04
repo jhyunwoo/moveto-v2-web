@@ -1,20 +1,20 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Next.js Boilerplate',
-    short_name: 'Boilerplate',
-    description: 'Next.js Boilerplate with NextAuth, Drizzle ORM, Tailwind CSS, Yarn and more.',
+    name: 'Moveto',
+    short_name: 'Moveto',
+    description: '로그인 없이 빠르게 파일을 공유하고 다운받을 수 있는 모베토',
     start_url: '/',
     display: 'standalone',
-    background_color: '#fff',
-    theme_color: '#fff',
+    background_color: '#000',
+    theme_color: '#000',
     icons: [
       {
         src: '/favicon.ico',
-        sizes: 'any',
+        sizes: '32x32',
         type: 'image/x-icon',
       },
     ],
-  };
+  }
 }
