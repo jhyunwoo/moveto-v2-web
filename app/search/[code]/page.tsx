@@ -1,7 +1,7 @@
 import decodeKoCode from '@/lib/decode-ko-code'
 import db from '@/db'
 import { and, eq, gte } from 'drizzle-orm'
-import { share } from '@/db/schema'
+import { logs, share } from '@/db/schema'
 import { CloudArrowDownIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
 import ShareButton from '@/components/share-button'
 import HomePageButton from '@/components/homepage-button'
@@ -9,6 +9,10 @@ import getS3Client from '@/lib/r2/get-s3-client'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import DeleteShareButton from '@/components/delete-share-button'
+import getIp from '@/lib/get-ip'
+import { auth } from '@/auth'
+
+export const dynamic = 'force-dynamic'
 
 export default async function SearchPage({ params }: { params: { code: string } }) {
   const code = decodeKoCode(params.code)
@@ -31,6 +35,9 @@ export default async function SearchPage({ params }: { params: { code: string } 
   const downloadUrl = await Promise.all(urlRequests)
 
   if (shareData) {
+    const session = await auth()
+    await db.insert(logs).values({ ip: getIp(), shareId: shareData.id, userId: session ? session.user.id : null })
+
     return (
       <div className={'w-full min-h-screen md:pb-28 text-white p-4 flex flex-col gap-2 max-w-4xl mx-auto pt-24 pb-24'}>
         <div className={'flex gap-2 items-center justify-between p-2 px-3 bg-neutral-900 rounded-xl'}>
