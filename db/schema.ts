@@ -86,12 +86,19 @@ export const share = pgTable('share', {
   code: text('code'),
   file: jsonb('file').$type<string[]>().default([]),
   storageSize: bigint('storageSize', { mode: 'number' }).notNull().default(0),
-  downloadLog: jsonb('downloadLog').$type<{ ip: string; fileName: string }[]>().default([]),
   expireAt: timestamp('expireAt', { withTimezone: true }),
   createdAt: timestamp('createdAt', { withTimezone: true }).notNull().defaultNow(),
   userId: text('userId').references(() => users.id, { onDelete: 'cascade' }),
   ip: text('ip').notNull(),
   active: boolean('active').notNull().default(true),
+})
+
+export const logs = pgTable('logs', {
+  id: serial('id').primaryKey(),
+  ip: text('ip').notNull(),
+  time: timestamp('time', { withTimezone: true }).notNull().defaultNow(),
+  shareId: text('shareId').references(() => share.id),
+  userId: text('userId').references(() => users.id),
 })
 
 export const nouns = pgTable('noun', {
