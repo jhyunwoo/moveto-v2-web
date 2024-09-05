@@ -12,7 +12,7 @@ export default function HomePage() {
         <div className={'flex items-center justify-between gap-2 absolute -top-12 w-full'}>
           <div className={'flex items-center gap-2'}>
             <Image src={'/vector-logo.svg'} alt={'Moveto Logo'} width={40} height={40} />
-            <div className={'text-3xl font-bold'}>Moveto</div>
+            <div className={'text-3xl sm:text-4xl font-bold'}>Moveto</div>
             <Suspense fallback={<div className={'py-4 px-8 rounded-full text-sm bg-gray-600 animate-pulse'} />}>
               <ProfileButton />
             </Suspense>

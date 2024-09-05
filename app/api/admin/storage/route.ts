@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   const expiringShares = await db
     .update(share)
-    .set({ code: null, active: false })
+    .set({ code: null })
     .where(and(lt(share.expireAt, new Date()), or(isNotNull(share.code), eq(share.active, true))))
     .returning({ id: share.id, file: share.file })
 
