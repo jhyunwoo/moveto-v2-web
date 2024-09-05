@@ -6,8 +6,8 @@ import AuthProvider from '@/components/auth-provider'
 import Footer from '@/app/footer'
 
 export const metadata: Metadata = {
-  title: '모베토',
-  description: '모베토 Moveto | 로그인 없이 쉽고 빠른 파일 전송',
+  title: 'Moveto',
+  description: 'Moveto | 로그인 없이 쉽고 빠른 파일 전송',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
