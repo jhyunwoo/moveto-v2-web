@@ -4,6 +4,8 @@ import { share } from '@/db/schema'
 import { NextResponse } from 'next/server'
 import { and, desc, eq } from 'drizzle-orm'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const session = await auth()
   if (!session) {
