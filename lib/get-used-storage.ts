@@ -1,6 +1,6 @@
 import db from '@/db'
 import { share } from '@/db/schema'
-import { and, eq, gte } from 'drizzle-orm'
+import { and, eq, gte, isNull } from 'drizzle-orm'
 import getIp from '@/lib/get-ip'
 import { auth } from '@/auth'
 
@@ -18,7 +18,7 @@ export default async function getUsedStorage() {
     activeShares = await db
       .select({ storage: share.storageSize })
       .from(share)
-      .where(and(eq(share.ip, getIp()), eq(share.active, true), gte(share.expireAt, new Date())))
+      .where(and(eq(share.ip, getIp()), eq(share.active, true), gte(share.expireAt, new Date()), isNull(share.userId)))
   }
 
   let storageSize = 0
