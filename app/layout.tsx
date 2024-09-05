@@ -8,7 +8,7 @@ import Footer from '@/app/footer'
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   title: 'Moveto',
-  description: 'Moveto | 로그인 없이 쉽고 빠른 파일 전송',
+  description: '로그인 없이 쉽고 빠른 파일 전송',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
