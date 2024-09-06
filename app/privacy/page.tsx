@@ -1,6 +1,6 @@
 export default function PrivacyPage() {
   return (
-    <div className={'text-white p-4 w-full min-h-screen'}>
+    <div className={'min-h-screen w-full p-4 text-white'}>
       <div>Privacy Page</div>
     </div>
   )

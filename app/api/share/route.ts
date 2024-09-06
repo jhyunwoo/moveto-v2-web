@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import db from '@/db'
 import { share } from '@/db/schema'
-import getIp from '@/lib/get-ip'
+import getIp from '@/lib/server/get-user-ip'
 import getUserLimit from '@/lib/get-user-limit'
 import getUsedStorage from '@/lib/get-used-storage'
 

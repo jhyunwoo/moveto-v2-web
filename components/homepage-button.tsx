@@ -6,7 +6,7 @@ export default function HomePageButton() {
     <Link
       href={'/'}
       className={
-        'bg-white flex gap-2 items-center justify-center text-lg font-semibold p-2 px-4 rounded-full text-center text-black grow max-w-3xl hover:bg-neutral-300 transition-colors mx-auto'
+        'mx-auto flex max-w-3xl grow items-center justify-center gap-2 rounded-full bg-white p-2 px-4 text-center text-lg font-semibold text-black transition-colors hover:bg-neutral-300'
       }
     >
       <FolderIcon className={'size-6'} />

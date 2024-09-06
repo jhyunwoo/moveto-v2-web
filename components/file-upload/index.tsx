@@ -3,8 +3,8 @@
 import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import useHandleFile from '@/lib/hooks/useHandleFile'
 import FileList from '@/components/file-upload/file-list'
-import UserShareStatus from '@/components/file-upload/user-share-status'
-import ShareTimePopupButton from '@/components/file-upload/share-time-popup-button'
+import ShareableFileSize from '@/components/file-upload/shareable-file-size'
+import OpenShareTimeModalButton from '@/components/file-upload/open-share-time-modal-button'
 import {
   codeState,
   fileDataState,
@@ -13,7 +13,7 @@ import {
   shareTimeState,
   uppyFileState,
   uploadProgressState,
-} from '@/lib/recoil'
+} from '@/lib/client/recoil'
 import { useEffect, useRef } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useSession } from 'next-auth/react'
@@ -21,6 +21,7 @@ import UploadProgress from '@/components/file-upload/upload-progress'
 import AccessCode from '@/components/file-upload/access-code'
 import { Meta, UppyFile } from '@uppy/core'
 import useUsedStorage from '@/lib/hooks/useUsedStorage'
+import ShareTimePickerModal from '@/components/file-upload/share-time-picker-modal'
 
 export default function FileUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -40,8 +41,8 @@ export default function FileUpload() {
   const [code, setCode] = useRecoilState(codeState)
   const setFiles = useSetRecoilState(filesState)
   const setFileData = useSetRecoilState(fileDataState)
-  const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
   const setUppyFile = useSetRecoilState(uppyFileState)
+  const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
 
   const { data: session } = useSession()
 
@@ -95,8 +96,9 @@ export default function FileUpload() {
     <>
       {progress > -1 && <UploadProgress />}
       {code && <AccessCode />}
+      {shareTimePopUp && <ShareTimePickerModal uploadFunc={uploadFunc} />}
       <div
-        className={`w-full rounded-xl border-2 border-white border-dashed h-[30vh] hover:bg-neutral-900 transition relative`}
+        className={`relative h-[30vh] w-full rounded-xl border-2 border-dashed border-white transition hover:bg-neutral-900`}
       >
         <input
           ref={fileInputRef}
@@ -112,16 +114,16 @@ export default function FileUpload() {
         <label
           htmlFor={'fileUpload'}
           ref={dragRef}
-          className={'cursor-pointer w-full p-4 flex flex-col items-center justify-center h-full'}
+          className={'flex h-full w-full cursor-pointer flex-col items-center justify-center p-4'}
         >
-          <button className={'text-white flex items-center justify-center flex-col'} onClick={clickFileInput}>
-            <FolderOpenIcon className={'size-12 text-white mb-1'} />
-            <div className={'text-white text-sm'}>전송할 파일을 드롭하거나 선택해주세요.</div>
+          <button className={'flex flex-col items-center justify-center text-white'} onClick={clickFileInput}>
+            <FolderOpenIcon className={'mb-1 size-12 text-white'} />
+            <div className={'text-sm text-white'}>전송할 파일을 드롭하거나 선택해주세요.</div>
           </button>
         </label>
       </div>
-      <UserShareStatus />
-      <ShareTimePopupButton uploadFunc={uploadFunc} />
+      <ShareableFileSize />
+      <OpenShareTimeModalButton />
       <FileList files={files} deleteFile={deleteFile} />
     </>
   )

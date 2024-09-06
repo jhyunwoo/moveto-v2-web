@@ -1,6 +1,6 @@
 export default function HowToUsePage() {
   return (
-    <div className={'w-full min-h-screen text-white p-4'}>
+    <div className={'min-h-screen w-full p-4 text-white'}>
       <div>How To Use?</div>
     </div>
   )

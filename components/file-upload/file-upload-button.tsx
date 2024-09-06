@@ -6,7 +6,7 @@ export default function FileUploadButton({ uploadFunc }: { uploadFunc: () => voi
       onClick={uploadFunc}
       type={'button'}
       className={
-        'bg-white text-lg font-semibold p-2 rounded-full text-black mt-8 hover:bg-neutral-200 transition-colors'
+        'mt-8 rounded-full bg-white p-2 text-lg font-semibold text-black transition-colors hover:bg-neutral-200'
       }
     >
       공유

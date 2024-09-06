@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useRecoilState } from 'recoil'
-import { deleteShareState } from '@/lib/recoil'
+import { deleteShareState } from '@/lib/client/recoil'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -33,20 +33,20 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
       {deleteShare && (
         <motion.div
           className={
-            'fixed top-0 left-0 w-full h-screen z-10 flex items-center justify-center bg-neutral-950/50 backdrop-blur p-4'
+            'fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-neutral-950/50 p-4 backdrop-blur'
           }
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <div className={'p-4 rounded-xl flex flex-col gap-2 bg-neutral-900 w-full max-w-lg items-center'}>
+          <div className={'flex w-full max-w-lg flex-col items-center gap-2 rounded-xl bg-neutral-900 p-4'}>
             {!deleteError ? (
               <>
-                <div className={'text-xl font-semibold p-4'}>파일을 삭제 하시겠습니까?</div>
-                <div className={'flex w-full gap-2 items-center justify-around'}>
+                <div className={'p-4 text-xl font-semibold'}>파일을 삭제 하시겠습니까?</div>
+                <div className={'flex w-full items-center justify-around gap-2'}>
                   <button
                     type={'button'}
                     onClick={() => setDeleteShare('')}
-                    className={'bg-neutral-100 text-neutral-950 w-full rounded-full p-2 px-4 font-semibold'}
+                    className={'w-full rounded-full bg-neutral-100 p-2 px-4 font-semibold text-neutral-950'}
                   >
                     취소
                   </button>
@@ -54,7 +54,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
                     type={'button'}
                     onClick={deleteFile}
                     className={
-                      'bg-neutral-950 text-red-500 w-full border-red-500 border-2 rounded-full p-2 px-4 font-semibold'
+                      'w-full rounded-full border-2 border-red-500 bg-neutral-950 p-2 px-4 font-semibold text-red-500'
                     }
                   >
                     삭제
@@ -63,7 +63,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
               </>
             ) : (
               <>
-                <div className={'text-red-500 font-semibold'}>{deleteError}</div>
+                <div className={'font-semibold text-red-500'}>{deleteError}</div>
               </>
             )}
           </div>

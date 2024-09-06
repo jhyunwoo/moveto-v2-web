@@ -1,7 +1,7 @@
 'use client'
 
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { shareTimeState, shareTimePopUpState } from '@/lib/recoil'
+import { shareTimeState, shareTimePopUpState } from '@/lib/client/recoil'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -60,7 +60,7 @@ function shareTimeOption(userPlan: string | null | undefined) {
   }
 }
 
-export default function ShareTimeController({ uploadFunc }: { uploadFunc: () => void }) {
+export default function ShareTimePickerModal({ uploadFunc }: { uploadFunc: () => void }) {
   const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
   const [shareTime, setShareTime] = useRecoilState(shareTimeState)
   const [planShareTime, setPlanShareTimes] = useState<PlanShareTimeType[]>([])
@@ -77,7 +77,7 @@ export default function ShareTimeController({ uploadFunc }: { uploadFunc: () => 
   return (
     <motion.div
       className={
-        'fixed top-0 left-0 w-full h-screen z-10 bg-neutral-950/90 flex flex-col items-center justify-center p-4 backdrop-blur-sm'
+        'fixed left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-neutral-950/90 p-4 backdrop-blur-sm'
       }
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -85,17 +85,17 @@ export default function ShareTimeController({ uploadFunc }: { uploadFunc: () => 
         duration: 0.1,
       }}
     >
-      <div className={'w-full max-w-3xl flex flex-col bg-neutral-900 rounded-xl relative p-4'}>
+      <div className={'relative flex w-full max-w-3xl flex-col rounded-xl bg-neutral-900 p-4'}>
         <button onClick={() => setShareTimePopUp(false)} className={'absolute right-2 top-2'}>
           <XCircleIcon className={'size-8 text-white'} />
         </button>
-        <div className={'text-2xl font-semibold py-2'}>공유 시간</div>
+        <div className={'py-2 text-2xl font-semibold'}>공유 시간</div>
         <div className={'grid grid-cols-3 grid-rows-3 gap-2'}>
           {planShareTime.map(data => (
             <button
               onClick={() => setShareTime(data.value)}
               key={data.text}
-              className={`p-3 rounded-lg ${shareTime === data.value ? 'bg-neutral-100 text-black' : 'bg-neutral-800 text-neutral-50'} flex items-center justify-center transition-colors`}
+              className={`rounded-lg p-3 ${shareTime === data.value ? 'bg-neutral-100 text-black' : 'bg-neutral-800 text-neutral-50'} flex items-center justify-center transition-colors`}
             >
               <div>{data.text}</div>
             </button>
