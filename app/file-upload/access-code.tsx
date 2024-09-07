@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil'
 import { codeState } from '@/lib/client/recoil'
 import QRCode from 'react-qr-code'
 import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
+import ModalLayout from '@/components/modal-layout'
 
 export default function AccessCode() {
   const [code, setCode] = useRecoilState(codeState)
@@ -24,12 +25,8 @@ export default function AccessCode() {
   }
 
   return (
-    <div
-      className={
-        'fixed left-0 top-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-neutral-950/80 p-4 backdrop-blur-sm'
-      }
-    >
-      <div className={'flex w-full max-w-xl flex-col gap-4 rounded-xl bg-neutral-900 p-4'}>
+    <ModalLayout isOpen={code !== ''} closeModal={() => setCode('')}>
+      <div className={'flex flex-col gap-4'}>
         <div>
           <div className={'mb-1 flex items-center gap-1 text-sm text-neutral-200'}>
             <KeyIcon className={'size-5'} />
@@ -68,6 +65,6 @@ export default function AccessCode() {
           </button>
         </div>
       </div>
-    </div>
+    </ModalLayout>
   )
 }
