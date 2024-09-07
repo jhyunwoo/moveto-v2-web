@@ -1,7 +1,7 @@
 import { ChangeEvent, RefObject, useCallback, useEffect, useState } from 'react'
-import fileToFileDataList from '@/lib/file-to-file-data-list'
+import fileToFileDataList from '@/lib/generate-file-info-array'
 import { useRecoilState } from 'recoil'
-import { fileDataState, filesState } from '@/lib/recoil'
+import { fileDataState, filesState } from '@/lib/client/recoil'
 
 export default function useHandleFile({
   fileInputRef,

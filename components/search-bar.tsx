@@ -80,7 +80,7 @@ export default function SearchBar({
             required: { value: true, message: '코드를 입력해주세요' },
             onChange: () => setError(''),
           })}
-          className={`p-2 z-10 transition-colors px-5 rounded-full border-4 disabled:border-sky-400 disabled:animate-pulse ${error ? 'border-red-500' : 'border-white'} transition-colors w-full max-w-3xl outline-none bg-neutral-900/50 text-xl font-bold placeholder:text-xl placeholder:text-gray-300`}
+          className={`z-10 rounded-full border-4 p-2 px-5 transition-colors disabled:animate-pulse disabled:border-sky-400 ${error ? 'border-red-500' : 'border-white'} w-full max-w-3xl bg-neutral-900/50 text-xl font-bold outline-none transition-colors placeholder:text-xl placeholder:text-gray-300`}
           layoutId={'search'}
           disabled={loading}
           placeholder={'코드 검색'}
@@ -91,7 +91,7 @@ export default function SearchBar({
           type={'submit'}
           disabled={loading}
           layoutId={'search-button'}
-          className={`disabled:text-sky-400 disabled:animate-pulse ${error ? 'text-red-500' : 'text-white'} transition-colors`}
+          className={`disabled:animate-pulse disabled:text-sky-400 ${error ? 'text-red-500' : 'text-white'} transition-colors`}
         >
           <MagnifyingGlassCircleIcon className={'size-14'} />
         </motion.button>
@@ -101,7 +101,7 @@ export default function SearchBar({
         initial={{ opacity: 0 }}
         animate={error && { opacity: 1 }}
         exit={{ opacity: 0 }}
-        className={'text-red-500 text-sm absolute top-14 w-full flex justify-center'}
+        className={'absolute top-14 flex w-full justify-center text-sm text-red-500'}
       >
         <div>{error}</div>
       </motion.div>

@@ -7,7 +7,7 @@ export default function ShareButton({ title, url }: { title: string; url: string
     <button
       type={'button'}
       className={
-        'p-2 px-4 font-semibold rounded-full flex gap-1 items-center bg-white text-black hover:bg-neutral-200 transition-colors'
+        'flex items-center gap-1 rounded-full bg-white p-2 px-4 font-semibold text-black transition-colors hover:bg-neutral-200'
       }
       onClick={async () => {
         try {

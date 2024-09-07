@@ -1,7 +1,7 @@
 import db from '@/db'
 import { share } from '@/db/schema'
 import { and, eq, gte, isNull } from 'drizzle-orm'
-import getIp from '@/lib/get-ip'
+import getIp from '@/lib/server/get-user-ip'
 import { auth } from '@/auth'
 
 export default async function getUsedStorage() {

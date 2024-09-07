@@ -21,7 +21,7 @@ export default function SearchAnimation() {
     <>
       <motion.input
         className={
-          'rounded-full border-2 p-1 px-4 w-28 sm:w-80 md:w-96 border-white focus:outline-none flex justify-center items-center bg-black'
+          'flex w-28 items-center justify-center rounded-full border-2 border-white bg-black p-1 px-4 focus:outline-none sm:w-80 md:w-96'
         }
         onFocus={() => setIsExpanded(true)}
         placeholder={'코드 검색'}
@@ -32,7 +32,7 @@ export default function SearchAnimation() {
         {isExpanded && (
           <motion.div
             className={
-              'fixed top-0 left-0 w-full h-screen bg-black/70 backdrop-blur-sm z-10 flex items-center justify-center p-4 flex-col'
+              'fixed left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-black/70 p-4 backdrop-blur-sm'
             }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

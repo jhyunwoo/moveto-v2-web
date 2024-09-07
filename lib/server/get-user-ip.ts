@@ -1,6 +1,10 @@
 import { headers } from 'next/headers'
 
-export default function getIp() {
+/**
+ * 사용자의 IP 주소를 가져옴
+ * @returns 사용자의 IP 주소
+ */
+export default function getUserIp(): string {
   const FALLBACK_IP_ADDRESS = '0.0.0.0'
   const forwardedFor = headers().get('x-forwarded-for')
 

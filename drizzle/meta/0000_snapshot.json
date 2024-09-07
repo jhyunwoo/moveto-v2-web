@@ -81,12 +81,8 @@
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -94,10 +90,7 @@
       "compositePrimaryKeys": {
         "account_provider_providerAccountId_pk": {
           "name": "account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
+          "columns": ["provider", "providerAccountId"]
         }
       },
       "uniqueConstraints": {}
@@ -126,9 +119,7 @@
         "adjectives_word_unique": {
           "name": "adjectives_word_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "word"
-          ]
+          "columns": ["word"]
         }
       }
     },
@@ -191,12 +182,8 @@
           "name": "authenticator_userId_user_id_fk",
           "tableFrom": "authenticator",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -204,19 +191,14 @@
       "compositePrimaryKeys": {
         "authenticator_userId_credentialID_pk": {
           "name": "authenticator_userId_credentialID_pk",
-          "columns": [
-            "userId",
-            "credentialID"
-          ]
+          "columns": ["userId", "credentialID"]
         }
       },
       "uniqueConstraints": {
         "authenticator_credentialID_unique": {
           "name": "authenticator_credentialID_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "credentialID"
-          ]
+          "columns": ["credentialID"]
         }
       }
     },
@@ -262,12 +244,8 @@
           "name": "logs_shareId_share_id_fk",
           "tableFrom": "logs",
           "tableTo": "share",
-          "columnsFrom": [
-            "shareId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["shareId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -275,12 +253,8 @@
           "name": "logs_userId_user_id_fk",
           "tableFrom": "logs",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -312,9 +286,7 @@
         "noun_word_unique": {
           "name": "noun_word_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "word"
-          ]
+          "columns": ["word"]
         }
       }
     },
@@ -347,12 +319,8 @@
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -429,12 +397,8 @@
           "name": "share_userId_user_id_fk",
           "tableFrom": "share",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -517,10 +481,7 @@
       "compositePrimaryKeys": {
         "verificationToken_identifier_token_pk": {
           "name": "verificationToken_identifier_token_pk",
-          "columns": [
-            "identifier",
-            "token"
-          ]
+          "columns": ["identifier", "token"]
         }
       },
       "uniqueConstraints": {}

@@ -6,14 +6,14 @@ import Image from 'next/image'
 
 export default function HomePage() {
   return (
-    <div className={'w-full min-h-screen flex flex-col items-center p-4'}>
-      <div className={'w-full h-[35vh]'} />
-      <div className={'w-full max-w-4xl flex flex-col text-white relative gap-2'}>
-        <div className={'flex items-center justify-between gap-2 absolute -top-12 w-full'}>
+    <div className={'flex min-h-screen w-full flex-col items-center p-4'}>
+      <div className={'h-[35vh] w-full'} />
+      <div className={'relative flex w-full max-w-4xl flex-col gap-2 text-white'}>
+        <div className={'absolute -top-12 flex w-full items-center justify-between gap-2'}>
           <div className={'flex items-center gap-2'}>
             <Image src={'/vector-logo.svg'} alt={'Moveto Logo'} width={40} height={40} />
-            <div className={'text-3xl sm:text-4xl font-bold'}>Moveto</div>
-            <Suspense fallback={<div className={'py-4 px-8 rounded-full text-sm bg-gray-600 animate-pulse'} />}>
+            <div className={'text-3xl font-bold sm:text-4xl'}>Moveto</div>
+            <Suspense fallback={<div className={'animate-pulse rounded-full bg-gray-600 px-8 py-4 text-sm'} />}>
               <ProfileButton />
             </Suspense>
           </div>
