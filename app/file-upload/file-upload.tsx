@@ -16,8 +16,8 @@ import {
 import { useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useSession } from 'next-auth/react'
-import UploadProgress from '@/app/file-upload/upload-progress'
-import AccessCode from '@/app/file-upload/access-code'
+import UploadProgressModal from '@/app/file-upload/upload-progress-modal'
+import AccessCodeModal from '@/app/file-upload/access-code-modal'
 import { Meta, UppyFile } from '@uppy/core'
 import useUsedStorage from '@/lib/hooks/useUsedStorage'
 import ShareTimePickerModal from '@/app/file-upload/share-time-picker-modal'
@@ -93,8 +93,8 @@ export default function FileUpload() {
 
   return (
     <>
-      <UploadProgress />
-      <AccessCode />
+      <UploadProgressModal />
+      <AccessCodeModal />
       <ShareTimePickerModal uploadFunc={uploadFunc} />
       <DragAndDropBox inputRef={inputRef} dragRef={dragRef} />
       <ShareableFileSize />

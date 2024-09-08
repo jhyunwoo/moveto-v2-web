@@ -6,7 +6,7 @@ import QRCode from 'react-qr-code'
 import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
 import ModalLayout from '@/components/modal-layout'
 
-export default function AccessCode() {
+export default function AccessCodeModal() {
   const [code, setCode] = useRecoilState(codeState)
 
   function shareFileLink() {
