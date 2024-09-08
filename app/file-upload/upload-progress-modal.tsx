@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil'
 import { uploadProgressState, uppyFileState } from '@/lib/client/recoil'
 import { motion } from 'framer-motion'
 
-export default function UploadProgress() {
+export default function UploadProgressModal() {
   const progress = useRecoilValue(uploadProgressState)
   const uppyFile = useRecoilValue(uppyFileState)
 
