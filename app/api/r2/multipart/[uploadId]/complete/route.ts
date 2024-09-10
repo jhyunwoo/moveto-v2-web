@@ -16,7 +16,7 @@ export async function POST(request: NextRequest, { params }: { params: { uploadI
   if (!key) {
     return NextResponse.json(
       {
-        error: 's3: the object key must be passed as a query parameter. For example: "?key=abc.jpg"',
+        error: 'r2: the object key must be passed as a query parameter. For example: "?key=abc.jpg"',
       },
       { status: 400 }
     )
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest, { params }: { params: { uploadI
   if (!Array.isArray(parts) || !parts.every(isValidPart)) {
     return NextResponse.json(
       {
-        error: 's3: `parts` must be an array of {ETag, PartNumber} objects.',
+        error: 'r2: `parts` must be an array of {ETag, PartNumber} objects.',
       },
       { status: 400 }
     )

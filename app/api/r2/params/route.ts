@@ -9,23 +9,25 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const filename = searchParams.get('filename')
   const contentType = searchParams.get('type')
+  const folder = searchParams.get('folder')
 
-  if (!filename || !contentType) {
-    return NextResponse.json({ error: 'filename and type are required' })
+  if (!filename || !contentType || !folder) {
+    return NextResponse.json({
+      error: `filename=${filename} contentType=${contentType} folder=${folder} Some params missing`,
+    })
   }
 
   const url = await getSignedUrl(
     getS3Client(),
     new PutObjectCommand({
       Bucket: process.env.R2_BUCKET,
-      Key: filename,
-      ContentType: contentType!,
+      Key: `${folder}/${filename}`,
+      ContentType: contentType,
     }),
     { expiresIn }
   )
 
   return NextResponse.json({
     url,
-    method: 'PUT',
   })
 }

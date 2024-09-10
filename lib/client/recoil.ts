@@ -1,7 +1,5 @@
 import { atom, selector } from 'recoil'
 import getTotalFileSize from '@/lib/get-total-file-size'
-import { Meta, Uppy, UppyFile } from '@uppy/core'
-import AwsS3 from '@uppy/aws-s3'
 
 /** 로딩 State*/
 const loadingState = atom<string>({
@@ -57,11 +55,6 @@ const codeState = atom<string>({
   default: '',
 })
 
-const uppyFileState = atom<UppyFile<Meta, Record<string, never>>[]>({
-  key: 'uppyFileState',
-  default: [],
-})
-
 const deleteShareState = atom<string>({
   key: 'deleteShareState',
   default: '',
@@ -81,7 +74,6 @@ export {
   shareTimePopUpState,
   uploadProgressState,
   codeState,
-  uppyFileState,
   deleteShareState,
   disableUploadState,
 }

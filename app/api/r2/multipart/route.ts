@@ -16,10 +16,10 @@ export async function POST(request: NextRequest) {
   const filename = res.filename
 
   if (typeof filename !== 'string') {
-    return NextResponse.json({ error: 's3: content filename must be a string' }, { status: 400 })
+    return NextResponse.json({ error: 'r2: content filename must be a string' }, { status: 400 })
   }
   if (typeof type !== 'string') {
-    return NextResponse.json({ error: 's3: content type must be a string' }, { status: 400 })
+    return NextResponse.json({ error: 'r2: content type must be a string' }, { status: 400 })
   }
 
   const params = {

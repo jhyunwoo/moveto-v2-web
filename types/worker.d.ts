@@ -1,0 +1,3 @@
+type ClientToFileUploadWorker = {
+  files: File[]
+}

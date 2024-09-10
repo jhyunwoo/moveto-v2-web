@@ -39,7 +39,7 @@ export default function ShareTimePickerModal({ uploadFunc }: { uploadFunc: () =>
         >
           취소
         </button>
-        <FileUploadButton uploadFunc={uploadFunc} />
+        <FileUploadButton />
       </div>
     </ModalLayout>
   )
