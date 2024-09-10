@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import fetcher from '@/lib/fetcher'
 
-export default function useShares() {
+export default function useUserShareHistory() {
   const { data, error, isLoading, mutate } = useSWR<
     {
       id: string

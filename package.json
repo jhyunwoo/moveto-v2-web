@@ -20,6 +20,7 @@
     "@heroicons/react": "^2.1.5",
     "@uppy/aws-s3": "^4.1.0",
     "@uppy/core": "^4.2.0",
+    "@uppy/react": "^4.0.2",
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.33.0",
     "framer-motion": "^11.5.4",

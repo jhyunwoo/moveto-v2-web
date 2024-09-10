@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import ConfirmShareDelete from '@/components/confirm-share-delete'
 import DeleteShareTrashIconButton from '@/components/delete-share-trash-icon-button'
-import useShares from '@/lib/hooks/useShares'
+import useUserShareHistory from '@/lib/hooks/use-user-share-history'
 import { motion } from 'framer-motion'
 
 function dateToKor(date: Date) {
@@ -23,7 +23,7 @@ function isExpired(expiredAt: Date | null) {
 }
 
 export default function HistoryPage() {
-  const { shares } = useShares()
+  const { shares } = useUserShareHistory()
 
   return (
     <div className={'text-white'}>

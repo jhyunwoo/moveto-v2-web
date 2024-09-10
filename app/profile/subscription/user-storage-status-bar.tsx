@@ -1,6 +1,6 @@
 'use client'
 
-import useUsedStorage from '@/lib/hooks/useUsedStorage'
+import useUsedStorage from '@/lib/hooks/use-used-storage'
 import { useSession } from 'next-auth/react'
 import getUserLimit from '@/lib/get-user-limit'
 import { motion } from 'framer-motion'

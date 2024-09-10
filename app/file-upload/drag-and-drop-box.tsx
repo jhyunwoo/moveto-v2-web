@@ -1,6 +1,6 @@
 import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import { RefObject } from 'react'
-import useHandleFile from '@/lib/hooks/useHandleFile'
+import useDragAndDropFile from '@/lib/hooks/use-drag-and-drop-file'
 
 export default function DragAndDropBox({
   inputRef,
@@ -9,7 +9,7 @@ export default function DragAndDropBox({
   inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
 }) {
-  const { handleFileInput, clickFileInput } = useHandleFile({
+  const { handleFileInput, clickFileInput } = useDragAndDropFile({
     inputRef,
     dragRef,
   })

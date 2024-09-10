@@ -1,6 +1,6 @@
 'use client'
 
-import useHandleFile from '@/lib/hooks/useHandleFile'
+import useDragAndDropFile from '@/lib/hooks/use-drag-and-drop-file'
 import FileList from '@/app/file-upload/file-list'
 import ShareableFileSize from '@/app/file-upload/shareable-file-size'
 import OpenShareTimeModalButton from '@/app/file-upload/open-share-time-modal-button'
@@ -10,85 +10,36 @@ import {
   filesState,
   shareTimePopUpState,
   shareTimeState,
-  uppyFileState,
   uploadProgressState,
+  uppyFileState,
 } from '@/lib/client/recoil'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { useSession } from 'next-auth/react'
 import UploadProgressModal from '@/app/file-upload/upload-progress-modal'
 import AccessCodeModal from '@/app/file-upload/access-code-modal'
-import { Meta, UppyFile } from '@uppy/core'
-import useUsedStorage from '@/lib/hooks/useUsedStorage'
 import ShareTimePickerModal from '@/app/file-upload/share-time-picker-modal'
 import DragAndDropBox from '@/app/file-upload/drag-and-drop-box'
+import getTotalFileSize from '@/lib/get-total-file-size'
+import { Meta, Uppy, UppyFile } from '@uppy/core'
+import AwsS3 from '@uppy/aws-s3'
 
 export default function FileUpload() {
   const inputRef = useRef<HTMLInputElement>(null)
   const dragRef = useRef<HTMLLabelElement>(null)
-  const { files, deleteFile } = useHandleFile({
+  const { files, deleteFile } = useDragAndDropFile({
     inputRef,
     dragRef,
   })
-
-  const { mutateUsedStorage } = useUsedStorage()
-
-  const fileUploadWorker = useRef<Worker | null>(null)
-  const uploadFileList = useRecoilValue(filesState)
-  const shareTime = useRecoilValue(shareTimeState)
   const setProgress = useSetRecoilState(uploadProgressState)
-  const setCode = useSetRecoilState(codeState)
-  const setFiles = useSetRecoilState(filesState)
-  const setFileData = useSetRecoilState(fileDataState)
-  const setUppyFile = useSetRecoilState(uppyFileState)
   const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
-
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    fileUploadWorker.current = new Worker(new URL('./file-upload-worker.ts', import.meta.url), { type: 'module' })
-
-    const handleMessage = async (
-      event: MessageEvent<{
-        progress?: number
-        code?: string
-        files?: UppyFile<Meta, Record<string, never>>[]
-        file?: UppyFile<Meta, Record<string, never>>
-        error?: string
-      }>
-    ) => {
-      if (event.data.progress) {
-        setProgress(event.data.progress)
-      } else if (event.data.code) {
-        setProgress(-1)
-        setCode(event.data.code)
-        setFileData([])
-        setFiles([])
-        setUppyFile([])
-        await mutateUsedStorage()
-      } else if (event.data.files) {
-        setUppyFile(event.data.files)
-      } else if (event.data.error) {
-        alert(event.data.error)
-        setProgress(-1)
-        setFileData([])
-        setFiles([])
-        setUppyFile([])
-        await mutateUsedStorage()
-      }
-    }
-
-    fileUploadWorker.current.addEventListener('message', handleMessage)
-
-    return () => {
-      fileUploadWorker.current!.terminate()
-    }
-  }, [mutateUsedStorage, setCode, setFileData, setFiles, setProgress, setUppyFile])
+  const shareTime = useRecoilValue(shareTimeState)
+  const setCode = useSetRecoilState(codeState)
+  const setUppyFile = useSetRecoilState(uppyFileState)
+  const setFiles = useSetRecoilState(filesState)
+  const setFilesData = useSetRecoilState(fileDataState)
 
   function uploadFunc() {
-    fileUploadWorker.current?.postMessage({ files: uploadFileList, session, shareTime })
-    setShareTimePopUp(false)
-    setProgress(0)
+    console.log(files)
   }
 
   return (

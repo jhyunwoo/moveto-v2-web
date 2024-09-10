@@ -2256,6 +2256,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@uppy/react@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@uppy/react@npm:4.0.2"
+  dependencies:
+    "@uppy/utils": "npm:^6.0.2"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    "@uppy/core": ^4.1.2
+    "@uppy/dashboard": ^4.0.3
+    "@uppy/drag-drop": ^4.0.2
+    "@uppy/file-input": ^4.0.1
+    "@uppy/progress-bar": ^4.0.0
+    "@uppy/status-bar": ^4.0.3
+    react: ^18.0.0
+  peerDependenciesMeta:
+    "@uppy/dashboard":
+      optional: true
+    "@uppy/drag-drop":
+      optional: true
+    "@uppy/file-input":
+      optional: true
+    "@uppy/progress-bar":
+      optional: true
+    "@uppy/status-bar":
+      optional: true
+  checksum: 10c0/81e7d9224b7520e7d25df9c8285c85a5e661bf24856c4346c9ebba45024e4dade5f3e8c20ab1e60c7f010fb50dba1fcc7dfce8f469d9b1668b21fa6c5cd5935c
+  languageName: node
+  linkType: hard
+
 "@uppy/store-default@npm:^4.1.0":
   version: 4.1.0
   resolution: "@uppy/store-default@npm:4.1.0"
@@ -4921,6 +4950,7 @@ __metadata:
     "@types/react-dom": "npm:^18.3.0"
     "@uppy/aws-s3": "npm:^4.1.0"
     "@uppy/core": "npm:^4.2.0"
+    "@uppy/react": "npm:^4.0.2"
     date-fns: "npm:^3.6.0"
     dotenv: "npm:^16.4.5"
     drizzle-kit: "npm:^0.24.2"

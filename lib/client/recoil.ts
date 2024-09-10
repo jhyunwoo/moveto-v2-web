@@ -1,6 +1,7 @@
 import { atom, selector } from 'recoil'
 import getTotalFileSize from '@/lib/get-total-file-size'
-import { Meta, UppyFile } from '@uppy/core'
+import { Meta, Uppy, UppyFile } from '@uppy/core'
+import AwsS3 from '@uppy/aws-s3'
 
 /** 로딩 State*/
 const loadingState = atom<string>({
