@@ -17,46 +17,66 @@ const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
     return
   }
 
-  let uploadQueue = files.map(file => new UploadFile(file, createdShare.shareId))
-  let queue = uploadQueue.slice(0, maxConcurrentUploads)
-  let promiseQueue = queue.map(async uploadFile =>
-    uploadFile.upload().then(result => {
-      queue.push(uploadQueue.splice(0, 1)[0])
-      return result
-    })
-  )
-  const result = await Promise.all(promiseQueue)
-  console.log(result)
+  const uploadFiles = new UploadFiles(files, createdShare.shareId, maxConcurrentUploads)
+  await uploadFiles.upload()
 }
 
-class UploadFile {
-  file: File
+class UploadFiles {
+  uploadQueue: File[]
+  uploadedFiles: File[]
   folder: string
+  maxConcurrentUploads: number
 
-  constructor(file: File, folder: string) {
-    this.file = file
+  constructor(files: File[], folder: string, maxConcurrentUploads: number = 6) {
+    this.uploadQueue = files
+    this.uploadedFiles = []
     this.folder = folder
+    this.maxConcurrentUploads = maxConcurrentUploads
   }
 
-  async upload() {
+  async getUploadUrl(file: File) {
     // get upload url
-    const requestUrl = await fetch(
-      `/api/r2/params?filename=${this.file.name}&type=${this.file.type}&folder=${this.folder}`
-    )
+    const requestUrl = await fetch(`/api/r2/params?filename=${file.name}&type=${file.type}&folder=${this.folder}`)
     if (!requestUrl.ok) {
       throw Error('Failed to get upload url')
     }
     const { url } = await requestUrl.json()
-    return axios.put(url, this.file, {
-      headers: {
-        'Content-Type': this.file.type,
-      },
-      onUploadProgress: progressEvent => {
-        if (progressEvent.total) {
-          console.log(this.file.name, Math.round((progressEvent.loaded / progressEvent.total) * 100))
-        }
-      },
-    })
+    return url
+  }
+
+  async upload() {
+    const queue = []
+    for (let i = 0; i < this.maxConcurrentUploads; i++) {
+      queue.push(this.uploadFile())
+    }
+    console.log(await Promise.all(queue))
+  }
+
+  async uploadFile() {
+    const file = this.uploadQueue.shift()
+    if (!file) {
+      console.log('No more files to upload')
+      return
+    }
+
+    const uploadUrl = await this.getUploadUrl(file)
+    return axios
+      .put(uploadUrl, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+        onUploadProgress: progressEvent => {
+          console.log(progressEvent)
+        },
+      })
+      .then(() => {
+        this.uploadedFiles.push(file)
+        this.uploadFile()
+      })
+      .catch(() => {
+        this.uploadQueue.push(file)
+        this.uploadFile()
+      })
   }
 }
 
