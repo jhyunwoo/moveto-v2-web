@@ -3,7 +3,7 @@ import fileToFileDataList from '@/lib/generate-file-info-array'
 import { useRecoilState } from 'recoil'
 import { fileDataState, filesState } from '@/lib/client/recoil'
 
-export default function useHandleFile({
+export default function useDragAndDropFile({
   inputRef,
   dragRef,
 }: {

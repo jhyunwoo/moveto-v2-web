@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil'
 import getTotalFileSize from '@/lib/get-total-file-size'
-import { Meta, UppyFile } from '@uppy/core'
 
 /** 로딩 State*/
 const loadingState = atom<string>({
@@ -45,20 +44,27 @@ const shareTimePopUpState = atom<boolean>({
 })
 
 /** 파일 업로드 상태 */
-const uploadProgressState = atom<number>({
+const fileUploadProgressState = atom<{ name: string; progress: number }[]>({
+  key: 'fileUploadProgressState',
+  default: [],
+})
+
+const uploadProgressState = selector<number>({
   key: 'uploadProgressState',
-  default: -1,
+  get: ({ get }) => {
+    const fileUploadProgress = get(fileUploadProgressState)
+    if (fileUploadProgress.length === 0) {
+      return 0
+    }
+    const totalProgress = fileUploadProgress.reduce((acc, cur) => acc + cur.progress, 0)
+    return Math.ceil(totalProgress / fileUploadProgress.length)
+  },
 })
 
 /** 파일 접속 코드 상태 */
 const codeState = atom<string>({
   key: 'codeState',
   default: '',
-})
-
-const uppyFileState = atom<UppyFile<Meta, Record<string, never>>[]>({
-  key: 'uppyFileState',
-  default: [],
 })
 
 const deleteShareState = atom<string>({
@@ -73,6 +79,7 @@ const disableUploadState = atom<boolean>({
 
 export {
   loadingState,
+  fileUploadProgressState,
   filesState,
   fileDataState,
   totalFileSizeState,
@@ -80,7 +87,6 @@ export {
   shareTimePopUpState,
   uploadProgressState,
   codeState,
-  uppyFileState,
   deleteShareState,
   disableUploadState,
 }
