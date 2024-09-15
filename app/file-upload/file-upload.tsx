@@ -9,7 +9,6 @@ import UploadProgressModal from '@/app/file-upload/upload-progress-modal'
 import AccessCodeModal from '@/app/file-upload/access-code-modal'
 import ShareTimePickerModal from '@/app/file-upload/share-time-picker-modal'
 import DragAndDropBox from '@/app/file-upload/drag-and-drop-box'
-import useFileUpload from '@/lib/hooks/use-file-upload'
 
 export default function FileUpload() {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -19,17 +18,11 @@ export default function FileUpload() {
     dragRef,
   })
 
-  const { upload } = useFileUpload()
-
-  function uploadFunc() {
-    console.log(files)
-  }
-
   return (
     <>
       <UploadProgressModal />
       <AccessCodeModal />
-      <ShareTimePickerModal uploadFunc={uploadFunc} />
+      <ShareTimePickerModal />
       <DragAndDropBox inputRef={inputRef} dragRef={dragRef} />
       <ShareableFileSize />
       <OpenShareTimeModalButton />

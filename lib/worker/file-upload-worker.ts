@@ -51,17 +51,22 @@ class UploadFiles {
     return url
   }
 
+  getProgressData() {
+    const progressData: { name: string; progress: number }[] = []
+    for (let i = 0; i < this.fileData.length; i += 1) {
+      const progress = Number(this.progress[i])
+      progressData.push({
+        name: this.fileData[i],
+        progress: Math.ceil(progress * 10000) / 100,
+      })
+    }
+    return progressData
+  }
+
   async upload() {
-    setInterval(() => {
-      const progressData: { name: string; progress: number }[] = []
-      for (let i = 0; i < this.files.length; i += 1) {
-        const progress = Number(this.progress[i])
-        progressData.push({
-          name: this.files[i].name,
-          progress: Math.round(progress * 100),
-        })
-      }
-      self.postMessage({ progress: progressData })
+    self.postMessage({ progress: this.getProgressData() } as WorkerToClient)
+    const reportProgress = setInterval(() => {
+      self.postMessage({ progress: this.getProgressData() } as WorkerToClient)
     }, 500)
 
     for (let i = 0; i < this.maxConcurrentUploads; i += 1) {
@@ -69,12 +74,15 @@ class UploadFiles {
     }
     await Promise.all(this.queue)
     console.log('모든 파일 업로드 완료')
+    clearInterval(reportProgress)
+    self.postMessage({ status: 'Upload Complete', id: this.folder } as WorkerToClient)
   }
 
   async uploadFile() {
     const file = this.files.shift()
     if (!file) return {} as Promise<void>
     const uploadUrl = await this.getUploadUrl(file)
+
     return axios
       .put(uploadUrl, file, {
         headers: {

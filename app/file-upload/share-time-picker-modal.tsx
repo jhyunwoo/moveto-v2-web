@@ -6,7 +6,7 @@ import FileUploadButton from '@/app/file-upload/file-upload-button'
 import ModalLayout from '@/components/modal-layout'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
 
-export default function ShareTimePickerModal({ uploadFunc }: { uploadFunc: () => void }) {
+export default function ShareTimePickerModal() {
   const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
   const [shareTime, setShareTime] = useRecoilState(shareTimeState)
   const session = useSession()
