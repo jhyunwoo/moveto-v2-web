@@ -1,18 +1,24 @@
 import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import { RefObject } from 'react'
 import useDragAndDropFile from '@/lib/hooks/use-drag-and-drop-file'
+import { AwsBody } from '@uppy/aws-s3'
+import { Meta, Uppy } from '@uppy/core'
 
 export default function DragAndDropBox({
   inputRef,
   dragRef,
+  uppy,
 }: {
   inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
+  uppy: Uppy<Meta, AwsBody>
 }) {
   const { handleFileInput, clickFileInput } = useDragAndDropFile({
     inputRef,
     dragRef,
+    uppy,
   })
+
   return (
     <div
       className={`relative h-[30vh] w-full rounded-xl border-2 border-dashed border-white transition hover:bg-neutral-900`}

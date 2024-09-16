@@ -1,44 +1,27 @@
 import { ChangeEvent, RefObject, useCallback, useEffect, useState } from 'react'
-import fileToFileDataList from '@/lib/generate-file-info-array'
-import { useRecoilState } from 'recoil'
-import { fileDataState, filesState } from '@/lib/client/recoil'
+import { AwsBody } from '@uppy/aws-s3'
+import { Meta, Uppy } from '@uppy/core'
 
 export default function useDragAndDropFile({
   inputRef,
   dragRef,
+  uppy,
 }: {
   inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
+  uppy: Uppy<Meta, AwsBody>
 }) {
-  const [files, setFiles] = useRecoilState(filesState)
-  const [fileDataList, setFileDataList] = useRecoilState(fileDataState)
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
   const handleFileInput = useCallback(
     (fileList: FileList | null) => {
       if (fileList) {
-        /** Take files from user input */
-        const fileArray = Array.from(fileList)
-        /** List that store new files */
-        const newFiles: File[] = []
-        /** List that store new files data */
-        const newFileData = fileToFileDataList(fileArray)
-        // Add only new file in the newFiles list
-        for (const fileData of newFileData) {
-          if (!fileDataList.includes(fileData)) {
-            newFiles.push(fileArray[newFileData.indexOf(fileData)])
-          }
-        }
-        // Update files and fileDataList
-        setFiles([...files, ...newFiles])
-        setFileDataList([...fileDataList, ...fileToFileDataList(newFiles)])
-
-        if (inputRef.current) {
-          inputRef.current.value = ''
+        for (let i = 0; i < fileList.length; i += 1) {
+          uppy.addFile(fileList[i])
         }
       }
     },
-    [fileDataList, inputRef, files, setFileDataList, setFiles]
+    [uppy]
   )
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
@@ -107,7 +90,6 @@ export default function useDragAndDropFile({
 
   useEffect(() => {
     initDragEvents()
-
     return () => resetDragEvents()
   }, [initDragEvents, resetDragEvents])
 
@@ -116,20 +98,13 @@ export default function useDragAndDropFile({
     inputRef.current?.click()
   }
 
-  function deleteFile(index: number) {
-    let copiedFiles = [...files]
-    let copiedFileData = [...fileDataList]
-    copiedFiles.splice(index, 1)
-    copiedFileData.splice(index, 1)
-    setFiles([...copiedFiles])
-    setFileDataList([...copiedFileData])
+  function deleteFile(fileId: string) {
+    uppy.removeFile(fileId)
   }
 
   return {
     handleFileInput,
     clickFileInput,
-    files,
-    fileDataList,
     deleteFile,
     isDragging,
   }

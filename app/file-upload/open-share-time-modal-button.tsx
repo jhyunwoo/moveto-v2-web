@@ -3,13 +3,19 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { totalFileSizeState, shareTimePopUpState, disableUploadState } from '@/lib/client/recoil'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { Meta, Uppy } from '@uppy/core'
+import { AwsBody } from '@uppy/aws-s3'
+import { useUppyState } from '@uppy/react'
+import objectToList from '@/lib/object-to-list'
 
-export default function OpenShareTimeModalButton() {
-  const totalSize = useRecoilValue(totalFileSizeState)
+export default function OpenShareTimeModalButton({ uppy }: { uppy: Uppy<Meta, AwsBody> }) {
   const disabled = useRecoilValue(disableUploadState)
   const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
+  const files = useUppyState(uppy, state => state.files)
 
-  if (totalSize > 0) {
+  const fileList = objectToList(files)
+
+  if (fileList.length > 0) {
     return (
       <button
         type={'button'}

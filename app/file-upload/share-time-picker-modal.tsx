@@ -5,8 +5,10 @@ import { useEffect } from 'react'
 import FileUploadButton from '@/app/file-upload/file-upload-button'
 import ModalLayout from '@/components/modal-layout'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
+import { Meta, Uppy } from '@uppy/core'
+import { AwsBody } from '@uppy/aws-s3'
 
-export default function ShareTimePickerModal() {
+export default function ShareTimePickerModal({ uppy }: { uppy: Uppy<Meta, AwsBody> }) {
   const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
   const [shareTime, setShareTime] = useRecoilState(shareTimeState)
   const session = useSession()
@@ -39,7 +41,7 @@ export default function ShareTimePickerModal() {
         >
           취소
         </button>
-        <FileUploadButton />
+        <FileUploadButton uppy={uppy} />
       </div>
     </ModalLayout>
   )
