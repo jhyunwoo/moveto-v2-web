@@ -1,14 +1,11 @@
-'use client'
-
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { totalFileSizeState, shareTimePopUpState, disableUploadState } from '@/lib/client/recoil'
+import { shareTimePopUpState, disableUploadState } from '@/lib/client/recoil'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { Meta, Uppy } from '@uppy/core'
-import { AwsBody } from '@uppy/aws-s3'
 import { useUppyState } from '@uppy/react'
 import objectToList from '@/lib/object-to-list'
+import { UppyType } from '@/types/uppy'
 
-export default function OpenShareTimeModalButton({ uppy }: { uppy: Uppy<Meta, AwsBody> }) {
+export default function OpenShareTimeModalButton({ uppy }: { uppy: UppyType }) {
   const disabled = useRecoilValue(disableUploadState)
   const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
   const files = useUppyState(uppy, state => state.files)

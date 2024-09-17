@@ -1,7 +1,6 @@
-import { Meta, Uppy } from '@uppy/core'
-import { AwsBody } from '@uppy/aws-s3'
+import { UppyType } from '@/types/uppy'
 
-export default function FileUploadButton({ uppy }: { uppy: Uppy<Meta, AwsBody> }) {
+export default function FileUploadButton({ uppy }: { uppy: UppyType }) {
   return (
     <button
       onClick={async () => await uppy.upload()}

@@ -1,6 +1,5 @@
 import { ChangeEvent, RefObject, useCallback, useEffect, useState } from 'react'
-import { AwsBody } from '@uppy/aws-s3'
-import { Meta, Uppy } from '@uppy/core'
+import { UppyType } from '@/types/uppy'
 
 export default function useDragAndDropFile({
   inputRef,
@@ -9,7 +8,7 @@ export default function useDragAndDropFile({
 }: {
   inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
-  uppy: Uppy<Meta, AwsBody>
+  uppy: UppyType
 }) {
   const [isDragging, setIsDragging] = useState<boolean>(false)
 

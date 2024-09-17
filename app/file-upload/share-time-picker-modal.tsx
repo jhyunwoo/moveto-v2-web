@@ -5,10 +5,9 @@ import { useEffect } from 'react'
 import FileUploadButton from '@/app/file-upload/file-upload-button'
 import ModalLayout from '@/components/modal-layout'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
-import { Meta, Uppy } from '@uppy/core'
-import { AwsBody } from '@uppy/aws-s3'
+import { UppyType } from '@/types/uppy'
 
-export default function ShareTimePickerModal({ uppy }: { uppy: Uppy<Meta, AwsBody> }) {
+export default function ShareTimePickerModal({ uppy }: { uppy: UppyType }) {
   const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
   const [shareTime, setShareTime] = useRecoilState(shareTimeState)
   const session = useSession()

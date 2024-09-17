@@ -2,7 +2,16 @@ import ProfileButton from '@/components/profile-button'
 import { Suspense } from 'react'
 import SearchAnimation from '@/components/search-animation'
 import Image from 'next/image'
-import FileUpload from '@/app/file-upload/file-upload'
+import dynamic from 'next/dynamic'
+
+const FileUpload = dynamic(() => import('@/app/file-upload/file-upload'), {
+  ssr: false,
+  loading: () => (
+    <div className={'flex h-[30vh] w-full animate-pulse items-center justify-center rounded-xl bg-neutral-900'}>
+      <div>Loading...</div>
+    </div>
+  ),
+})
 
 export default function HomePage() {
   return (

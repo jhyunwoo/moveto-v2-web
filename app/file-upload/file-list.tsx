@@ -2,14 +2,13 @@ import { TrashIcon } from '@heroicons/react/24/outline'
 import formatBytes from '@/lib/format-bytes'
 import { motion } from 'framer-motion'
 import { Meta, UppyFile } from '@uppy/core'
-import { AwsBody } from '@uppy/aws-s3'
 import objectToList from '@/lib/object-to-list'
 
 export default function FileList({
   files,
   deleteFile,
 }: {
-  files: { [p: string]: UppyFile<Meta, AwsBody> }
+  files: { [p: string]: UppyFile<Meta, Record<string, never>> }
   deleteFile: (fileId: string) => void
 }) {
   const fileList = objectToList(files)
