@@ -44,7 +44,14 @@ const shareTimePopUpState = atom<boolean>({
 })
 
 /** 파일 업로드 상태 */
-const fileUploadProgressState = atom<{ name: string; progress: number }[]>({
+const fileUploadProgressState = atom<
+  {
+    name: string | undefined
+    progress: number | undefined
+    type: string | undefined
+    size: number | undefined
+  }[]
+>({
   key: 'fileUploadProgressState',
   default: [],
 })
@@ -56,7 +63,10 @@ const uploadProgressState = selector<number>({
     if (fileUploadProgress.length === 0) {
       return 0
     }
-    const totalProgress = fileUploadProgress.reduce((acc, cur) => acc + cur.progress, 0)
+    const totalProgress = fileUploadProgress.reduce((acc, cur) => {
+      if (cur.progress === undefined) return acc
+      return acc + cur.progress
+    }, 0)
     return Math.ceil(totalProgress / fileUploadProgress.length)
   },
 })
