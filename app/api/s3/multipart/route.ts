@@ -4,27 +4,33 @@ import { CreateMultipartUploadCommand } from '@aws-sdk/client-s3'
 import { headers } from 'next/headers'
 
 export async function POST(request: NextRequest) {
-  const headersList = headers()
-  const folder = headersList.get('folder')
-
   const client = getS3Client()
   const res = (await request.json()) as {
     type: string | null | undefined
     filename: string | null | undefined
+    metadata: {
+      name: string | null | undefined
+      path: string | null | undefined
+      type: string | null | undefined
+    }
   }
   const type = res.type
   const filename = res.filename
+  const path = res.metadata.path
 
   if (typeof filename !== 'string') {
-    return NextResponse.json({ error: 'r2: content filename must be a string' }, { status: 400 })
+    return NextResponse.json({ error: 's3: content filename must be a string' }, { status: 400 })
   }
   if (typeof type !== 'string') {
-    return NextResponse.json({ error: 'r2: content type must be a string' }, { status: 400 })
+    return NextResponse.json({ error: 's3: content type must be a string' }, { status: 400 })
+  }
+  if (typeof path !== 'string') {
+    return NextResponse.json({ error: 's3: content path must be a string' }, { status: 400 })
   }
 
   const params = {
     Bucket: process.env.R2_BUCKET!,
-    Key: `${folder}/${filename}`,
+    Key: `${path}/${filename}`,
     ContentType: type,
   }
 

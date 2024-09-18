@@ -3,11 +3,13 @@ type ClientToFileUploadWorker = {
 }
 
 type WorkerToClient = {
-  status?: 'Upload Complete'
+  status?: string
   error?: string
   progress?: {
-    name: string
-    progress: number
+    name: string | undefined
+    progress: number | undefined
+    type: string | undefined
+    size: number | undefined
   }[]
   id?: string
 }

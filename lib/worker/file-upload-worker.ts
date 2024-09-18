@@ -1,107 +1,67 @@
-import axios, { AxiosResponse } from 'axios'
 import getTotalFileSize from '@/lib/get-total-file-size'
-import fileToFileData from '@/lib/file-to-filedata'
+import fetchJson from '@/lib/client/fetch-json'
+import { Meta, Uppy } from '@uppy/core'
+import AwsS3, { AwsBody } from '@uppy/aws-s3'
+
+async function createShare(fileNameList: string[], storageSize: number) {
+  const bodyData: { files: string[]; storageSize: number } = { files: fileNameList, storageSize: storageSize }
+  return await fetchJson<{ shareId: string }>('/api/share', { method: 'POST', body: JSON.stringify(bodyData) })
+}
 
 const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
-  const maxConcurrentUploads = 6
+  // upload files data
   const files = event.data.files
   const fileNameList = files.map(file => file.name)
 
-  const createShareRequest = await fetch('/api/share', {
-    method: 'POST',
-    body: JSON.stringify({ files: fileNameList, storageSize: getTotalFileSize(event.data.files) }),
+  // Create share on DB
+  const share = await createShare(fileNameList, getTotalFileSize(files))
+
+  // Start upload files
+  const uppy = new Uppy<Meta, AwsBody>({
+    meta: { path: share.shareId },
   })
+    .use(AwsS3, { endpoint: '/api' })
+    .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
+    .on('upload-error', (file, error, response) => {
+      console.error('error with file:', file?.id)
+      console.error('error message:', error)
+    })
+    .on('upload-retry', fileID => {
+      console.log('upload retried:', fileID)
+    })
 
-  const createdShare = (await createShareRequest.json()) as { shareId: string; error?: string }
-  if (!createShareRequest.ok) {
-    self.postMessage({ error: createdShare.error })
-    return
-  }
-
-  const uploadFiles = new UploadFiles(files, createdShare.shareId, maxConcurrentUploads)
-  await uploadFiles.upload()
-}
-
-class UploadFiles {
-  files: File[]
-  fileData: string[]
-  queue: Promise<void>[]
-  uploadedFiles: AxiosResponse<any, any>[]
-  folder: string
-  maxConcurrentUploads: number
-  progress: (number | undefined)[]
-
-  constructor(files: File[], folder: string, maxConcurrentUploads: number = 6) {
-    this.files = files
-    this.fileData = files.map(file => fileToFileData(file))
-    this.queue = []
-    this.uploadedFiles = []
-    this.folder = folder
-    this.maxConcurrentUploads = maxConcurrentUploads
-    this.progress = this.files.map(() => 0)
-  }
-
-  async getUploadUrl(file: File) {
-    // get upload url
-    const requestUrl = await fetch(`/api/r2/params?filename=${file.name}&type=${file.type}&folder=${this.folder}`)
-    if (!requestUrl.ok) {
-      throw Error('Failed to get upload url')
+  const intervalId = setInterval(() => {
+    const progressState = []
+    const fileStates = uppy.getFiles()
+    for (const file of fileStates) {
+      progressState.push({ name: file.name, progress: file.progress.percentage, type: file.type, size: file.size })
     }
-    const { url } = await requestUrl.json()
-    return url
+    self.postMessage({ progress: progressState } as WorkerToClient)
+  }, 500)
+
+  // add files on uppy
+  for (const file of files) {
+    uppy.addFile(file)
   }
 
-  getProgressData() {
-    const progressData: { name: string; progress: number }[] = []
-    for (let i = 0; i < this.fileData.length; i += 1) {
-      const progress = Number(this.progress[i])
-      progressData.push({
-        name: this.fileData[i],
-        progress: Math.ceil(progress * 10000) / 100,
-      })
-    }
-    return progressData
+  // upload files
+  await uppy.upload()
+
+  // Delete setInterval
+  clearInterval(intervalId)
+
+  const progressState = []
+  const fileStates = uppy.getFiles()
+  for (const file of fileStates) {
+    progressState.push({ name: file.name, progress: 100, type: file.type, size: file.size })
   }
+  self.postMessage({ progress: progressState } as WorkerToClient)
 
-  async upload() {
-    self.postMessage({ progress: this.getProgressData() } as WorkerToClient)
-    const reportProgress = setInterval(() => {
-      self.postMessage({ progress: this.getProgressData() } as WorkerToClient)
-    }, 500)
+  // Clear uppy after upload all files
+  uppy.clear()
 
-    for (let i = 0; i < this.maxConcurrentUploads; i += 1) {
-      this.queue.push(this.uploadFile())
-    }
-    await Promise.all(this.queue)
-    console.log('모든 파일 업로드 완료')
-    clearInterval(reportProgress)
-    self.postMessage({ status: 'Upload Complete', id: this.folder } as WorkerToClient)
-  }
-
-  async uploadFile() {
-    const file = this.files.shift()
-    if (!file) return {} as Promise<void>
-    const uploadUrl = await this.getUploadUrl(file)
-
-    return axios
-      .put(uploadUrl, file, {
-        headers: {
-          'Content-Type': file.type,
-        },
-        onUploadProgress: progressEvent => {
-          this.progress[this.fileData.indexOf(fileToFileData(file))] = progressEvent.progress
-        },
-      })
-      .then(async result => {
-        await this.uploadFile()
-        this.uploadedFiles.push(result)
-      })
-      .catch(async err => {
-        console.error(err)
-        this.files.push(file)
-        await this.uploadFile()
-      })
-  }
+  // Send upload complete message
+  self.postMessage({ status: 'Upload Complete', id: share.shareId } as WorkerToClient)
 }
 
 typeof self === 'object' && self.addEventListener('message', handleMessage)

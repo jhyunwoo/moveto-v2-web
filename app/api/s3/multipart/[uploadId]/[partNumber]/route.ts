@@ -17,7 +17,7 @@ export async function GET(request: NextRequest, { params }: { params: { uploadId
   if (!validatePartNumber(params.partNumber)) {
     return NextResponse.json(
       {
-        error: 'r2: the part number must be an integer between 1 and 10000.',
+        error: 's3: the part number must be an integer between 1 and 10000.',
       },
       { status: 400 }
     )
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, { params }: { params: { uploadId
 
   if (!key) {
     return NextResponse.json(
-      { error: 'r2: the object key must be passed as a query parameter. For example: "?key=abc.jpg"' },
+      { error: 's3: the object key must be passed as a query parameter. For example: "?key=abc.jpg"' },
       { status: 400 }
     )
   }

@@ -26,7 +26,7 @@ export default function UploadProgressModal() {
           <div className={'overflow-auto overflow-x-hidden'}>
             {progress?.map(data => (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={data.name} className={'flex flex-col'}>
-                <div className={'break-all'}>{JSON.parse(data.name).name}</div>
+                <div className={'break-all'}>{data.name}</div>
                 {data.progress === 0 ? (
                   <div className={'h-4 w-full animate-pulse rounded-full bg-neutral-500'} />
                 ) : (
