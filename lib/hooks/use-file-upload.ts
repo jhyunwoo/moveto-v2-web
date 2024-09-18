@@ -47,7 +47,7 @@ export default function useFileUpload() {
     })
     // Service Worker 로부터 메시지를 받아 처리하는 이벤트 리스너 등록
     workerRef.current.addEventListener('message', handleMessage)
-  }, [setCode, setFileUploadProgress, setFiles, setShareTimePopUp, shareTime, shareTimePopUp])
+  }, [setCode, setFileUploadProgress, setFiles, setShareTimePopUp, shareTime, shareTimePopUp, setFileData])
 
   /**
    * 추가한 파일을 업로드 하는 함수
