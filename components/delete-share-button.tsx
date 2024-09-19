@@ -1,3 +1,5 @@
+'use client'
+
 import { TrashIcon } from '@heroicons/react/24/outline'
 import ConfirmShareDelete from '@/components/confirm-share-delete'
 import { useSetRecoilState } from 'recoil'
