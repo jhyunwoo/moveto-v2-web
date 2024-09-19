@@ -29,13 +29,7 @@ export default function ShareableFileSize() {
   return (
     <div className={'flex w-full flex-col rounded-xl bg-neutral-900 p-2 px-4 ring-1 ring-white'}>
       {usedStorageLoading ? (
-        <motion.div
-          className={'w-24 animate-pulse rounded-full bg-neutral-600 p-[2px] text-center text-sm'}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          Loading...
-        </motion.div>
+        <div className={'mb-1 h-5 w-24 animate-pulse rounded-full bg-neutral-600 text-center text-sm'} />
       ) : (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           {userPlan}
@@ -44,7 +38,11 @@ export default function ShareableFileSize() {
 
       <div className={'flex w-full flex-col'}>
         <ShareableFileSizeBar totalStorage={userShareLimit.storage} usedStorage={usedStorage + totalSize} />
-        <SharableFileSizeInfo totalStorage={userShareLimit.storage} usedStorage={usedStorage + totalSize} />
+        <SharableFileSizeInfo
+          totalStorage={userShareLimit.storage}
+          usedStorage={usedStorage + totalSize}
+          isLoading={usedStorageLoading}
+        />
       </div>
     </div>
   )
