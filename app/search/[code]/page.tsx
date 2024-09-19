@@ -5,7 +5,7 @@ import { logs, share } from '@/db/schema'
 import { CloudArrowDownIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
 import ShareButton from '@/components/share-button'
 import HomePageButton from '@/components/homepage-button'
-import getS3Client from '@/lib/r2/get-s3-client'
+import getS3Client from '@/lib/server/get-s3-client'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import DeleteShareButton from '@/components/delete-share-button'
@@ -65,7 +65,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
         </div>
         <div className={'fixed bottom-0 left-0 flex w-full p-4 md:pb-12'}>
           <div className={'mx-auto flex w-full max-w-4xl gap-2'}>
-            <DeleteShareButton code={params.code} />
+            <DeleteShareButton shareId={shareData?.id} />
             <HomePageButton />
           </div>
         </div>

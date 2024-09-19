@@ -1,9 +1,9 @@
 import useSWR from 'swr'
 import fetcher from '@/lib/fetcher'
 
-export default function useShares() {
-  const { data, error, isLoading, mutate } = useSWR<
-    {
+export default function useUserShareHistory(page: number = 1) {
+  const { data, error, isLoading, mutate } = useSWR<{
+    shareList: {
       id: string
       userId: string | null
       code: string | null
@@ -14,10 +14,12 @@ export default function useShares() {
       ip: string
       active: boolean
     }[]
-  >('/api/user/shares', fetcher)
+    pageLimit: number
+  }>(`/api/user/shares/${page}`, fetcher)
 
   return {
-    shares: data,
+    shares: data?.shareList,
+    pageLimit: data?.pageLimit,
     sharesError: error,
     sharesLoading: isLoading,
     mutateShares: mutate,

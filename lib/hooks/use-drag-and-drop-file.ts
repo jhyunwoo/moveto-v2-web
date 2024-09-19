@@ -3,11 +3,11 @@ import fileToFileDataList from '@/lib/generate-file-info-array'
 import { useRecoilState } from 'recoil'
 import { fileDataState, filesState } from '@/lib/client/recoil'
 
-export default function useHandleFile({
-  fileInputRef,
+export default function useDragAndDropFile({
+  inputRef,
   dragRef,
 }: {
-  fileInputRef: RefObject<HTMLInputElement>
+  inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
 }) {
   const [files, setFiles] = useRecoilState(filesState)
@@ -33,12 +33,12 @@ export default function useHandleFile({
         setFiles([...files, ...newFiles])
         setFileDataList([...fileDataList, ...fileToFileDataList(newFiles)])
 
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ''
+        if (inputRef.current) {
+          inputRef.current.value = ''
         }
       }
     },
-    [fileDataList, fileInputRef, files, setFileDataList, setFiles]
+    [fileDataList, inputRef, files, setFileDataList, setFiles]
   )
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
@@ -113,7 +113,7 @@ export default function useHandleFile({
 
   /** click file input dom using ref */
   function clickFileInput() {
-    fileInputRef.current?.click()
+    inputRef.current?.click()
   }
 
   function deleteFile(index: number) {

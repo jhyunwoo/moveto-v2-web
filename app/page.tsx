@@ -1,8 +1,8 @@
-import FileUpload from '@/components/file-upload'
 import ProfileButton from '@/components/profile-button'
 import { Suspense } from 'react'
 import SearchAnimation from '@/components/search-animation'
 import Image from 'next/image'
+import FileUpload from '@/app/file-upload/file-upload'
 
 export default function HomePage() {
   return (

@@ -6,7 +6,7 @@ import { disableUploadState, totalFileSizeState } from '@/lib/client/recoil'
 import { motion } from 'framer-motion'
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'
-import useUsedStorage from '@/lib/hooks/useUsedStorage'
+import useUsedStorage from '@/lib/hooks/use-used-storage'
 import ShareableFileSizeBar from '@/components/shareable-file-size-bar'
 import SharableFileSizeInfo from '@/components/sharable-file-size-info'
 import useUserPlan from '@/lib/hooks/use-user-plan'
@@ -27,17 +27,9 @@ export default function ShareableFileSize() {
   }, [leftStorage, setDisableUpload])
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className={'flex w-full flex-col rounded-xl bg-neutral-900 p-2 px-4 ring-1 ring-white'}
-    >
+    <div className={'flex w-full flex-col rounded-xl bg-neutral-900 p-2 px-4 ring-1 ring-white'}>
       {usedStorageLoading ? (
-        <motion.div
-          className={'my-1 h-4 w-24 animate-pulse rounded-full bg-neutral-700'}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
+        <div className={'mb-1 h-5 w-24 animate-pulse rounded-full bg-neutral-600 text-center text-sm'} />
       ) : (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           {userPlan}
@@ -46,8 +38,12 @@ export default function ShareableFileSize() {
 
       <div className={'flex w-full flex-col'}>
         <ShareableFileSizeBar totalStorage={userShareLimit.storage} usedStorage={usedStorage + totalSize} />
-        <SharableFileSizeInfo totalStorage={userShareLimit.storage} usedStorage={usedStorage + totalSize} />
+        <SharableFileSizeInfo
+          totalStorage={userShareLimit.storage}
+          usedStorage={usedStorage + totalSize}
+          isLoading={usedStorageLoading}
+        />
       </div>
-    </motion.div>
+    </div>
   )
 }

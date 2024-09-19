@@ -5,15 +5,17 @@ import { useRecoilState } from 'recoil'
 import { deleteShareState } from '@/lib/client/recoil'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import useUserShareHistory from '@/lib/hooks/use-user-share-history'
 
 export default function ConfirmShareDelete({ redirect }: { redirect?: string }) {
   const [deleteError, setDeleteError] = useState('')
   const [deleteShare, setDeleteShare] = useRecoilState(deleteShareState)
 
   const router = useRouter()
+  const { mutateShares } = useUserShareHistory()
 
   async function deleteFile() {
-    const requestDelete = await fetch(`/api/share/code/${deleteShare}`, { method: 'DELETE' })
+    const requestDelete = await fetch(`/api/share/${deleteShare}`, { method: 'DELETE' })
     const response = await requestDelete.json()
     if (requestDelete.ok) {
       setDeleteShare('')
@@ -26,6 +28,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
     } else {
       setDeleteError(response.message)
     }
+    await mutateShares()
   }
 
   return (
