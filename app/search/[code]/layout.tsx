@@ -1,5 +1,12 @@
 import { ReactNode } from 'react'
 import SearchBar from '@/components/search-bar'
+import decodeURIShareCode from "@/lib/decode-uri-share-code";
+
+export async function generateMetadata({ params }:{ params: { code: string } }) {
+    return {
+        title: `${decodeURIShareCode(params.code)} | Moveto`,
+    }
+}
 
 export default function SearchCodeLayout({ children }: { children: ReactNode }) {
   return (
