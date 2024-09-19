@@ -8,27 +8,26 @@ async function createShare(fileNameList: string[], storageSize: number) {
   return await fetchJson<{ shareId: string }>('/api/share', { method: 'POST', body: JSON.stringify(bodyData) })
 }
 
-const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
+const uppy = new Uppy<Meta, AwsBody>()
+  .use(AwsS3, { endpoint: '/api' })
+  .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
+  .on('upload-error', (file, error) => {
+    console.error('error with file:', file?.id)
+    console.error('error message:', error)
+  })
+  .on('upload-retry', fileID => {
+    console.log('upload retried:', fileID)
+  })
+
+async function uploadFile(files: File[]) {
   // upload files data
-  const files = event.data.files
   const fileNameList = files.map(file => file.name)
 
   // Create share on DB
   const share = await createShare(fileNameList, getTotalFileSize(files))
 
   // Start upload files
-  const uppy = new Uppy<Meta, AwsBody>({
-    meta: { path: share.shareId },
-  })
-    .use(AwsS3, { endpoint: '/api' })
-    .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
-    .on('upload-error', (file, error, response) => {
-      console.error('error with file:', file?.id)
-      console.error('error message:', error)
-    })
-    .on('upload-retry', fileID => {
-      console.log('upload retried:', fileID)
-    })
+  uppy.setState({ meta: { path: share.shareId } })
 
   const intervalId = setInterval(() => {
     const progressState = []
@@ -43,7 +42,6 @@ const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
   for (const file of files) {
     uppy.addFile(file)
   }
-
   // upload files
   await uppy.upload()
 
@@ -62,6 +60,12 @@ const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
 
   // Send upload complete message
   self.postMessage({ status: 'Upload Complete', id: share.shareId } as WorkerToClient)
+}
+
+const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
+  if (event.data.files) {
+    await uploadFile(event.data.files)
+  }
 }
 
 typeof self === 'object' && self.addEventListener('message', handleMessage)

@@ -2,6 +2,7 @@ import useFileUpload from '@/lib/hooks/use-file-upload'
 
 export default function FileUploadButton() {
   const { upload } = useFileUpload()
+
   return (
     <button
       onClick={upload}

@@ -2,7 +2,7 @@ import db from '@/db'
 import { and, eq, gte } from 'drizzle-orm'
 import { share } from '@/db/schema'
 import { NextResponse } from 'next/server'
-import getS3Client from '@/lib/r2/get-s3-client'
+import getS3Client from '@/lib/server/get-s3-client'
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
 
 export async function GET(request: Request, { params }: { params: { code: string } }) {

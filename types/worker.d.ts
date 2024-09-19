@@ -1,5 +1,5 @@
 type ClientToFileUploadWorker = {
-  files: File[]
+  files?: File[]
 }
 
 type WorkerToClient = {

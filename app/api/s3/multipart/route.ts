@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import getS3Client from '@/lib/r2/get-s3-client'
+import getS3Client from '@/lib/server/get-s3-client'
 import { CreateMultipartUploadCommand } from '@aws-sdk/client-s3'
-import { headers } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   const client = getS3Client()

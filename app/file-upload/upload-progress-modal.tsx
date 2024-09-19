@@ -1,5 +1,3 @@
-'use client'
-
 import { useRecoilValue } from 'recoil'
 import { fileUploadProgressState, uploadProgressState } from '@/lib/client/recoil'
 import { motion } from 'framer-motion'
@@ -23,7 +21,7 @@ export default function UploadProgressModal() {
             {progress.length === 0 ? '파일 업로드 준비중...' : '파일 업로드 중...'}
           </div>
 
-          <div className={'overflow-auto overflow-x-hidden'}>
+          <div className={'overflow-auto overflow-x-hidden overscroll-contain'}>
             {progress?.map(data => (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={data.name} className={'flex flex-col'}>
                 <div className={'break-all'}>{data.name}</div>
@@ -41,8 +39,10 @@ export default function UploadProgressModal() {
               </motion.div>
             ))}
           </div>
-          <div className={'ml-auto pt-4 text-lg font-semibold text-white'}>
-            {totalProgress !== 100 ? `${totalProgress}%` : '접근 코드 생성중...'}
+          <div className={'mt-4 flex justify-end'}>
+            <div className={'text-lg font-semibold text-white'}>
+              {totalProgress !== 100 ? `${totalProgress}%` : '접근 코드 생성중...'}
+            </div>
           </div>
         </div>
       </motion.div>

@@ -24,7 +24,7 @@ export default function ModalLayout({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={
-          'fixed left-0 top-0 z-10 flex h-screen w-full touch-none flex-col items-center justify-center backdrop-blur'
+          'fixed left-0 top-0 z-10 p-4 flex h-screen w-full touch-none flex-col items-center justify-center backdrop-blur'
         }
         ref={backgroundRef}
         onClick={handleBackgroundClick}

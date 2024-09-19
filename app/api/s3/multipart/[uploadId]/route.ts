@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import getS3Client from '@/lib/r2/get-s3-client'
+import getS3Client from '@/lib/server/get-s3-client'
 import { ListPartsCommand, Part } from '@aws-sdk/client-s3'
 
 export async function GET(request: NextRequest, { params }: { params: { uploadId: string } }) {
