@@ -65,7 +65,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
         </div>
         <div className={'fixed bottom-0 left-0 flex w-full p-4 md:pb-12'}>
           <div className={'mx-auto flex w-full max-w-4xl gap-2'}>
-            <DeleteShareButton shareId={shareData.id} />
+            <DeleteShareButton shareId={shareData?.id} />
             <HomePageButton />
           </div>
         </div>
