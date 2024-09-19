@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import getS3Client from '@/lib/r2/get-s3-client'
+import getS3Client from '@/lib/server/get-s3-client'
 import { UploadPartCommand } from '@aws-sdk/client-s3'
 
 function validatePartNumber(partNumber: string) {

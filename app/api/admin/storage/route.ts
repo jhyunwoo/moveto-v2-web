@@ -2,7 +2,7 @@ import db from '@/db'
 import { share } from '@/db/schema'
 import { and, eq, isNotNull, lt, or } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
-import getS3Client from '@/lib/r2/get-s3-client'
+import getS3Client from '@/lib/server/get-s3-client'
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
 
 export const dynamic = 'force-dynamic'
