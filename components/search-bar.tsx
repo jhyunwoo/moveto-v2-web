@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useAnimation } from 'framer-motion'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
@@ -14,10 +14,12 @@ export default function SearchBar({
   isExpanded,
   setIsExpanded,
   className,
+  children,
 }: {
   isExpanded?: boolean
   setIsExpanded?: Dispatch<SetStateAction<boolean>>
   className?: string
+  children?: ReactNode
 }) {
   const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
   const [error, setError] = useState('')
@@ -73,41 +75,42 @@ export default function SearchBar({
   }, [loading, setFocus])
 
   return (
-      <div className={`relative w-full ${className}`}>
-        <form className={'flex w-full items-center justify-center max-w-4xl mx-auto relative'} onSubmit={handleSubmit(onSubmit)}>
-          <motion.div layoutId={'key'} initial={{opacity:0}} animate={{opacity:1}} className={'absolute -top-7 left-4 ring-2 ring-white rounded-lg p-[2px] px-2 text-sm'}>
-            Esc
-          </motion.div>
-          <motion.input
-              {...register('code', {
-                required: {value: true, message: '코드를 입력해주세요'},
-                onChange: () => setError(''),
-              })}
-              className={`z-10 rounded-full border-4 p-2 px-5 transition-colors disabled:animate-pulse disabled:border-sky-400 ${error ? 'border-red-500' : 'border-white'} w-full bg-neutral-900/50 text-xl font-bold outline-none transition-colors placeholder:text-xl placeholder:text-gray-300`}
-              layoutId={'search'}
-              disabled={loading}
-              placeholder={'코드 검색'}
-              autoComplete={'off'}
-              animate={controls}
-          />
-          <motion.button
-              type={'submit'}
-              disabled={loading}
-              layoutId={'search-button'}
-              className={`disabled:animate-pulse disabled:text-sky-400 ${error ? 'text-red-500' : 'text-white'} transition-colors`}
-          >
-            <MagnifyingGlassCircleIcon className={'size-14'}/>
-          </motion.button>
-        </form>
-
-        <motion.div
-            initial={{opacity: 0}}
-            animate={error && {opacity: 1}}
-            exit={{opacity: 0}}
-            className={'absolute top-14 flex w-full justify-center text-sm text-red-500'}
+    <div className={`relative w-full ${className}`}>
+      <form
+        className={'relative mx-auto flex w-full max-w-4xl items-center justify-center'}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {children}
+        <motion.input
+          {...register('code', {
+            required: { value: true, message: '코드를 입력해주세요' },
+            onChange: () => setError(''),
+          })}
+          className={`z-10 rounded-full border-4 p-2 px-5 transition-colors disabled:animate-pulse disabled:border-sky-400 ${error ? 'border-red-500' : 'border-white'} w-full bg-neutral-900/50 text-xl font-bold outline-none transition-colors placeholder:text-xl placeholder:text-gray-300`}
+          layoutId={'search'}
+          disabled={loading}
+          placeholder={'코드 검색'}
+          autoComplete={'off'}
+          animate={controls}
+        />
+        <motion.button
+          type={'submit'}
+          disabled={loading}
+          layoutId={'search-button'}
+          className={`disabled:animate-pulse disabled:text-sky-400 ${error ? 'text-red-500' : 'text-white'} transition-colors`}
         >
-          <div>{error}</div>
-        </motion.div>
-      </div>
+          <MagnifyingGlassCircleIcon className={'size-14'} />
+        </motion.button>
+      </form>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={error && { opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className={'absolute top-14 flex w-full justify-center text-sm text-red-500'}
+      >
+        <div>{error}</div>
+      </motion.div>
+    </div>
   )
 }
