@@ -4,7 +4,7 @@ import useDragAndDropFile from '@/lib/hooks/use-drag-and-drop-file'
 import FileList from '@/app/file-upload/file-list'
 import ShareableFileSize from '@/app/file-upload/shareable-file-size'
 import OpenShareTimeModalButton from '@/app/file-upload/open-share-time-modal-button'
-import { Suspense, useRef } from 'react'
+import { useRef } from 'react'
 import UploadProgressModal from '@/app/file-upload/upload-progress-modal'
 import AccessCodeModal from '@/app/file-upload/access-code-modal'
 import ShareTimePickerModal from '@/app/file-upload/share-time-picker-modal'
@@ -24,9 +24,7 @@ export default function FileUpload() {
       <AccessCodeModal />
       <ShareTimePickerModal />
       <DragAndDropBox inputRef={inputRef} dragRef={dragRef} />
-      <Suspense fallback={<div className={'text-white'}>Loading...</div>}>
-        <ShareableFileSize />
-      </Suspense>
+      <ShareableFileSize />
       <OpenShareTimeModalButton />
       <FileList files={files} deleteFile={deleteFile} />
     </>
