@@ -33,7 +33,14 @@ async function uploadFile(files: File[]) {
     const progressState = []
     const fileStates = uppy.getFiles()
     for (const file of fileStates) {
-      progressState.push({ name: file.name, progress: file.progress.percentage, type: file.type, size: file.size })
+      const bytesUploaded = file.progress.bytesUploaded ? file.progress.bytesUploaded : 0
+      const bytesTotal = file.progress.bytesTotal ? file.progress.bytesTotal : 0
+      progressState.push({
+        name: file.name,
+        progress: Math.ceil((bytesUploaded / bytesTotal) * 10000) / 100,
+        type: file.type,
+        size: file.size,
+      })
     }
     self.postMessage({ progress: progressState } as WorkerToClient)
   }, 500)
