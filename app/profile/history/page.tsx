@@ -49,7 +49,7 @@ export default function HistoryPage() {
       {shares?.length === 0 && <div className={'p-4 text-center'}>아직 공유한 파일이 없습니다.</div>}
       <div className={'flex w-full items-center justify-end gap-4 p-4'}>
         <button type={'button'} onClick={handlePrevPage}>
-          이전 페이지 &larr;
+          &larr; 이전 페이지
         </button>
         <div className={'rounded-xl bg-neutral-50 p-1 px-3 text-lg text-neutral-950'}>{page}</div>
         <button type={'button'} onClick={handleNextPage}>
@@ -58,16 +58,16 @@ export default function HistoryPage() {
       </div>
       {sharesLoading ? (
         <div className={'grid grid-cols-1 gap-2 md:grid-cols-2'}>
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
-          <div className={'h-24 w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
+          <div className={'h-[88px] w-full animate-pulse rounded-xl bg-neutral-800'} />
         </div>
       ) : (
         <div className={'grid grid-cols-1 gap-2 md:grid-cols-2'}>
