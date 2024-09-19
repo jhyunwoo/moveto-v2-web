@@ -47,7 +47,12 @@ export default function SearchAnimation() {
             exit={{ opacity: 0 }}
             onClick={e => setIsExpanded(e.target !== e.currentTarget)}
           >
-            <SearchBar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+              <SearchBar isExpanded={isExpanded} setIsExpanded={setIsExpanded}>
+                  <motion.div layoutId={'key'} initial={{opacity: 0}} animate={{opacity: 1}}
+                              className={'absolute -top-7 left-4 ring-2 ring-white rounded-lg p-[2px] px-2 text-sm'}>
+                      Esc
+                  </motion.div>
+              </SearchBar>
           </motion.div>
         )}
       </AnimatePresence>

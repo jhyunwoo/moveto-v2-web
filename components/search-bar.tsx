@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useAnimation } from 'framer-motion'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import {Dispatch, ReactNode, SetStateAction, useEffect, useState} from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
@@ -14,10 +14,12 @@ export default function SearchBar({
   isExpanded,
   setIsExpanded,
   className,
+    children
 }: {
   isExpanded?: boolean
   setIsExpanded?: Dispatch<SetStateAction<boolean>>
   className?: string
+  children?: ReactNode
 }) {
   const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
   const [error, setError] = useState('')
@@ -75,9 +77,7 @@ export default function SearchBar({
   return (
       <div className={`relative w-full ${className}`}>
         <form className={'flex w-full items-center justify-center max-w-4xl mx-auto relative'} onSubmit={handleSubmit(onSubmit)}>
-          <motion.div layoutId={'key'} initial={{opacity:0}} animate={{opacity:1}} className={'absolute -top-7 left-4 ring-2 ring-white rounded-lg p-[2px] px-2 text-sm'}>
-            Esc
-          </motion.div>
+          {children}
           <motion.input
               {...register('code', {
                 required: {value: true, message: '코드를 입력해주세요'},
