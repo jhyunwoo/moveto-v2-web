@@ -8,6 +8,7 @@ import { auth } from '@/auth'
 import getUserLimit from '@/lib/get-user-limit'
 import getUsedStorage from '@/lib/get-used-storage'
 import { addMinutes } from 'date-fns'
+import deleteShareFiles from '@/lib/server/delete-share-files'
 
 export async function PUT(request: NextRequest, { params }: { params: { shareId: string } }) {
   const client = getS3Client()
@@ -34,6 +35,7 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
   const usedStorage = await getUsedStorage()
 
   if (usedStorage + totalSize > limit.storage) {
+    await deleteShareFiles(params.shareId)
     return NextResponse.json({ error: 'Exceeded storage limit' }, { status: 403 })
   }
 

@@ -28,7 +28,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
     } else {
       setDeleteError(response.message)
     }
-    mutateShares()
+    await mutateShares()
   }
 
   return (
