@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import {Metadata} from "next";
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '프로필 | Moveto',

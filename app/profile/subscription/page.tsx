@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import {Metadata} from "next";
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: '구독 설정 | Moveto',
+  title: '구독 설정 | Moveto',
 }
 
 export default function Subscription() {

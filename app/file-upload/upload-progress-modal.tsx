@@ -1,12 +1,12 @@
 import { useRecoilValue } from 'recoil'
 import { fileUploadProgressState, uploadProgressState } from '@/lib/client/recoil'
 import { motion } from 'framer-motion'
-import useMetadataTitle from "@/lib/hooks/use-metadata-title";
+import useMetadataTitle from '@/lib/hooks/use-metadata-title'
 
 export default function UploadProgressModal() {
   const progress = useRecoilValue(fileUploadProgressState)
   const totalProgress = useRecoilValue(uploadProgressState)
-  useMetadataTitle(totalProgress?`파일 업로드: ${totalProgress}%`:'Moveto')
+  useMetadataTitle(totalProgress ? `파일 업로드: ${totalProgress}%` : 'Moveto')
 
   if (progress.length > 0) {
     return (
