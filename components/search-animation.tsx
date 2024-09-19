@@ -18,7 +18,15 @@ export default function SearchAnimation() {
   }, [])
 
   return (
-    <>
+    <div className={'relative'}>
+      <motion.div
+        layoutId={'key'}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className={'absolute -top-6 right-0 rounded-lg p-[2px] px-2 text-xs ring-2 ring-white'}
+      >
+        Enter
+      </motion.div>
       <motion.input
         className={
           'flex w-24 items-center justify-center rounded-full border-2 border-white bg-black p-1 px-4 focus:outline-none sm:w-80 md:w-96'
@@ -43,6 +51,6 @@ export default function SearchAnimation() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   )
 }

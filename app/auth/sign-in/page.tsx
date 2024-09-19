@@ -1,5 +1,10 @@
 import SignInButton from '@/components/sign-in-button'
 import Link from 'next/link'
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: '로그인 | Moveto',
+}
 
 export default function SignInPage() {
   return (

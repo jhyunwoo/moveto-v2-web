@@ -1,3 +1,9 @@
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: '사용 방법 | Moveto',
+}
+
 export default function HowToUsePage() {
   return (
     <div className={'min-h-screen w-full p-4 text-white'}>
