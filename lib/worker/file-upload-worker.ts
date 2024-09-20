@@ -68,9 +68,7 @@ async function uploadFile(files: File[]) {
   for (const file of files) {
     uppy.addFile(file)
   }
-
   uppy.on('complete', () => completeUpload(intervalId, share.shareId))
-
   // upload files
   uppy.upload()
 }
