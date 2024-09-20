@@ -11,9 +11,10 @@ async function createShare(fileNameList: string[], storageSize: number) {
 const uppy = new Uppy<Meta, AwsBody>()
   .use(AwsS3, { endpoint: '/api' })
   .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
-  .on('upload-error', (file, error) => {
+  .on('upload-error', async (file, error) => {
     console.error('error with file:', file?.id)
     console.error('error message:', error)
+    if (file) await uppy.retryUpload(file.id)
   })
   .on('upload-retry', fileID => {
     console.log('upload retried:', fileID)
