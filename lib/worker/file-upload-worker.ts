@@ -8,13 +8,31 @@ async function createShare(fileNameList: string[], storageSize: number) {
   return await fetchJson<{ shareId: string }>('/api/share', { method: 'POST', body: JSON.stringify(bodyData) })
 }
 
+function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
+  // Delete setInterval
+  clearInterval(intervalId)
+
+  const progressState = []
+  const fileStates = uppy.getFiles()
+  for (const file of fileStates) {
+    progressState.push({ name: file.name, progress: 100, type: file.type, size: file.size })
+  }
+  self.postMessage({ progress: progressState } as WorkerToClient)
+
+  // Clear uppy after upload all files
+  uppy.clear()
+
+  // Send upload complete message
+  self.postMessage({ status: 'Upload Complete', id: shareId } as WorkerToClient)
+}
+
 const uppy = new Uppy<Meta, AwsBody>()
   .use(AwsS3, { endpoint: '/api' })
   .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
   .on('upload-error', async (file, error) => {
     console.error('error with file:', file?.id)
     console.error('error message:', error)
-    if (file) await uppy.retryUpload(file.id)
+    if (file) uppy.retryUpload(file.id)
   })
   .on('upload-retry', fileID => {
     console.log('upload retried:', fileID)
@@ -50,24 +68,9 @@ async function uploadFile(files: File[]) {
   for (const file of files) {
     uppy.addFile(file)
   }
+  uppy.on('complete', () => completeUpload(intervalId, share.shareId))
   // upload files
-  await uppy.upload()
-
-  // Delete setInterval
-  clearInterval(intervalId)
-
-  const progressState = []
-  const fileStates = uppy.getFiles()
-  for (const file of fileStates) {
-    progressState.push({ name: file.name, progress: 100, type: file.type, size: file.size })
-  }
-  self.postMessage({ progress: progressState } as WorkerToClient)
-
-  // Clear uppy after upload all files
-  uppy.clear()
-
-  // Send upload complete message
-  self.postMessage({ status: 'Upload Complete', id: share.shareId } as WorkerToClient)
+  uppy.upload()
 }
 
 const handleMessage = async (event: MessageEvent<ClientToFileUploadWorker>) => {
