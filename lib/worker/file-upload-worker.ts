@@ -1,7 +1,7 @@
 import getTotalFileSize from '@/lib/get-total-file-size'
 import fetchJson from '@/lib/client/fetch-json'
-import { Meta, Uppy } from '@uppy/core'
-import AwsS3, { AwsBody } from '@uppy/aws-s3'
+import {Meta, Uppy, UppyFile} from '@uppy/core'
+import AwsS3, {AwsBody, AwsS3UploadParameters} from '@uppy/aws-s3'
 
 async function createShare(fileNameList: string[], storageSize: number) {
   const bodyData: { files: string[]; storageSize: number } = { files: fileNameList, storageSize: storageSize }
@@ -26,8 +26,22 @@ function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
   self.postMessage({ status: 'Upload Complete', id: shareId } as WorkerToClient)
 }
 
+async function upload(file:UppyFile<Meta, AwsBody>, options:Object):Promise<AwsS3UploadParameters>{
+    return {
+        method: 'POST',
+        url: '/api/s3',
+        fields: {
+        key: `${file.meta.path}/${file.name}`,
+        'Content-Type': file.type,
+        },
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    }
+}
+
 const uppy = new Uppy<Meta, AwsBody>()
-  .use(AwsS3, { endpoint: '/api' })
+  .use(AwsS3, { endpoint: '/api'})
   .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
   .on('upload-error', async (file, error) => {
     console.error('error with file:', file?.id)
