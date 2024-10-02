@@ -8,6 +8,7 @@ import {
   shareTimeState,
 } from '@/lib/client/recoil'
 import { useEffect, useRef } from 'react'
+import useUsedStorage from '@/lib/hooks/use-used-storage'
 
 export default function useFileUpload() {
   const files = useRecoilValue(filesState)
@@ -18,6 +19,7 @@ export default function useFileUpload() {
   const setCode = useSetRecoilState(codeState)
   const setFiles = useSetRecoilState(filesState)
   const setFileData = useSetRecoilState(fileDataState)
+  const { mutateUsedStorage } = useUsedStorage()
 
   useEffect(() => {
     // Service Worker로부터 메시지를 받아 처리하는 함수
@@ -38,6 +40,7 @@ export default function useFileUpload() {
           setFileUploadProgress([])
           setFiles([])
           setFileData([])
+          await mutateUsedStorage()
         }
       }
     }
@@ -47,7 +50,16 @@ export default function useFileUpload() {
     })
     // Service Worker 로부터 메시지를 받아 처리하는 이벤트 리스너 등록
     workerRef.current.addEventListener('message', handleMessage)
-  }, [setCode, setFileUploadProgress, setFiles, setShareTimePopUp, shareTime, shareTimePopUp, setFileData])
+  }, [
+    setCode,
+    setFileUploadProgress,
+    setFiles,
+    setShareTimePopUp,
+    shareTime,
+    shareTimePopUp,
+    setFileData,
+    mutateUsedStorage,
+  ])
 
   /**
    * 추가한 파일을 업로드 하는 함수
