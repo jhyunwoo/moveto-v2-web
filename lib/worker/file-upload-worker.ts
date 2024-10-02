@@ -26,8 +26,19 @@ function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
   self.postMessage({ status: 'Upload Complete', id: shareId } as WorkerToClient)
 }
 
-async function upload(file:UppyFile<Meta, AwsBody>, options:Object):Promise<AwsS3UploadParameters>{
-    return {
+export type RequestOptions = {
+  method?: string
+  data?: Record<string, unknown>
+  skipPostResponse?: boolean
+  signal?: AbortSignal
+  authFormData?: unknown
+  qs?: Record<string, string>
+}
+
+async function upload(file:UppyFile<Meta, AwsBody>, options:RequestOptions):Promise<AwsS3UploadParameters>{
+
+
+  return {
         method: 'POST',
         url: '/api/s3',
         fields: {
