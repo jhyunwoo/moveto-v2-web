@@ -1,7 +1,7 @@
-import { useFileUploadProgressStore } from '@/components/store-provider/file-upload-progress-provider'
+import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
 
 export default function useTotalUploadProgress() {
-  const { fileUploadProgress } = useFileUploadProgressStore(store => store)
+  const { fileUploadProgress } = useFileUploadProgress(store => store)
   if (fileUploadProgress.length === 0) {
     return 0
   }

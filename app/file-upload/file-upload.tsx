@@ -9,11 +9,6 @@ import UploadProgressModal from '@/app/file-upload/upload-progress-modal'
 import AccessCodeModal from '@/app/file-upload/access-code-modal'
 import ShareTimePickerModal from '@/app/file-upload/share-time-picker-modal'
 import DragAndDropBox from '@/app/file-upload/drag-and-drop-box'
-import { ShareTimeStoreProvider } from '@/components/store-provider/share-time-provider'
-import { ShareTimePopUpStoreProvider } from '@/components/store-provider/share-time-pop-up-provider'
-import { FileUploadProgressStoreProvider } from '@/components/store-provider/file-upload-progress-provider'
-import { CodeStoreProvider } from '@/components/store-provider/code-provider'
-import { DisableUploadStoreProvider } from '@/components/store-provider/disable-upload-provider'
 
 export default function FileUpload() {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -24,22 +19,14 @@ export default function FileUpload() {
   })
 
   return (
-    <CodeStoreProvider>
-      <FileUploadProgressStoreProvider>
-        <ShareTimePopUpStoreProvider>
-          <ShareTimeStoreProvider>
-            <UploadProgressModal />
-            <AccessCodeModal />
-            <ShareTimePickerModal />
-            <DragAndDropBox inputRef={inputRef} dragRef={dragRef} />
-            <DisableUploadStoreProvider>
-              <ShareableFileSize />
-              <OpenShareTimeModalButton />
-            </DisableUploadStoreProvider>
-            <FileList files={files} deleteFile={deleteFile} />
-          </ShareTimeStoreProvider>
-        </ShareTimePopUpStoreProvider>
-      </FileUploadProgressStoreProvider>
-    </CodeStoreProvider>
+    <>
+      <UploadProgressModal />
+      <AccessCodeModal />
+      <ShareTimePickerModal />
+      <DragAndDropBox inputRef={inputRef} dragRef={dragRef} />
+      <ShareableFileSize />
+      <OpenShareTimeModalButton />
+      <FileList files={files} deleteFile={deleteFile} />
+    </>
   )
 }

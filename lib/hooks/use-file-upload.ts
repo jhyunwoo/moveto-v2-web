@@ -1,20 +1,20 @@
 import { useEffect, useRef } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
-import { useFileDataStore } from '@/components/store-provider/file-data-provider'
-import { useFilesStore } from '@/components/store-provider/files-provider'
-import { useShareTimeStore } from '@/components/store-provider/share-time-provider'
-import { useShareTimePopUpStore } from '@/components/store-provider/share-time-pop-up-provider'
-import { useFileUploadProgressStore } from '@/components/store-provider/file-upload-progress-provider'
-import { useCodeStore } from '@/components/store-provider/code-provider'
+import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
+import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
+import { useShareTime } from '@/lib/stores/share-time'
+import { useCode } from '@/lib/stores/code'
+import { useFiles } from '@/lib/stores/files'
+import { useFileData } from '@/lib/stores/file-data'
 
 export default function useFileUpload() {
   const workerRef = useRef<Worker | null>(null)
-  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUpStore(store => store)
-  const { setFileUploadProgress } = useFileUploadProgressStore(store => store)
-  const { shareTime } = useShareTimeStore(store => store)
-  const { setCode } = useCodeStore(store => store)
-  const { files, setFiles } = useFilesStore(store => store)
-  const { setFileData } = useFileDataStore(store => store)
+  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp(store => store)
+  const { setFileUploadProgress } = useFileUploadProgress(store => store)
+  const { shareTime } = useShareTime(store => store)
+  const { setCode } = useCode(store => store)
+  const { files, setFiles } = useFiles(store => store)
+  const { setFileData } = useFileData(store => store)
   const { mutateUsedStorage } = useUsedStorage()
 
   useEffect(() => {

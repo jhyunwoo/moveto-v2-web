@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import useMetadataTitle from '@/lib/hooks/use-metadata-title'
-import { useFileUploadProgressStore } from '@/components/store-provider/file-upload-progress-provider'
 import useTotalUploadProgress from '@/lib/hooks/use-total-upload-progress'
+import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
 
 export default function UploadProgressModal() {
-  const { fileUploadProgress } = useFileUploadProgressStore(store => store)
+  const { fileUploadProgress } = useFileUploadProgress(store => store)
   const totalProgress = useTotalUploadProgress()
   useMetadataTitle(totalProgress ? `파일 업로드: ${totalProgress}%` : 'Moveto')
 

@@ -8,11 +8,11 @@ import useUsedStorage from '@/lib/hooks/use-used-storage'
 import ShareableFileSizeBar from '@/components/shareable-file-size-bar'
 import SharableFileSizeInfo from '@/components/sharable-file-size-info'
 import useTotalSize from '@/lib/hooks/use-total-size'
-import { useDisableUploadStore } from '@/components/store-provider/disable-upload-provider'
+import { useDisableUpload } from '@/lib/stores/disable-upload'
 
 export default function ShareableFileSize() {
   const totalSize = useTotalSize()
-  const setDisableUpload = useDisableUploadStore(store => store.setDisableUpload)
+  const setDisableUpload = useDisableUpload(store => store.setDisableUpload)
 
   const session = useSession()
   const userPlan = session.data?.user.plan ? `${session.data.user.plan} Plan` : '미인증 사용자'

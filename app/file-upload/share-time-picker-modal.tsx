@@ -3,12 +3,12 @@ import { useEffect } from 'react'
 import FileUploadButton from '@/app/file-upload/file-upload-button'
 import ModalLayout from '@/components/modal-layout'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
-import { useShareTimeStore } from '@/components/store-provider/share-time-provider'
-import { useShareTimePopUpStore } from '@/components/store-provider/share-time-pop-up-provider'
+import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
+import { useShareTime } from '@/lib/stores/share-time'
 
 export default function ShareTimePickerModal() {
-  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUpStore(store => store)
-  const { shareTime, setShareTime } = useShareTimeStore(store => store)
+  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp(store => store)
+  const { shareTime, setShareTime } = useShareTime(store => store)
   const session = useSession()
 
   const planShareTime = getShareTimeOptionsForPlan(session.data?.user.plan)

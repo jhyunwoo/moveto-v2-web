@@ -3,8 +3,6 @@ import { Suspense } from 'react'
 import SearchAnimation from '@/components/search-animation'
 import Image from 'next/image'
 import FileUpload from '@/app/file-upload/file-upload'
-import { FilesStoreProvider } from '@/components/store-provider/files-provider'
-import { FileDataStoreProvider } from '@/components/store-provider/file-data-provider'
 
 export default function HomePage() {
   return (
@@ -21,11 +19,7 @@ export default function HomePage() {
           </div>
           <SearchAnimation />
         </div>
-        <FilesStoreProvider>
-          <FileDataStoreProvider>
-            <FileUpload />
-          </FileDataStoreProvider>
-        </FilesStoreProvider>
+        <FileUpload />
       </div>
     </div>
   )

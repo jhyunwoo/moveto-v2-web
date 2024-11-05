@@ -2,15 +2,13 @@
 
 import { TrashIcon } from '@heroicons/react/24/outline'
 import ConfirmShareDelete from '@/components/confirm-share-delete'
-import { DeleteShareStoreProvider, useDeleteShareStore } from '@/components/store-provider/delete-share-provider'
+import { useDeleteShare } from '@/lib/stores/delete-share'
 
 export default function DeleteShareButton({ shareId }: { shareId: string }) {
-  const setDeleteShare = useDeleteShareStore(store => store.setDeleteShare)
+  const setDeleteShare = useDeleteShare(store => store.setDeleteShare)
   return (
     <>
-      <DeleteShareStoreProvider>
-        <ConfirmShareDelete redirect={'/'} />
-      </DeleteShareStoreProvider>
+      <ConfirmShareDelete redirect={'/'} />
       <button
         onClick={() => setDeleteShare(shareId)}
         className={'flex items-center gap-1 rounded-full border-2 border-red-600 bg-neutral-900 p-3 px-4 text-red-600'}

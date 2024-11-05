@@ -4,11 +4,11 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useUserShareHistory from '@/lib/hooks/use-user-share-history'
-import { useDeleteShareStore } from '@/components/store-provider/delete-share-provider'
+import { useDeleteShare } from '@/lib/stores/delete-share'
 
 export default function ConfirmShareDelete({ redirect }: { redirect?: string }) {
   const [deleteError, setDeleteError] = useState('')
-  const { deleteShare, setDeleteShare } = useDeleteShareStore(store => store)
+  const { deleteShare, setDeleteShare } = useDeleteShare(store => store)
 
   const router = useRouter()
   const { mutateShares } = useUserShareHistory()

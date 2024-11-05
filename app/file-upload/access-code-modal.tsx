@@ -3,10 +3,10 @@
 import QRCode from 'react-qr-code'
 import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
 import ModalLayout from '@/components/modal-layout'
-import { useCodeStore } from '@/components/store-provider/code-provider'
+import { useCode } from '@/lib/stores/code'
 
 export default function AccessCodeModal() {
-  const { code, setCode } = useCodeStore(store => store)
+  const { code, setCode } = useCode(store => store)
 
   function shareFileLink() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL

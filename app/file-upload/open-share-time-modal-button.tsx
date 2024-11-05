@@ -2,13 +2,13 @@
 
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import useTotalSize from '@/lib/hooks/use-total-size'
-import { useShareTimePopUpStore } from '@/components/store-provider/share-time-pop-up-provider'
-import { useDisableUploadStore } from '@/components/store-provider/disable-upload-provider'
+import { useDisableUpload } from '@/lib/stores/disable-upload'
+import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
 
 export default function OpenShareTimeModalButton() {
   const totalSize = useTotalSize()
-  const disabled = useDisableUploadStore(store => store.disableUpload)
-  const { setShareTimePopUp } = useShareTimePopUpStore(store => store)
+  const disabled = useDisableUpload(store => store.disableUpload)
+  const { setShareTimePopUp } = useShareTimePopUp(store => store)
 
   if (totalSize > 0) {
     return (
