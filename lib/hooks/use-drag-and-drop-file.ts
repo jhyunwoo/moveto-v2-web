@@ -10,9 +10,11 @@ export default function useDragAndDropFile({
   inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
 }) {
-  const { files, setFiles } = useFilesStore(store => store)
-  const { fileData, setFileData } = useFileDataStore(store => store)
+  const { files, deleteFile: deleteFileStore, addFiles } = useFilesStore(store => store)
+  const { fileData, addFileData, deleteFileData } = useFileDataStore(store => store)
   const [isDragging, setIsDragging] = useState<boolean>(false)
+
+  console.log(files)
 
   const handleFileInput = useCallback(
     (fileList: FileList | null) => {
@@ -30,15 +32,15 @@ export default function useDragAndDropFile({
           }
         }
         // Update files and fileData
-        setFiles([...files, ...newFiles])
-        setFileData([...fileData, ...fileToFileDataList(newFiles)])
+        addFiles(newFiles)
+        addFileData(newFileData)
 
         if (inputRef.current) {
           inputRef.current.value = ''
         }
       }
     },
-    [fileData, inputRef, files, setFileData, setFiles]
+    [addFileData, addFiles, inputRef]
   )
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
@@ -117,12 +119,8 @@ export default function useDragAndDropFile({
   }
 
   function deleteFile(index: number) {
-    let copiedFiles = [...files]
-    let copiedFileData = [...fileData]
-    copiedFiles.splice(index, 1)
-    copiedFileData.splice(index, 1)
-    setFiles([...copiedFiles])
-    setFileData([...copiedFileData])
+    deleteFileStore(index)
+    deleteFileData(index)
   }
 
   return {
