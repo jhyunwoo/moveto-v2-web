@@ -19,8 +19,8 @@ export const defaultInitState: FilesState = {
 export const createFilesStore = (initState: FilesState = defaultInitState) => {
   return createStore<FilesStore>()(set => ({
     ...initState,
-    setFiles: (files: File[]) => set(() => ({ files: files })),
-    addFiles: (files: File[]) => set(state => ({ files: [...state.files, ...files] })),
+    setFiles: (files: File[]) => set(state => ({ ...state, files: files })),
+    addFiles: (files: File[]) => set(state => ({ ...state, files: [...state.files, ...files] })),
     deleteFile: (index: number) =>
       set(state => {
         let copiedFiles = [...state.files]
