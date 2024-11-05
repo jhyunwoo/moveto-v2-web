@@ -1,24 +1,20 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import {
-  codeState,
-  fileDataState,
-  filesState,
-  fileUploadProgressState,
-  shareTimePopUpState,
-  shareTimeState,
-} from '@/lib/client/recoil'
 import { useEffect, useRef } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
+import { useFileDataStore } from '@/components/store-provider/file-data-provider'
+import { useFilesStore } from '@/components/store-provider/files-provider'
+import { useShareTimeStore } from '@/components/store-provider/share-time-provider'
+import { useShareTimePopUpStore } from '@/components/store-provider/share-time-pop-up-provider'
+import { useFileUploadProgressStore } from '@/components/store-provider/file-upload-progress-provider'
+import { useCodeStore } from '@/components/store-provider/code-provider'
 
 export default function useFileUpload() {
-  const files = useRecoilValue(filesState)
   const workerRef = useRef<Worker | null>(null)
-  const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
-  const setFileUploadProgress = useSetRecoilState(fileUploadProgressState)
-  const shareTime = useRecoilValue(shareTimeState)
-  const setCode = useSetRecoilState(codeState)
-  const setFiles = useSetRecoilState(filesState)
-  const setFileData = useSetRecoilState(fileDataState)
+  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUpStore(store => store)
+  const { setFileUploadProgress } = useFileUploadProgressStore(store => store)
+  const { shareTime } = useShareTimeStore(store => store)
+  const { setCode } = useCodeStore(store => store)
+  const { files, setFiles } = useFilesStore(store => store)
+  const { setFileData } = useFileDataStore(store => store)
   const { mutateUsedStorage } = useUsedStorage()
 
   useEffect(() => {

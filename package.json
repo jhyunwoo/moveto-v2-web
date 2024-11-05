@@ -28,14 +28,15 @@
     "drizzle-orm": "^0.36.0",
     "framer-motion": "^11.11.11",
     "next": "^15.0.2",
-    "next-auth": "^5.0.0-beta.19",
+    "next-auth": "^5.0.0-beta.25",
     "postgres": "^3.4.5",
     "react": "19.0.0-rc-4d577fd2-20241104",
     "react-dom": "19.0.0-rc-4d577fd2-20241104",
     "react-hook-form": "^7.53.1",
     "react-qr-code": "^2.0.15",
     "recoil": "^0.7.7",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",

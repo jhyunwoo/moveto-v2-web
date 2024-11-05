@@ -1,18 +1,18 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { disableUploadState, totalFileSizeState } from '@/lib/client/recoil'
 import { motion } from 'framer-motion'
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
 import ShareableFileSizeBar from '@/components/shareable-file-size-bar'
 import SharableFileSizeInfo from '@/components/sharable-file-size-info'
+import useTotalSize from '@/lib/hooks/use-total-size'
+import { useDisableUploadStore } from '@/components/store-provider/disable-upload-provider'
 
 export default function ShareableFileSize() {
-  const totalSize = useRecoilValue(totalFileSizeState)
-  const setDisableUpload = useSetRecoilState(disableUploadState)
+  const totalSize = useTotalSize()
+  const setDisableUpload = useDisableUploadStore(store => store.setDisableUpload)
 
   const session = useSession()
   const userPlan = session.data?.user.plan ? `${session.data.user.plan} Plan` : '미인증 사용자'

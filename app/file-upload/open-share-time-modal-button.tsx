@@ -1,13 +1,14 @@
 'use client'
 
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { totalFileSizeState, shareTimePopUpState, disableUploadState } from '@/lib/client/recoil'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import useTotalSize from '@/lib/hooks/use-total-size'
+import { useShareTimePopUpStore } from '@/components/store-provider/share-time-pop-up-provider'
+import { useDisableUploadStore } from '@/components/store-provider/disable-upload-provider'
 
 export default function OpenShareTimeModalButton() {
-  const totalSize = useRecoilValue(totalFileSizeState)
-  const disabled = useRecoilValue(disableUploadState)
-  const setShareTimePopUp = useSetRecoilState(shareTimePopUpState)
+  const totalSize = useTotalSize()
+  const disabled = useDisableUploadStore(store => store.disableUpload)
+  const { setShareTimePopUp } = useShareTimePopUpStore(store => store)
 
   if (totalSize > 0) {
     return (

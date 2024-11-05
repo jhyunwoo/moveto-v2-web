@@ -1,7 +1,7 @@
 import { ChangeEvent, RefObject, useCallback, useEffect, useState } from 'react'
 import fileToFileDataList from '@/lib/generate-file-info-array'
-import { useRecoilState } from 'recoil'
-import { fileDataState, filesState } from '@/lib/client/recoil'
+import { useFilesStore } from '@/components/store-provider/files-provider'
+import { useFileDataStore } from '@/components/store-provider/file-data-provider'
 
 export default function useDragAndDropFile({
   inputRef,
@@ -10,8 +10,8 @@ export default function useDragAndDropFile({
   inputRef: RefObject<HTMLInputElement>
   dragRef: RefObject<HTMLLabelElement>
 }) {
-  const [files, setFiles] = useRecoilState(filesState)
-  const [fileDataList, setFileDataList] = useRecoilState(fileDataState)
+  const { files, setFiles } = useFilesStore(store => store)
+  const { fileData, setFileData } = useFileDataStore(store => store)
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
   const handleFileInput = useCallback(
@@ -25,20 +25,20 @@ export default function useDragAndDropFile({
         const newFileData = fileToFileDataList(fileArray)
         // Add only new file in the newFiles list
         for (const fileData of newFileData) {
-          if (!fileDataList.includes(fileData)) {
+          if (!fileData.includes(fileData)) {
             newFiles.push(fileArray[newFileData.indexOf(fileData)])
           }
         }
-        // Update files and fileDataList
+        // Update files and fileData
         setFiles([...files, ...newFiles])
-        setFileDataList([...fileDataList, ...fileToFileDataList(newFiles)])
+        setFileData([...fileData, ...fileToFileDataList(newFiles)])
 
         if (inputRef.current) {
           inputRef.current.value = ''
         }
       }
     },
-    [fileDataList, inputRef, files, setFileDataList, setFiles]
+    [fileData, inputRef, files, setFileData, setFiles]
   )
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
@@ -118,18 +118,18 @@ export default function useDragAndDropFile({
 
   function deleteFile(index: number) {
     let copiedFiles = [...files]
-    let copiedFileData = [...fileDataList]
+    let copiedFileData = [...fileData]
     copiedFiles.splice(index, 1)
     copiedFileData.splice(index, 1)
     setFiles([...copiedFiles])
-    setFileDataList([...copiedFileData])
+    setFileData([...copiedFileData])
   }
 
   return {
     handleFileInput,
     clickFileInput,
     files,
-    fileDataList,
+    fileData,
     deleteFile,
     isDragging,
   }

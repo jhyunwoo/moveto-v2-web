@@ -1,11 +1,10 @@
 'use client'
 
 import { TrashIcon } from '@heroicons/react/24/outline'
-import { deleteShareState } from '@/lib/client/recoil'
-import { useSetRecoilState } from 'recoil'
+import { useDeleteShareStore } from '@/components/store-provider/delete-share-provider'
 
 export default function DeleteShareTrashIconButton({ shareId }: { shareId: string }) {
-  const setDeleteShare = useSetRecoilState(deleteShareState)
+  const setDeleteShare = useDeleteShareStore(store => store.setDeleteShare)
 
   return (
     <button type={'button'} onClick={() => setDeleteShare(shareId)}>

@@ -1,13 +1,12 @@
 'use client'
 
-import { useRecoilState } from 'recoil'
-import { codeState } from '@/lib/client/recoil'
 import QRCode from 'react-qr-code'
 import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
 import ModalLayout from '@/components/modal-layout'
+import { useCodeStore } from '@/components/store-provider/code-provider'
 
 export default function AccessCodeModal() {
-  const [code, setCode] = useRecoilState(codeState)
+  const { code, setCode } = useCodeStore(store => store)
 
   function shareFileLink() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
