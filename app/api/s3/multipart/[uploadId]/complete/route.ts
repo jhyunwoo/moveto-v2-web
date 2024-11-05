@@ -6,7 +6,7 @@ function isValidPart(part: Part) {
   return part && typeof part === 'object' && Number(part.PartNumber)
 }
 
-export async function POST(request: NextRequest, { params }: { params: { uploadId: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ uploadId: string }> }) {
   const client = getS3Client()
   const searchParams = request.nextUrl.searchParams
   const body = (await request.json()) as { key: string; parts: Part }
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest, { params }: { params: { uploadI
       new CompleteMultipartUploadCommand({
         Bucket: process.env.R2_BUCKET,
         Key: key,
-        UploadId: params.uploadId,
+        UploadId: (await params).uploadId,
         MultipartUpload: {
           Parts: parts,
         },

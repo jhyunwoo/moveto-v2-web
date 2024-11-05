@@ -10,18 +10,19 @@ import getUsedStorage from '@/lib/get-used-storage'
 import { addMinutes } from 'date-fns'
 import deleteShareFiles from '@/lib/server/delete-share-files'
 
-export async function PUT(request: NextRequest, { params }: { params: { shareId: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ shareId: string }> }) {
   const client = getS3Client()
+  const paramsData = await params
   const command = new ListObjectsV2Command({
     Bucket: process.env.R2_BUCKET,
-    Prefix: params.shareId,
+    Prefix: paramsData.shareId,
   })
   const result = await client.send(command)
 
   // Get total size of files
   let totalSize = 0
   if (result.Contents) {
-    const shareData = (await db.select({ file: share.file }).from(share).where(eq(share.id, params.shareId)))[0]
+    const shareData = (await db.select({ file: share.file }).from(share).where(eq(share.id, paramsData.shareId)))[0]
     if (shareData.file?.length === result.Contents.length) {
       for (const content of result.Contents) {
         totalSize += Number(content.Size)
@@ -35,7 +36,7 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
   const usedStorage = await getUsedStorage()
 
   if (usedStorage + totalSize > limit.storage) {
-    await deleteShareFiles(params.shareId)
+    await deleteShareFiles(paramsData.shareId)
     return NextResponse.json({ error: 'Exceeded storage limit' }, { status: 403 })
   }
 
@@ -58,9 +59,9 @@ export async function PUT(request: NextRequest, { params }: { params: { shareId:
     await db
       .update(share)
       .set({ storageSize: totalSize, code: randomAccessCode, expireAt: expireTime })
-      .where(eq(share.id, params.shareId))
+      .where(eq(share.id, paramsData.shareId))
   } else {
-    await db.update(share).set({ code: randomAccessCode, expireAt: expireTime }).where(eq(share.id, params.shareId))
+    await db.update(share).set({ code: randomAccessCode, expireAt: expireTime }).where(eq(share.id, paramsData.shareId))
   }
 
   return NextResponse.json({ code: randomAccessCode })

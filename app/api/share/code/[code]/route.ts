@@ -3,9 +3,9 @@ import { and, eq, gte } from 'drizzle-orm'
 import { share } from '@/db/schema'
 import { NextResponse } from 'next/server'
 
-export async function GET(request: Request, { params }: { params: { code: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ code: string }> }) {
   const findShare = await db.query.share.findFirst({
-    where: and(eq(share.code, params.code), gte(share.expireAt, new Date()), eq(share.active, true)),
+    where: and(eq(share.code, (await params).code), gte(share.expireAt, new Date()), eq(share.active, true)),
   })
 
   if (findShare) {

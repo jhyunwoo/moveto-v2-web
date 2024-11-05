@@ -18,7 +18,9 @@ export default async function getUsedStorage() {
     activeShares = await db
       .select({ storage: share.storageSize })
       .from(share)
-      .where(and(eq(share.ip, getIp()), eq(share.active, true), gte(share.expireAt, new Date()), isNull(share.userId)))
+      .where(
+        and(eq(share.ip, await getIp()), eq(share.active, true), gte(share.expireAt, new Date()), isNull(share.userId))
+      )
   }
 
   let storageSize = 0

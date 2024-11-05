@@ -14,8 +14,8 @@ import { auth } from '@/auth'
 
 export const dynamic = 'force-dynamic'
 
-export default async function SearchPage({ params }: { params: { code: string } }) {
-  const code = decodeKoCode(params.code)
+export default async function SearchPage({ params }: { params: Promise<{ code: string }> }) {
+  const code = decodeKoCode((await params).code)
   const shareData = await db.query.share.findFirst({
     where: and(eq(share.code, code), gte(share.expireAt, new Date()), eq(share.active, true)),
   })
@@ -36,7 +36,7 @@ export default async function SearchPage({ params }: { params: { code: string } 
 
   if (shareData) {
     const session = await auth()
-    await db.insert(logs).values({ ip: getIp(), shareId: shareData.id, userId: session ? session.user.id : null })
+    await db.insert(logs).values({ ip: await getIp(), shareId: shareData.id, userId: session ? session.user.id : null })
 
     return (
       <div className={'mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-2 p-4 pb-24 pt-24 text-white md:pb-28'}>
