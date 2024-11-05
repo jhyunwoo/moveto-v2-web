@@ -1,14 +1,14 @@
-import { useRecoilState } from 'recoil'
-import { shareTimeState, shareTimePopUpState } from '@/lib/client/recoil'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import FileUploadButton from '@/app/file-upload/file-upload-button'
 import ModalLayout from '@/components/modal-layout'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
+import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
+import { useShareTime } from '@/lib/stores/share-time'
 
 export default function ShareTimePickerModal() {
-  const [shareTimePopUp, setShareTimePopUp] = useRecoilState(shareTimePopUpState)
-  const [shareTime, setShareTime] = useRecoilState(shareTimeState)
+  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp(store => store)
+  const { shareTime, setShareTime } = useShareTime(store => store)
   const session = useSession()
 
   const planShareTime = getShareTimeOptionsForPlan(session.data?.user.plan)

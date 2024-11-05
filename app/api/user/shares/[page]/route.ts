@@ -6,11 +6,13 @@ import { and, count, desc, eq, isNotNull } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: Request, { params }: { params: { page: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ page: string }> }) {
   const session = await auth()
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+
+  const paramsData = await params
 
   const pageLimit = Math.ceil(
     (
@@ -20,8 +22,8 @@ export async function GET(request: Request, { params }: { params: { page: string
         .where(and(eq(share.userId, session?.user.id!), eq(share.active, true), isNotNull(share.expireAt)))
     )[0].count / 10
   )
-  if (Number(params.page) > pageLimit) {
-    params.page = String(pageLimit)
+  if (Number(paramsData.page) > pageLimit) {
+    paramsData.page = String(pageLimit)
   }
 
   const shareList = await db
@@ -30,7 +32,7 @@ export async function GET(request: Request, { params }: { params: { page: string
     .where(and(eq(share.userId, session?.user.id!), eq(share.active, true), isNotNull(share.expireAt)))
     .orderBy(desc(share.createdAt))
     .limit(10)
-    .offset((parseInt(params.page) - 1) * 10)
+    .offset((parseInt(paramsData.page) - 1) * 10)
 
   return NextResponse.json({ shareList: shareList, pageLimit: pageLimit })
 }

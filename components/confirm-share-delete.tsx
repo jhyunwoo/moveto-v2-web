@@ -1,15 +1,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useRecoilState } from 'recoil'
-import { deleteShareState } from '@/lib/client/recoil'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useUserShareHistory from '@/lib/hooks/use-user-share-history'
+import { useDeleteShare } from '@/lib/stores/delete-share'
 
 export default function ConfirmShareDelete({ redirect }: { redirect?: string }) {
   const [deleteError, setDeleteError] = useState('')
-  const [deleteShare, setDeleteShare] = useRecoilState(deleteShareState)
+  const { deleteShare, setDeleteShare } = useDeleteShare(store => store)
 
   const router = useRouter()
   const { mutateShares } = useUserShareHistory()

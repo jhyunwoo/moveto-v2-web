@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { ReactNode } from 'react'
-import RecoilProvider from '@/components/recoil-provider'
 import AuthProvider from '@/components/auth-provider'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Footer from '@/app/footer'
@@ -16,9 +15,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="ko" className={'bg-neutral-950'}>
       <body>
-        <RecoilProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </RecoilProvider>
+        <AuthProvider>{children}</AuthProvider>
         <Footer />
       </body>
       <GoogleAnalytics gaId={'G-BVNJYWQGEF'} />

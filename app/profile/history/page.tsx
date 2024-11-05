@@ -84,6 +84,7 @@ export default function HistoryPage() {
                   {share.file ? share.file[0] : null}
                   {share.file?.length && (share.file?.length > 1 ? `외 ${share.file.length - 1}개의 파일` : null)}
                 </div>
+
                 <DeleteShareTrashIconButton shareId={share.id} />
               </div>
               <div className={'ml-auto flex w-full items-end justify-between'}>

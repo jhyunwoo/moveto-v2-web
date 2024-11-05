@@ -1,14 +1,14 @@
-import { useRecoilValue } from 'recoil'
-import { fileUploadProgressState, uploadProgressState } from '@/lib/client/recoil'
 import { motion } from 'framer-motion'
 import useMetadataTitle from '@/lib/hooks/use-metadata-title'
+import useTotalUploadProgress from '@/lib/hooks/use-total-upload-progress'
+import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
 
 export default function UploadProgressModal() {
-  const progress = useRecoilValue(fileUploadProgressState)
-  const totalProgress = useRecoilValue(uploadProgressState)
+  const { fileUploadProgress } = useFileUploadProgress(store => store)
+  const totalProgress = useTotalUploadProgress()
   useMetadataTitle(totalProgress ? `파일 업로드: ${totalProgress}%` : 'Moveto')
 
-  if (progress.length > 0) {
+  if (fileUploadProgress.length > 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -20,11 +20,11 @@ export default function UploadProgressModal() {
       >
         <div className={'flex max-h-[70vh] w-full max-w-xl flex-col rounded-xl bg-neutral-900 p-4'}>
           <div className={'pb-4 text-xl font-semibold'}>
-            {progress.length === 0 ? '파일 업로드 준비중...' : '파일 업로드 중...'}
+            {fileUploadProgress.length === 0 ? '파일 업로드 준비중...' : '파일 업로드 중...'}
           </div>
 
           <div className={'overflow-auto overflow-x-hidden overscroll-contain'}>
-            {progress?.map(data => (
+            {fileUploadProgress.map(data => (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={data.name} className={'flex flex-col'}>
                 <div className={'break-all'}>{data.name}</div>
                 {data.progress === 0 ? (

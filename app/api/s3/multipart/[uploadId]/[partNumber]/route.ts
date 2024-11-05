@@ -10,11 +10,15 @@ function validatePartNumber(partNumber: string) {
 
 const expiresIn = 60 * 60 * 24 // 24 hours
 
-export async function GET(request: NextRequest, { params }: { params: { uploadId: string; partNumber: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ uploadId: string; partNumber: string }> }
+) {
   const searchParams = request.nextUrl.searchParams
   const key = searchParams.get('key')
+  const paramsData = await params
 
-  if (!validatePartNumber(params.partNumber)) {
+  if (!validatePartNumber(paramsData.partNumber)) {
     return NextResponse.json(
       {
         error: 's3: the part number must be an integer between 1 and 10000.',
@@ -34,8 +38,8 @@ export async function GET(request: NextRequest, { params }: { params: { uploadId
     new UploadPartCommand({
       Bucket: process.env.R2_BUCKET!,
       Key: key,
-      UploadId: params.uploadId,
-      PartNumber: Number(params.partNumber),
+      UploadId: paramsData.uploadId,
+      PartNumber: Number(paramsData.partNumber),
       Body: '',
     }),
     { expiresIn }

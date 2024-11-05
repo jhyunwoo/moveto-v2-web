@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     .insert(share)
     .values({
       userId: session?.user.id ? session.user.id : null,
-      ip: getIp(),
+      ip: await getIp(),
       file: bodyData.files,
       storageSize: bodyData.storageSize,
     })
