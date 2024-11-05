@@ -25,8 +25,8 @@ export async function GET() {
       }
     }
 
-    for (let i=0; i < Math.ceil(files.length/1000); i+=1){
-      const chunk = files.splice(i*1000, 1000)
+    for (let i = 0; i < Math.ceil(files.length / 1000); i += 1) {
+      const chunk = files.splice(i * 1000, 1000)
       const client = getS3Client()
       const command = new DeleteObjectsCommand({
         Bucket: process.env.R2_BUCKET!,
