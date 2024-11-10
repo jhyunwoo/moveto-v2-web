@@ -1,5 +1,5 @@
 import withBundleAnalyzer from '@next/bundle-analyzer'
-/** @type {import('next').NextConfig} */
+
 let nextConfig = {}
 
 if (process.env.ANALYZE) {
