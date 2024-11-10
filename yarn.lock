@@ -143,7 +143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-crypto/util@npm:^5.2.0":
+"@aws-crypto/util@npm:5.2.0, @aws-crypto/util@npm:^5.2.0":
   version: 5.2.0
   resolution: "@aws-crypto/util@npm:5.2.0"
   dependencies:
@@ -154,9 +154,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-s3@npm:^3.687.0":
-  version: 3.687.0
-  resolution: "@aws-sdk/client-s3@npm:3.687.0"
+"@aws-sdk/client-s3@npm:^3.688.0":
+  version: 3.688.0
+  resolution: "@aws-sdk/client-s3@npm:3.688.0"
   dependencies:
     "@aws-crypto/sha1-browser": "npm:5.2.0"
     "@aws-crypto/sha256-browser": "npm:5.2.0"
@@ -167,7 +167,7 @@ __metadata:
     "@aws-sdk/credential-provider-node": "npm:3.687.0"
     "@aws-sdk/middleware-bucket-endpoint": "npm:3.686.0"
     "@aws-sdk/middleware-expect-continue": "npm:3.686.0"
-    "@aws-sdk/middleware-flexible-checksums": "npm:3.687.0"
+    "@aws-sdk/middleware-flexible-checksums": "npm:3.688.0"
     "@aws-sdk/middleware-host-header": "npm:3.686.0"
     "@aws-sdk/middleware-location-constraint": "npm:3.686.0"
     "@aws-sdk/middleware-logger": "npm:3.686.0"
@@ -216,7 +216,7 @@ __metadata:
     "@smithy/util-utf8": "npm:^3.0.0"
     "@smithy/util-waiter": "npm:^3.1.7"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/93a07ec63f4da23e756365757d0120b3a1b3f4c2c2b6548e8f357d1757437f99226d3ccc66ea84d82a70ad763b959a5f1c0979889c3f5691788ba778382274ff
+  checksum: 10c0/c5dd3948c5e21930f7bf8cba6083b3e3976e4ec69e196d95f9a6eb1b43c6559fadf88c8b0a29948eac53897829c41a4a35b7557187932b54b2605058ed6ccd99
   languageName: node
   linkType: hard
 
@@ -527,12 +527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/middleware-flexible-checksums@npm:3.687.0":
-  version: 3.687.0
-  resolution: "@aws-sdk/middleware-flexible-checksums@npm:3.687.0"
+"@aws-sdk/middleware-flexible-checksums@npm:3.688.0":
+  version: 3.688.0
+  resolution: "@aws-sdk/middleware-flexible-checksums@npm:3.688.0"
   dependencies:
     "@aws-crypto/crc32": "npm:5.2.0"
     "@aws-crypto/crc32c": "npm:5.2.0"
+    "@aws-crypto/util": "npm:5.2.0"
     "@aws-sdk/core": "npm:3.686.0"
     "@aws-sdk/types": "npm:3.686.0"
     "@smithy/is-array-buffer": "npm:^3.0.0"
@@ -543,7 +544,7 @@ __metadata:
     "@smithy/util-stream": "npm:^3.2.1"
     "@smithy/util-utf8": "npm:^3.0.0"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/23630f1726da02cbcda480a6c1bfc6c352b58d62172b4568a4ef3a96f959052d9e9480b056b8aa51b3e82bfdaec907439e24e8901e13ff136c7445348e47520c
+  checksum: 10c0/c09ce10611ec27a28aa2e40e0248432493ede76ff804369d35acda2b20f6f7ed9969d6bf52c15ecaa677fc1d405738e991b14d5e4b0b508a7e34fb3f1dd4edfe
   languageName: node
   linkType: hard
 
@@ -655,9 +656,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/s3-request-presigner@npm:^3.687.0":
-  version: 3.687.0
-  resolution: "@aws-sdk/s3-request-presigner@npm:3.687.0"
+"@aws-sdk/s3-request-presigner@npm:^3.688.0":
+  version: 3.688.0
+  resolution: "@aws-sdk/s3-request-presigner@npm:3.688.0"
   dependencies:
     "@aws-sdk/signature-v4-multi-region": "npm:3.687.0"
     "@aws-sdk/types": "npm:3.686.0"
@@ -667,7 +668,7 @@ __metadata:
     "@smithy/smithy-client": "npm:^3.4.2"
     "@smithy/types": "npm:^3.6.0"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/e9be388d60960ac3c956a75d99d7b06b31880dc66247701d47fe466e6b2b57c9268600b3e61185d9af4e0e3665b49d3e3a6ef1383a8a07f7759e4548026db6b1
+  checksum: 10c0/18dd9c85bf1d7b5f602461b59105b7952047c45c01994022e0391eba1cbe11dab0f8dd341ed4a9dd9048d1dfd68f4f7d12e8eecab49b305784411895310ff1dd
   languageName: node
   linkType: hard
 
@@ -5354,9 +5355,9 @@ __metadata:
   resolution: "moveto-v2@workspace:."
   dependencies:
     "@auth/drizzle-adapter": "npm:^1.7.3"
-    "@aws-sdk/client-s3": "npm:^3.687.0"
+    "@aws-sdk/client-s3": "npm:^3.688.0"
     "@aws-sdk/client-sts": "npm:^3.687.0"
-    "@aws-sdk/s3-request-presigner": "npm:^3.687.0"
+    "@aws-sdk/s3-request-presigner": "npm:^3.688.0"
     "@heroicons/react": "npm:^2.1.5"
     "@next/bundle-analyzer": "npm:^15.0.3"
     "@next/third-parties": "npm:^15.0.3"
@@ -5382,7 +5383,7 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:^0.4.1"
     react: "npm:19.0.0-rc-4d577fd2-20241104"
     react-dom: "npm:19.0.0-rc-4d577fd2-20241104"
-    react-hook-form: "npm:^7.53.1"
+    react-hook-form: "npm:^7.53.2"
     react-qr-code: "npm:^2.0.15"
     recoil: "npm:^0.7.7"
     swr: "npm:^2.2.5"
@@ -6122,12 +6123,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.53.1":
-  version: 7.53.1
-  resolution: "react-hook-form@npm:7.53.1"
+"react-hook-form@npm:^7.53.2":
+  version: 7.53.2
+  resolution: "react-hook-form@npm:7.53.2"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/dd2466359a633f873755b366d367d51ab17100566b687fb3b098f704232bc6ab1c79d29f879151e492880ca5eeac35e9425fbe5a309e2a55f7a4b5baf7826e8d
+  checksum: 10c0/18336d8e8798a70dcd0af703a0becca2d5dbf82a7b7a3ca334ae0e1f26410490bc3ef2ea51adcf790bb1e7006ed7a763fd00d664e398f71225b23529a7ccf0bf
   languageName: node
   linkType: hard
 
