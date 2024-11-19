@@ -5,6 +5,7 @@ import Kakao from 'next-auth/providers/kakao'
 import db from '@/db'
 import { eq } from 'drizzle-orm'
 import { users } from '@/db/schema'
+import Passkey from 'next-auth/providers/passkey'
 
 declare module 'next-auth' {
   /**
@@ -26,7 +27,8 @@ declare module 'next-auth' {
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
-  providers: [GitHub, Kakao],
+  experimental: { enableWebAuthn: true },
+  providers: [GitHub, Kakao, Passkey],
   callbacks: {
     async session({ session, user }) {
       const userPlan = await db.select({ plan: users.plan }).from(users).where(eq(users.id, user.id))

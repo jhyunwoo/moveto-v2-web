@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import Link from 'next/link'
 import SignOutButton from '@/components/sign-out-button'
 import UserStorageStatusBar from '@/app/profile/subscription/user-storage-status-bar'
+import RegisterPasskeyButton from '@/app/profile/register-passkey-button'
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -12,9 +13,12 @@ export default async function ProfilePage() {
         <div className={'mb-2 border-b-[1px] border-neutral-400 text-sm font-semibold'}>프로필</div>
         <div>{session?.user.name}</div>
         <div>{session?.user.email}</div>
-        <SignOutButton
-          className={'mt-4 w-full rounded-xl border-[1px] border-neutral-300 p-2 px-4 text-sm text-neutral-50'}
-        />
+        <div className={'mt-4 flex gap-2'}>
+          <SignOutButton
+            className={'w-full rounded-xl border-[1px] border-neutral-300 p-2 px-4 text-sm text-neutral-50'}
+          />
+          <RegisterPasskeyButton />
+        </div>
       </div>
       <div className={'flex flex-col gap-1 rounded-xl bg-neutral-900 p-4 text-white'}>
         <div className={'mb-2 border-b-[1px] border-neutral-400 text-sm'}>플랜</div>
