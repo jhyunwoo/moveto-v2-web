@@ -12,7 +12,7 @@ export default function PasskeySignInButton() {
       }
     >
       <KeyIcon className={'size-6'} />
-      <p>Passkey로 로그인</p>
+      <p>Passkey 로그인</p>
     </button>
   )
 }
