@@ -12,8 +12,6 @@ import DeleteShareButton from '@/components/delete-share-button'
 import getIp from '@/lib/server/get-user-ip'
 import { auth } from '@/auth'
 
-export const dynamic = 'force-dynamic'
-
 export default async function SearchPage({ params }: { params: Promise<{ code: string }> }) {
   const code = decodeKoCode((await params).code)
   const shareData = await db.query.share.findFirst({
@@ -45,10 +43,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
             <FolderOpenIcon className={'size-8 text-white'} />
             <div className={'text-2xl font-bold'}>{code}</div>
           </div>
-          <ShareButton
-            title={`파일 공유 - ${code}`}
-            url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`}
-          />
+          <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
         </div>
         <div className={'rounded-xl p-2'}>
           <div className={'text-xl font-semibold'}>파일</div>

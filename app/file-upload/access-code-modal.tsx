@@ -8,19 +8,11 @@ import { useCode } from '@/lib/stores/code'
 export default function AccessCodeModal() {
   const { code, setCode } = useCode(store => store)
 
-  function shareFileLink() {
+  async function shareFileLink() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 
-    try {
-      window.navigator
-        .share({
-          title: `${code} | 모베토 파일 공유`,
-          url: `${siteUrl}/search/${code.replaceAll(' ', '_')}`,
-        })
-        .then(data => console.log(data))
-    } catch {
-      window.navigator.clipboard.writeText(`${siteUrl}/search/${code.replaceAll(' ', '_')}`)
-    }
+    await window.navigator.clipboard.writeText(`${siteUrl}/search/${code.replaceAll(' ', '_')}`)
+    alert('링크가 복사되었습니다.')
   }
 
   return (
@@ -53,7 +45,7 @@ export default function AccessCodeModal() {
             }
           >
             <ShareIcon className={'size-5'} />
-            <div>공유</div>
+            <div>링크 복사</div>
           </button>
           <button
             type={'button'}
