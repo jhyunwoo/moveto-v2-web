@@ -6,8 +6,8 @@ export default function DragAndDropBox({
   inputRef,
   dragRef,
 }: {
-  inputRef: RefObject<HTMLInputElement>
-  dragRef: RefObject<HTMLLabelElement>
+  inputRef: RefObject<HTMLInputElement|null>
+  dragRef: RefObject<HTMLLabelElement|null>
 }) {
   const { handleFileInput, clickFileInput } = useDragAndDropFile({
     inputRef,

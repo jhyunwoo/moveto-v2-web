@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { motion } from 'framer-motion'
+import { motion } from "motion/react"
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'

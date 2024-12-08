@@ -7,8 +7,8 @@ export default function useDragAndDropFile({
   inputRef,
   dragRef,
 }: {
-  inputRef: RefObject<HTMLInputElement>
-  dragRef: RefObject<HTMLLabelElement>
+  inputRef: RefObject<HTMLInputElement|null>
+  dragRef: RefObject<HTMLLabelElement|null>
 }) {
   const { files, deleteFile: deleteFileStore, addFiles } = useFiles(store => store)
 

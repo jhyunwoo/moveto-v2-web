@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from "motion/react"
 import useMetadataTitle from '@/lib/hooks/use-metadata-title'
 import useTotalUploadProgress from '@/lib/hooks/use-total-upload-progress'
 import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'

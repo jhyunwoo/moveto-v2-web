@@ -1,6 +1,6 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
 import formatBytes from '@/lib/format-bytes'
-import { motion } from 'framer-motion'
+import { motion } from "motion/react"
 
 export default function FileList({ files, deleteFile }: { files: File[]; deleteFile: (index: number) => void }) {
   return (
