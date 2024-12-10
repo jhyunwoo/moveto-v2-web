@@ -2459,29 +2459,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.13
-  resolution: "@types/prop-types@npm:15.7.13"
-  checksum: 10c0/1b20fc67281902c6743379960247bc161f3f0406ffc0df8e7058745a85ea1538612109db0406290512947f9632fe9e10e7337bf0ce6338a91d6c948df16a7c61
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^19.0.1":
-  version: 19.0.1
-  resolution: "@types/react-dom@npm:19.0.1"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 10c0/fb40069a7c5c70475155dff91d25ff5a51226c14d45c8ad55894480366876426981c8be63ef322486af879bb220bf48443f2344c1a89cb75a47a1a761acee9d3
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:*":
-  version: 18.3.12
-  resolution: "@types/react@npm:18.3.12"
-  dependencies:
-    "@types/prop-types": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/8bae8d9a41619804561574792e29112b413044eb0d53746dde2b9720c1f9a59f71c895bbd7987cd8ce9500b00786e53bc032dced38cddf42910458e145675290
+"@types/react-dom@npm:^19.0.2":
+  version: 19.0.2
+  resolution: "@types/react-dom@npm:19.0.2"
+  peerDependencies:
+    "@types/react": ^19.0.0
+  checksum: 10c0/3d0c7b78dbe8df64ea769f30af990a5950173a8321c745fe11094d765423f7964c3519dca6e7cd36b4be6521c8efc690bdd3b79b327b229dd1e9d5a8bad677dd
   languageName: node
   linkType: hard
 
@@ -3403,9 +3386,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:^0.29.1":
-  version: 0.29.1
-  resolution: "drizzle-kit@npm:0.29.1"
+"drizzle-kit@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "drizzle-kit@npm:0.30.0"
   dependencies:
     "@drizzle-team/brocli": "npm:^0.10.2"
     "@esbuild-kit/esm-loader": "npm:^2.5.5"
@@ -3413,13 +3396,13 @@ __metadata:
     esbuild-register: "npm:^3.5.0"
   bin:
     drizzle-kit: bin.cjs
-  checksum: 10c0/98e3472f33f984c96ba5593160709af277ebce94bc4ac1455ce71ce60757779e905df872489a1b97fae5d8a5708224ea4f94ba1d6f8a4a8f1f4d16cac8f5fe49
+  checksum: 10c0/8d990b72a616029d260ce420c678d73a33a76560146144dd75f4a457e429a18f50019932ceda358ff283fb13128caa678420f0cad8aa1c68528539678ffbfce6
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.37.0":
-  version: 0.37.0
-  resolution: "drizzle-orm@npm:0.37.0"
+"drizzle-orm@npm:^0.38.0":
+  version: 0.38.0
+  resolution: "drizzle-orm@npm:0.38.0"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=4"
@@ -3508,7 +3491,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 10c0/82b0c5760c982879fa5f6078bbb4df6cbbcdbddc46fa8a4b6a68de808a497f05d856bfd569d0d8674c534f8b3d4e3f2a9dc3eb16e501da07569b1e8d85cd6e19
+  checksum: 10c0/2f1399e8793468afb01478e886ecf69e986764a90363dffb47e5cfa2115552bf3a11bf8c95b44d3cef1afd5d7db0762b221529589bee71e87fcbcc277948e766
   languageName: node
   linkType: hard
 
@@ -5396,14 +5379,14 @@ __metadata:
     "@tailwindcss/aspect-ratio": "npm:^0.4.2"
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^19.0.1"
-    "@types/react-dom": "npm:^19.0.1"
+    "@types/react-dom": "npm:^19.0.2"
     "@uppy/aws-s3": "npm:^4.1.3"
     "@uppy/core": "npm:^4.3.0"
     axios: "npm:^1.7.9"
     date-fns: "npm:^4.1.0"
     dotenv: "npm:^16.4.7"
-    drizzle-kit: "npm:^0.29.1"
-    drizzle-orm: "npm:^0.37.0"
+    drizzle-kit: "npm:^0.30.0"
+    drizzle-orm: "npm:^0.38.0"
     eslint: "npm:^9.16.0"
     eslint-config-next: "npm:^15.0.4"
     motion: "npm:12.0.0-alpha.2"
