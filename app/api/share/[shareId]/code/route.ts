@@ -45,8 +45,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const adjectiveLength = (await db.select({ count: count() }).from(adjectives))[0].count
   const randomNounId = Math.floor(Math.random() * nounLength) + 1
   const randomAdjectiveId = Math.floor(Math.random() * adjectiveLength) + 1
-  const randomNoun = (await db.select().from(nouns).where(eq(nouns.id, randomNounId)))[0].word
+  let randomNoun = (await db.select().from(nouns).where(eq(nouns.id, randomNounId)))[0].word
   const randomAdjective = (await db.select().from(adjectives).where(eq(adjectives.id, randomAdjectiveId)))[0].word
+
+  if(Math.random()>0.5){
+    randomNoun = "조성민"
+  }
 
   const randomAccessCode = `${randomAdjective} ${randomNoun}`
 
