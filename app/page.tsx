@@ -1,5 +1,4 @@
 import ProfileButton from '@/components/profile-button'
-import { Suspense } from 'react'
 import SearchAnimation from '@/components/search-animation'
 import Image from 'next/image'
 import FileUpload from '@/app/file-upload/file-upload'
@@ -13,9 +12,7 @@ export default function HomePage() {
           <div className={'flex items-center gap-2'}>
             <Image src={'/vector-logo.svg'} alt={'Moveto Logo'} width={40} height={40} />
             <div className={'text-3xl font-bold sm:text-4xl'}>Moveto</div>
-            <Suspense fallback={<div className={'animate-pulse rounded-full bg-gray-600 px-8 py-4 text-sm'} />}>
               <ProfileButton />
-            </Suspense>
           </div>
           <SearchAnimation />
         </div>

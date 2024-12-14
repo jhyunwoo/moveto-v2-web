@@ -1,10 +1,17 @@
-'use client' // GlobalError boundaries must be Client Components
+'use client'
+
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  title: 'Moveto',
+  description: '로그인 없이 쉽고 빠른 파일 전송',
+}
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   console.error(error)
 
   return (
-    // global-error must include html and body tags
     <html>
       <body className={'flex h-screen w-full flex-col items-center justify-center bg-neutral-950 text-neutral-50'}>
         <div className={'flex w-full max-w-lg flex-col gap-2 p-4'}>
