@@ -6,7 +6,7 @@ import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
 export default function UploadProgressModal() {
   const { fileUploadProgress } = useFileUploadProgress(store => store)
   const totalProgress = useTotalUploadProgress()
-  useMetadataTitle(totalProgress ? `파일 업로드: ${totalProgress}%` : 'Moveto')
+  useMetadataTitle(totalProgress ? `파일 업로드: ${totalProgress}%` : '모베토 Moveto')
 
   if (fileUploadProgress.length > 0) {
     return (

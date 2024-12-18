@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '프로필 | Moveto',
+  title: '프로필 | 모베토 Moveto',
 }
 
 export default async function ProfileLayout({ children }: { children: ReactNode }) {

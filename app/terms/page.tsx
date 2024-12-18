@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '웹사이트 이용약관 | Moveto',
+  title: '웹사이트 이용약관 | 모베토 Moveto',
 }
 
 export default function TermsPage() {

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '사용 방법 | Moveto',
+  title: '사용 방법 | 모베토 Moveto',
 }
 
 export default function HowToUsePage() {

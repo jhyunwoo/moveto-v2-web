@@ -4,7 +4,7 @@ import decodeURIShareCode from '@/lib/decode-uri-share-code'
 
 export async function generateMetadata({ params }: { params: Promise<{ code: string }> }) {
   return {
-    title: `${decodeURIShareCode((await params).code)} | Moveto`,
+    title: `${decodeURIShareCode((await params).code)} | 모베토 Moveto`,
   }
 }
 

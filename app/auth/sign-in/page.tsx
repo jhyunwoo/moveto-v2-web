@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid'
 
 export const metadata: Metadata = {
-  title: '로그인 | Moveto',
+  title: '로그인 | 모베토 Moveto',
 }
 
 export default async function SignInPage() {
