@@ -15,7 +15,7 @@ export default function UploadProgressModal() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className={
-          'fixed left-0 top-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-sm'
+          'fixed left-0 top-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-xs'
         }
       >
         <div className={'flex max-h-[70vh] w-full max-w-xl flex-col rounded-xl bg-neutral-900 p-4'}>

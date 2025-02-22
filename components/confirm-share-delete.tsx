@@ -35,7 +35,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
       {deleteShare && (
         <motion.div
           className={
-            'fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-neutral-950/50 p-4 backdrop-blur'
+            'fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-sm'
           }
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
