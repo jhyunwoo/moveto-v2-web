@@ -43,3 +43,5 @@ next-env.d.ts
 # Code data
 /app/api/admin/word/data.ts
 /app/api/admin/word/route.ts
+
+.idea
