@@ -18,7 +18,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <AuthProvider>{children}</AuthProvider>
         <Footer />
       </body>
-      <GoogleAnalytics gaId={'G-BVNJYWQGEF'} />
+      <GoogleAnalytics gaId={'G-XRMLPE2V9S'} />
     </html>
   )
 }
