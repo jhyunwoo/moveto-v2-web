@@ -25,7 +25,7 @@ export default function SearchAnimation() {
         animate={{ opacity: 1 }}
         className={'absolute -top-6 right-0 rounded-lg p-[2px] px-2 text-xs ring-1 ring-white'}
       >
-        Enter
+        Press Enter
       </motion.div>
       <motion.input
         className={
@@ -54,7 +54,7 @@ export default function SearchAnimation() {
                 animate={{ opacity: 1 }}
                 className={'absolute -top-7 left-4 rounded-lg p-[2px] px-2 text-sm ring-1 ring-white'}
               >
-                Esc
+                Press Esc
               </motion.div>
             </SearchBar>
           </motion.div>
