@@ -23,7 +23,7 @@ export default function SearchAnimation() {
         layoutId={'key'}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={'absolute -top-6 right-0 rounded-lg p-[2px] px-2 text-xs ring-1 ring-white'}
+        className={'absolute -top-6 right-0 rounded-lg p-[2px] px-2 text-xs border-[1px] border-white'}
       >
         Press Enter
       </motion.div>
@@ -52,7 +52,7 @@ export default function SearchAnimation() {
                 layoutId={'key'}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={'absolute -top-7 left-4 rounded-lg p-[2px] px-2 text-sm ring-1 ring-white'}
+                className={'absolute -top-7 left-4 rounded-lg p-[2px] px-2 text-sm border-[1px] border-white'}
               >
                 Press Esc
               </motion.div>
