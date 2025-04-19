@@ -4,14 +4,20 @@ import {useEffect} from "react";
 
 export default function OldBrowserSupport(){
     useEffect(() => {
-        const ua = navigator.userAgent;
-        const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-        const match = ua.match(/Version\/(\d+)\./);
+        const isOldSafari = () => {
+            const ua = navigator.userAgent;
+            const safariMatch = ua.match(/Version\/(\d+)\.(\d+).*Safari/);
+            if (safariMatch) {
+                const major = parseInt(safariMatch[1], 10);
+                return major <= 11;
+            }
+            return false;
+        };
 
-        if (isSafari && match && parseInt(match[1], 10) <= 11) {
+        if (isOldSafari()) {
             const script = document.createElement("script");
             script.src = "https://cdn.tailwindcss.com";
-            script.async = true;
+            script.defer = true;
             document.head.appendChild(script);
         }
     }, []);
