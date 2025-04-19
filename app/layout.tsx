@@ -4,7 +4,6 @@ import { ReactNode } from 'react'
 import AuthProvider from '@/components/auth-provider'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Footer from '@/app/footer'
-import OldBrowserSupport from "@/components/old-browser-support";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
@@ -24,7 +23,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ko" className={'bg-neutral-950'}>
-    <OldBrowserSupport/>
       <body>
         <AuthProvider>{children}</AuthProvider>
         <Footer />
