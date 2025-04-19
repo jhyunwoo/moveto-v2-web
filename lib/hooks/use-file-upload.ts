@@ -18,7 +18,7 @@ export default function useFileUpload() {
   const { mutateUsedStorage } = useUsedStorage()
 
   useEffect(() => {
-    // Service Worker로부터 메시지를 받아 처리하는 함수
+    // Service Worker 로부터 메시지를 받아 처리하는 함수
     async function handleMessage(event: MessageEvent<WorkerToClient>) {
       // 파일 업로드 진행 상태 처리
       if (event.data.progress?.length) {
