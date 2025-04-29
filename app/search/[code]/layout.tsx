@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import SearchBar from '@/components/search-bar'
+import SearchBar from '@/app/components/search-bar'
 import decodeURIShareCode from '@/lib/decode-uri-share-code'
 
 export async function generateMetadata({ params }: { params: Promise<{ code: string }> }) {

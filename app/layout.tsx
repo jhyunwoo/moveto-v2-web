@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { ReactNode } from 'react'
-import AuthProvider from '@/components/auth-provider'
+import AuthProvider from '@/app/components/auth-provider'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Footer from '@/app/footer'
 

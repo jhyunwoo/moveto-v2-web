@@ -5,8 +5,8 @@ import { motion } from "motion/react"
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
-import ShareableFileSizeBar from '@/components/shareable-file-size-bar'
-import SharableFileSizeInfo from '@/components/sharable-file-size-info'
+import ShareableFileSizeBar from '@/app/components/shareable-file-size-bar'
+import SharableFileSizeInfo from '@/app/components/sharable-file-size-info'
 import useTotalSize from '@/lib/hooks/use-total-size'
 import { useDisableUpload } from '@/lib/stores/disable-upload'
 

@@ -1,7 +1,7 @@
-import ProfileButton from '@/components/profile-button'
-import SearchAnimation from '@/components/search-animation'
+import ProfileButton from '@/app/components/profile-button'
+import SearchAnimation from '@/app/components/search-animation'
 import Image from 'next/image'
-import FileUpload from '@/app/file-upload/file-upload'
+import FileUpload from '@/app/components/file-upload/file-upload'
 
 export default function HomePage() {
   return (

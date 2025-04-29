@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
-import SearchBar from '@/components/search-bar'
+import SearchBar from '@/app/components/search-bar'
 
 export default function SearchAnimation() {
   const [isExpanded, setIsExpanded] = useState(false)

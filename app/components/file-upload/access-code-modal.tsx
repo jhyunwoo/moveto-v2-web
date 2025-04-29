@@ -2,7 +2,7 @@
 
 import QRCode from 'react-qr-code'
 import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
-import ModalLayout from '@/components/modal-layout'
+import ModalLayout from '@/app/components/modal-layout'
 import { useCode } from '@/lib/stores/code'
 
 export default function AccessCodeModal() {

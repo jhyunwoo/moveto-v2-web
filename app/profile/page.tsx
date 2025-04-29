@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import Link from 'next/link'
-import SignOutButton from '@/components/sign-out-button'
+import SignOutButton from '@/app/components/sign-out-button'
 import UserStorageStatusBar from '@/app/profile/subscription/user-storage-status-bar'
 import RegisterPasskeyButton from '@/app/profile/register-passkey-button'
 

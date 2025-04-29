@@ -1,4 +1,4 @@
-import SignInButton from '@/components/sign-in-button'
+import SignInButton from '@/app/components/sign-in-button'
 import Link from 'next/link'
 import { Metadata } from 'next'
 import PasskeySignInButton from '@/app/auth/sign-in/passkey-sign-in-button'
