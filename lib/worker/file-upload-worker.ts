@@ -4,8 +4,14 @@ import { Meta, Uppy } from '@uppy/core'
 import AwsS3, { AwsBody } from '@uppy/aws-s3'
 
 async function createShare(fileNameList: string[], storageSize: number) {
-  const bodyData: { files: string[]; storageSize: number } = { files: fileNameList, storageSize: storageSize }
-  return await fetchJson<{ shareId: string }>('/api/share', { method: 'POST', body: JSON.stringify(bodyData) })
+  const bodyData: { files: string[]; storageSize: number } = {
+    files: fileNameList,
+    storageSize: storageSize,
+  }
+  return await fetchJson<{ shareId: string }>('/api/share', {
+    method: 'POST',
+    body: JSON.stringify(bodyData),
+  })
 }
 
 function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
@@ -15,7 +21,12 @@ function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
   const progressState = []
   const fileStates = uppy.getFiles()
   for (const file of fileStates) {
-    progressState.push({ name: file.name, progress: 100, type: file.type, size: file.size })
+    progressState.push({
+      name: file.name,
+      progress: 100,
+      type: file.type,
+      size: file.size,
+    })
   }
   self.postMessage({ progress: progressState } as WorkerToClient)
 
@@ -23,7 +34,10 @@ function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
   uppy.clear()
 
   // Send upload complete message
-  self.postMessage({ status: 'Upload Complete', id: shareId } as WorkerToClient)
+  self.postMessage({
+    status: 'Upload Complete',
+    id: shareId,
+  } as WorkerToClient)
 }
 
 const uppy = new Uppy<Meta, AwsBody>()

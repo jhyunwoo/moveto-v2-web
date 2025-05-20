@@ -34,10 +34,14 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
 
   if (shareData) {
     const session = await auth()
-    await db.insert(logs).values({ ip: await getIp(), shareId: shareData.id, userId: session ? session.user.id : null })
+    await db.insert(logs).values({
+      ip: await getIp(),
+      shareId: shareData.id,
+      userId: session ? session.user.id : null,
+    })
 
     return (
-      <div className={'mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-2 p-4 pb-24 pt-24 text-white md:pb-28'}>
+      <div className={'mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-2 p-4 pt-24 pb-24 text-white md:pb-28'}>
         <div className={'flex items-center justify-between gap-2 rounded-xl bg-neutral-900 p-2 px-3'}>
           <div className={'flex items-center gap-2'}>
             <FolderOpenIcon className={'size-8 text-white'} />

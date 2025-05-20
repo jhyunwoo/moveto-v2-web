@@ -36,6 +36,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return session
     },
   },
-  debug: process.env.NODE_ENV !== "production",
+  debug: process.env.NODE_ENV !== 'production',
   logger: { warn() {} },
 })

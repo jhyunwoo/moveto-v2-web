@@ -14,7 +14,9 @@ export default async function deleteShareFiles(shareId: string) {
 
   if (shareData.file?.length) {
     const r2Client = getS3Client()
-    const objects = shareData.file.map(file => ({ Key: `${shareData.id}/${file}` }))
+    const objects = shareData.file.map(file => ({
+      Key: `${shareData.id}/${file}`,
+    }))
     const command = new DeleteObjectsCommand({
       Bucket: process.env.R2_BUCKET,
       Delete: {

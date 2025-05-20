@@ -1,4 +1,4 @@
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import useMetadataTitle from '@/lib/hooks/use-metadata-title'
 import useTotalUploadProgress from '@/lib/hooks/use-total-upload-progress'
 import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
@@ -15,7 +15,7 @@ export default function UploadProgressModal() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className={
-          'fixed left-0 top-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-xs'
+          'fixed top-0 left-0 z-10 flex h-screen w-screen flex-col items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-xs'
         }
       >
         <div className={'flex max-h-[70vh] w-full max-w-xl flex-col rounded-xl bg-neutral-900 p-4'}>
@@ -32,7 +32,7 @@ export default function UploadProgressModal() {
                 ) : (
                   <div className={'relative h-4 w-full rounded-full bg-neutral-800'}>
                     <motion.div
-                      className={`absolute left-0 top-0 h-4 rounded-full bg-sky-500`}
+                      className={`absolute top-0 left-0 h-4 rounded-full bg-sky-500`}
                       animate={{ width: `${data.progress}%` }}
                     />
                   </div>

@@ -5,7 +5,7 @@ import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import ConfirmShareDelete from '@/app/components/confirm-share-delete'
 import DeleteShareTrashIconButton from '@/app/components/delete-share-trash-icon-button'
 import useUserShareHistory from '@/lib/hooks/use-user-share-history'
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import { useState } from 'react'
 
 function dateToKor(date: Date) {

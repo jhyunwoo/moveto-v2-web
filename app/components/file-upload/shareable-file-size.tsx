@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
@@ -26,7 +26,7 @@ export default function ShareableFileSize() {
   }, [leftStorage, setDisableUpload])
 
   return (
-    <div className={'flex w-full flex-col rounded-xl bg-neutral-900 p-2 px-4 border-[1px] border-white'}>
+    <div className={'flex w-full flex-col rounded-xl border-[1px] border-white bg-neutral-900 p-2 px-4'}>
       {usedStorageLoading ? (
         <div className={'mb-1 h-5 w-24 animate-pulse rounded-full bg-neutral-600 text-center text-sm'} />
       ) : (

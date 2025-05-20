@@ -6,8 +6,8 @@ export default function DragAndDropBox({
   inputRef,
   dragRef,
 }: {
-  inputRef: RefObject<HTMLInputElement|null>
-  dragRef: RefObject<HTMLLabelElement|null>
+  inputRef: RefObject<HTMLInputElement | null>
+  dragRef: RefObject<HTMLLabelElement | null>
 }) {
   const { handleFileInput, clickFileInput } = useDragAndDropFile({
     inputRef,
@@ -15,7 +15,7 @@ export default function DragAndDropBox({
   })
   return (
     <div
-      className={`relative h-[30vh] w-full rounded-xl border-2 border-dashed border-neutral-500  transition hover:bg-neutral-900`}
+      className={`relative h-[30vh] w-full rounded-xl border-2 border-dashed border-neutral-500 transition hover:bg-neutral-900`}
     >
       <input
         ref={inputRef}

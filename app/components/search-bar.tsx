@@ -86,7 +86,7 @@ export default function SearchBar({
             required: { value: true, message: '코드를 입력해주세요' },
             onChange: () => setError(''),
           })}
-          className={`z-10 rounded-full border-4 p-2 px-5 focus:outline-0 transition-colors disabled:animate-pulse disabled:border-sky-400 ${error ? 'border-red-500' : 'border-white'} w-full bg-neutral-900/50 text-xl font-bold outline-hidden transition-colors placeholder:text-xl placeholder:text-gray-300`}
+          className={`z-10 rounded-full border-4 p-2 px-5 transition-colors focus:outline-0 disabled:animate-pulse disabled:border-sky-400 ${error ? 'border-red-500' : 'border-white'} w-full bg-neutral-900/50 text-xl font-bold outline-hidden transition-colors placeholder:text-xl placeholder:text-gray-300`}
           layoutId={'search'}
           disabled={loading}
           placeholder={'코드 검색'}

@@ -58,7 +58,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (totalSize > 0) {
     await db
       .update(share)
-      .set({ storageSize: totalSize, code: randomAccessCode, expireAt: expireTime })
+      .set({
+        storageSize: totalSize,
+        code: randomAccessCode,
+        expireAt: expireTime,
+      })
       .where(eq(share.id, paramsData.shareId))
   } else {
     await db.update(share).set({ code: randomAccessCode, expireAt: expireTime }).where(eq(share.id, paramsData.shareId))

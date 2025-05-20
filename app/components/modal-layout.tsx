@@ -1,5 +1,5 @@
 import { ReactNode, useRef, MouseEvent } from 'react'
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 
 export default function ModalLayout({
   children,
@@ -24,7 +24,7 @@ export default function ModalLayout({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={
-          'fixed left-0 top-0 z-10 flex h-screen w-full touch-none flex-col items-center justify-center p-4 backdrop-blur-sm'
+          'fixed top-0 left-0 z-10 flex h-screen w-full touch-none flex-col items-center justify-center p-4 backdrop-blur-sm'
         }
         ref={backgroundRef}
         onClick={handleBackgroundClick}

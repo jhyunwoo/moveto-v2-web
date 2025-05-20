@@ -23,7 +23,7 @@ export default function SearchAnimation() {
         layoutId={'key'}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={'absolute -top-6 right-0 rounded-lg p-[2px] px-2 text-xs border-[1px] border-white'}
+        className={'absolute -top-6 right-0 rounded-lg border-[1px] border-white p-[2px] px-2 text-xs'}
       >
         Press Enter
       </motion.div>
@@ -40,7 +40,7 @@ export default function SearchAnimation() {
         {isExpanded && (
           <motion.div
             className={
-              'fixed left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-black/70 p-4 backdrop-blur-xs'
+              'fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-black/70 p-4 backdrop-blur-xs'
             }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -52,7 +52,7 @@ export default function SearchAnimation() {
                 layoutId={'key'}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={'absolute -top-7 left-4 rounded-lg p-[2px] px-2 text-sm border-[1px] border-white'}
+                className={'absolute -top-7 left-4 rounded-lg border-[1px] border-white p-[2px] px-2 text-sm'}
               >
                 Press Esc
               </motion.div>

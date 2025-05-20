@@ -12,7 +12,7 @@ export default function HomePage() {
           <div className={'flex items-center gap-2'}>
             <Image src={'/vector-logo.svg'} alt={'Moveto Logo'} width={40} height={40} />
             <div className={'text-3xl font-bold sm:text-4xl'}>Moveto</div>
-              <ProfileButton />
+            <ProfileButton />
           </div>
           <SearchAnimation />
         </div>

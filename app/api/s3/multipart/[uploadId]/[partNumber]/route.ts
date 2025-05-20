@@ -29,7 +29,9 @@ export async function GET(
 
   if (!key) {
     return NextResponse.json(
-      { error: 's3: the object key must be passed as a query parameter. For example: "?key=abc.jpg"' },
+      {
+        error: 's3: the object key must be passed as a query parameter. For example: "?key=abc.jpg"',
+      },
       { status: 400 }
     )
   }

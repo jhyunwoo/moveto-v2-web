@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useUserShareHistory from '@/lib/hooks/use-user-share-history'
@@ -14,7 +14,9 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
   const { mutateShares } = useUserShareHistory()
 
   async function deleteFile() {
-    const requestDelete = await fetch(`/api/share/${deleteShare}`, { method: 'DELETE' })
+    const requestDelete = await fetch(`/api/share/${deleteShare}`, {
+      method: 'DELETE',
+    })
     const response = await requestDelete.json()
     if (requestDelete.ok) {
       setDeleteShare('')
@@ -35,7 +37,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
       {deleteShare && (
         <motion.div
           className={
-            'fixed left-0 top-0 z-10 flex h-screen w-full items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-sm'
+            'fixed top-0 left-0 z-10 flex h-screen w-full items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-sm'
           }
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

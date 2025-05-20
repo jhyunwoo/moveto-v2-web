@@ -3,7 +3,7 @@
 import useUsedStorage from '@/lib/hooks/use-used-storage'
 import { useSession } from 'next-auth/react'
 import getUserLimit from '@/lib/get-user-limit'
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import formatBytes from '@/lib/format-bytes'
 
 export default function UserStorageStatusBar() {

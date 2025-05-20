@@ -8,7 +8,10 @@ import getUsedStorage from '@/lib/get-used-storage'
 
 export async function POST(request: NextRequest) {
   const session = await auth()
-  const bodyData = (await request.json()) as { files: string[]; storageSize: number }
+  const bodyData = (await request.json()) as {
+    files: string[]
+    storageSize: number
+  }
 
   const userLimit = getUserLimit(session?.user.plan)
   const usedStorage = await getUsedStorage()

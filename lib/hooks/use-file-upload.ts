@@ -63,7 +63,9 @@ export default function useFileUpload() {
    * @returns void
    */
   function upload() {
-    workerRef.current?.postMessage({ files: files } as ClientToFileUploadWorker)
+    workerRef.current?.postMessage({
+      files: files,
+    } as ClientToFileUploadWorker)
   }
 
   return { upload }
