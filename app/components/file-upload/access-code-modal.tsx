@@ -32,6 +32,7 @@ export default function AccessCodeModal() {
           </div>
           <div className={'mx-auto rounded-xl bg-neutral-600 p-4'}>
             <QRCode
+              title={'Access Code'}
               value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${encodeURIComponent(code.replaceAll(' ', '_'))}`}
             />
           </div>
