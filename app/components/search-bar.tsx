@@ -92,6 +92,8 @@ export default function SearchBar({
           placeholder={'코드 검색'}
           autoComplete={'off'}
           animate={controls}
+          type={'text'}
+          inputMode={'search'}
         />
         <motion.button
           type={'submit'}
