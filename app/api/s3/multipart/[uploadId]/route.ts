@@ -18,28 +18,27 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
   const parts: Part[] = []
 
-  async function listPartsPage(startsAt: undefined | string = undefined) {
-    try {
-      const data = await client.send(
-        new ListPartsCommand({
-          Bucket: process.env.R2_BUCKET,
-          Key: key as string,
-          UploadId: (await params).uploadId,
-          PartNumberMarker: startsAt,
-        })
-      )
-      if (data.Parts) {
-        parts.push(...data.Parts)
-      }
-      // continue to get list of all uploaded parts until the IsTruncated flag is false
-      if (data.IsTruncated) {
-        await listPartsPage(data.NextPartNumberMarker)
-      } else {
-        return NextResponse.json(parts)
-      }
-    } catch (e) {
-      return NextResponse.json(e, { status: 500 })
+  async function listPartsPage(startsAt?: string) {
+    const data = await client.send(
+      new ListPartsCommand({
+        Bucket: process.env.R2_BUCKET,
+        Key: key!,
+        UploadId: (await params).uploadId,
+        PartNumberMarker: startsAt,
+      })
+    )
+    if (data.Parts) {
+      parts.push(...data.Parts)
+    }
+    if (data.IsTruncated) {
+      await listPartsPage(data.NextPartNumberMarker)
     }
   }
-  await listPartsPage()
+
+  try {
+    await listPartsPage()
+    return NextResponse.json(parts)
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }
