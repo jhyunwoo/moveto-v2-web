@@ -34,7 +34,8 @@ export async function GET() {
       })
       result.push(await client.send(command))
     }
-    return NextResponse.json({ expired: expiringShares.length, result })
+    console.log(result)
+    return NextResponse.json({ expired: expiringShares.length })
   } else {
     return NextResponse.json({ expired: 0, result: 'No expired shares' })
   }
