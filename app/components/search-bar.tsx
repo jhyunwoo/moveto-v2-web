@@ -65,9 +65,11 @@ export default function SearchBar({
     window.addEventListener('keydown', detectEscape)
     return () => window.removeEventListener('keydown', detectEscape)
   }, [controls, isExpanded, resetField, setFocus, setIsExpanded, watch])
+
   useEffect(() => {
     if (isExpanded) setFocus('code')
   }, [isExpanded, setFocus])
+
   useEffect(() => {
     if (!loading) {
       setFocus('code')
