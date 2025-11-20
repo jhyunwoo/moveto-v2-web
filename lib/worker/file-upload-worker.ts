@@ -8,7 +8,7 @@ async function createShare(fileNameList: string[], storageSize: number) {
     files: fileNameList,
     storageSize: storageSize,
   }
-  return await fetchJson<{ shareId: string }>('/api/share', {
+  return await fetchJson<{ shareId: string }>('https://www.moveto.kr/api/share', {
     method: 'POST',
     body: JSON.stringify(bodyData),
   })
