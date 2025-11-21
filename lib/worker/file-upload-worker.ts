@@ -3,12 +3,14 @@ import fetchJson from '@/lib/client/fetch-json'
 import { Meta, Uppy } from '@uppy/core'
 import AwsS3, { AwsBody } from '@uppy/aws-s3'
 
+const BASE_URL = 'http://localhost:3000'
+
 async function createShare(fileNameList: string[], storageSize: number) {
   const bodyData: { files: string[]; storageSize: number } = {
     files: fileNameList,
     storageSize: storageSize,
   }
-  return await fetchJson<{ shareId: string }>('/api/share', {
+  return await fetchJson<{ shareId: string }>(`${BASE_URL}/api/share`, {
     method: 'POST',
     body: JSON.stringify(bodyData),
   })
@@ -41,7 +43,7 @@ function completeUpload(intervalId: NodeJS.Timeout, shareId: string) {
 }
 
 const uppy = new Uppy<Meta, AwsBody>()
-  .use(AwsS3, { endpoint: '/api' })
+  .use(AwsS3, { endpoint: `${BASE_URL}/api` })
   .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
   .on('upload-error', async (file, error) => {
     console.error('error with file:', file?.id)
