@@ -3,14 +3,24 @@ import { share } from '@/db/schema'
 import getS3Client from '@/lib/server/get-s3-client'
 import { eq } from 'drizzle-orm'
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
+import { auth } from '@/auth'
+import { NextResponse } from 'next/server'
+
 
 export default async function deleteShareFiles(shareId: string) {
   const shareData = (
     await db.update(share).set({ active: false }).where(eq(share.id, shareId)).returning({
       id: share.id,
       file: share.file,
+      ownerId: share.userId
     })
   )[0]
+
+  const session = await auth()
+
+  if (session?.user?.id !== shareData.ownerId) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+  }
 
   if (shareData.file?.length) {
     const r2Client = getS3Client()
