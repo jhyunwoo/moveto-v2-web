@@ -22,8 +22,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ page
         .where(and(eq(share.userId, session?.user.id!), eq(share.active, true), isNotNull(share.expireAt)))
     )[0].count / 10
   )
+
   if (Number(paramsData.page) > pageLimit) {
-    paramsData.page = String(pageLimit)
+    paramsData.page = pageLimit.toString()
   }
 
   const shareList = await db
@@ -32,7 +33,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ page
     .where(and(eq(share.userId, session?.user.id!), eq(share.active, true), isNotNull(share.expireAt)))
     .orderBy(desc(share.createdAt))
     .limit(10)
-    .offset((parseInt(paramsData.page) - 1) * 10)
+    .offset((parseInt(paramsData.page) - 1) * 10 >= 0 ? (parseInt(paramsData.page) - 1) * 10 : 0)
 
   return NextResponse.json({ shareList: shareList, pageLimit: pageLimit })
 }
