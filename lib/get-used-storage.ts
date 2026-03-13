@@ -2,10 +2,10 @@ import db from '@/db'
 import { share } from '@/db/schema'
 import { and, eq, gte, isNull } from 'drizzle-orm'
 import getIp from '@/lib/server/get-user-ip'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 
 export default async function getUsedStorage() {
-  const session = await auth()
+  const session = await getSession()
 
   let activeShares
 

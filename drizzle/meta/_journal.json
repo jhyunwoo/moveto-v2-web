@@ -8,6 +8,13 @@
       "when": 1725514237229,
       "tag": "0000_nostalgic_vindicator",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773404655336,
+      "tag": "0001_better_auth_upgrade",
+      "breakpoints": true
     }
   ]
 }

@@ -1,9 +1,9 @@
-import { Session } from 'next-auth'
+import { AuthSession } from '@/auth'
 
 interface ClientToWorkersMessageType {
   files: File[]
   shareTime: number
-  session: Session | null
+  session: AuthSession | null
 }
 
 export type { ClientToWorkersMessageType }

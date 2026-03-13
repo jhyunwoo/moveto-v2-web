@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 import db from '@/db'
 import { share } from '@/db/schema'
 import getIp from '@/lib/server/get-user-ip'
@@ -7,7 +7,7 @@ import getUserLimit from '@/lib/get-user-limit'
 import getUsedStorage from '@/lib/get-used-storage'
 
 export async function POST(request: NextRequest) {
-  const session = await auth()
+  const session = await getSession()
   const bodyData = (await request.json()) as {
     files: string[]
     storageSize: number

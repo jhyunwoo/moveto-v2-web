@@ -4,7 +4,7 @@ import { ListObjectsV2Command } from '@aws-sdk/client-s3'
 import db from '@/db'
 import { adjectives, nouns, share } from '@/db/schema'
 import { count, eq } from 'drizzle-orm'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 import getUserLimit from '@/lib/get-user-limit'
 import getUsedStorage from '@/lib/get-used-storage'
 import { addMinutes } from 'date-fns'
@@ -30,7 +30,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     }
   }
   // Check if totalSize is within user limit
-  const session = await auth()
+  const session = await getSession()
   const limit = getUserLimit(session?.user.plan)
 
   const usedStorage = await getUsedStorage()

@@ -10,7 +10,7 @@ import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import DeleteShareButton from '@/app/components/delete-share-button'
 import getIp from '@/lib/server/get-user-ip'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 
 export default async function SearchPage({ params }: { params: Promise<{ code: string }> }) {
   const code = decodeKoCode((await params).code)
@@ -33,7 +33,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
   const downloadUrl = await Promise.all(urlRequests)
 
   if (shareData) {
-    const session = await auth()
+    const session = await getSession()
     await db.insert(logs).values({
       ip: await getIp(),
       shareId: shareData.id,

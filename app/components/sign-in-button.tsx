@@ -1,5 +1,7 @@
-import { signIn } from '@/auth'
+'use client'
+
 import { ReactNode } from 'react'
+import { authClient } from '@/lib/auth-client'
 
 export default function SignInButton({
   className,
@@ -7,20 +9,21 @@ export default function SignInButton({
   children,
 }: {
   className?: string
-  provider: string
+  provider: 'github' | 'kakao'
   children: ReactNode
 }) {
   return (
-    <form
-      className={'w-full'}
-      action={async () => {
-        'use server'
-        await signIn(provider, { redirectTo: '/' })
+    <button
+      type={'button'}
+      className={`${className ?? ''} w-full`}
+      onClick={async () => {
+        await authClient.signIn.social({
+          provider,
+          callbackURL: '/',
+        })
       }}
     >
-      <button type="submit" className={className}>
-        {children}
-      </button>
-    </form>
+      {children}
+    </button>
   )
 }

@@ -3,7 +3,7 @@ import fetchJson from '@/lib/client/fetch-json'
 import { Meta, Uppy } from '@uppy/core'
 import AwsS3, { AwsBody } from '@uppy/aws-s3'
 
-const BASE_URL = 'https://www.moveto.kr'
+const BASE_URL = typeof self === 'object' ? self.location.origin : ''
 
 async function createShare(fileNameList: string[], storageSize: number) {
   const bodyData: { files: string[]; storageSize: number } = {

@@ -1,26 +1,36 @@
 import db from '@/db'
 import { share } from '@/db/schema'
 import getS3Client from '@/lib/server/get-s3-client'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
-import { auth } from '@/auth'
-import { NextResponse } from 'next/server'
-
+import { getSession } from '@/auth'
+import getIp from '@/lib/server/get-user-ip'
 
 export default async function deleteShareFiles(shareId: string) {
-  const shareData = (
-    await db.update(share).set({ active: false }).where(eq(share.id, shareId)).returning({
-      id: share.id,
-      file: share.file,
-      ownerId: share.userId
-    })
-  )[0]
+  const session = await getSession()
+  const shareData = await db.query.share.findFirst({
+    where: and(eq(share.id, shareId), eq(share.active, true)),
+    columns: {
+      id: true,
+      file: true,
+      ip: true,
+      userId: true,
+    },
+  })
 
-  const session = await auth()
-
-  if (session?.user?.id !== shareData.ownerId) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+  if (!shareData) {
+    throw new Error('Share not found')
   }
+
+  if (shareData.userId && session?.user?.id !== shareData.userId) {
+    throw new Error('Unauthorized')
+  }
+
+  if (!shareData.userId && shareData.ip !== (await getIp())) {
+    throw new Error('Unauthorized')
+  }
+
+  await db.update(share).set({ active: false }).where(eq(share.id, shareId))
 
   if (shareData.file?.length) {
     const r2Client = getS3Client()
@@ -35,9 +45,9 @@ export default async function deleteShareFiles(shareId: string) {
     })
 
     try {
-      return r2Client.send(command)
-    } catch (e) {
-      return e
+      await r2Client.send(command)
+    } catch (error) {
+      throw error
     }
   }
 }

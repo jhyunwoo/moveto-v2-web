@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useSession } from '@/lib/auth-client'
 import { motion } from 'motion/react'
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'

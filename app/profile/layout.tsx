@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ProfileLayout({ children }: { children: ReactNode }) {
-  const session = await auth()
+  const session = await getSession()
   if (!session?.user?.id) {
     redirect('/auth/sign-in')
   }

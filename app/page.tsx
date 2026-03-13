@@ -1,7 +1,9 @@
 import ProfileButton from '@/app/components/profile-button'
-import SearchAnimation from '@/app/components/search-animation'
 import Image from 'next/image'
 import FileUpload from '@/app/components/file-upload/file-upload'
+import dynamic from 'next/dynamic'
+
+const SearchAnimation = dynamic(() => import('@/app/components/search-animation'))
 
 export default function HomePage() {
   return (

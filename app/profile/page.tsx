@@ -1,11 +1,11 @@
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 import Link from 'next/link'
 import SignOutButton from '@/app/components/sign-out-button'
 import UserStorageStatusBar from '@/app/profile/subscription/user-storage-status-bar'
 import RegisterPasskeyButton from '@/app/profile/register-passkey-button'
 
 export default async function ProfilePage() {
-  const session = await auth()
+  const session = await getSession()
 
   return (
     <div className={'grid w-full grid-cols-1 gap-2 md:grid-cols-2'}>

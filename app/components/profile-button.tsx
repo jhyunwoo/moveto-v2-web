@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 
 export default async function ProfileButton() {
-  const session = await auth()
+  const session = await getSession()
 
   return session?.user?.id ? (
     <Link className={'rounded-full bg-white p-[6px] px-4 text-sm font-semibold text-black'} href={'/profile'}>

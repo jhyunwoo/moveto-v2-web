@@ -3,7 +3,6 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import useUserShareHistory from '@/lib/hooks/use-user-share-history'
 import { useDeleteShare } from '@/lib/stores/delete-share'
 
 export default function ConfirmShareDelete({ redirect }: { redirect?: string }) {
@@ -11,7 +10,6 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
   const { deleteShare, setDeleteShare } = useDeleteShare(store => store)
 
   const router = useRouter()
-  const { mutateShares } = useUserShareHistory()
 
   async function deleteFile() {
     const requestDelete = await fetch(`/api/share/${deleteShare}`, {
@@ -29,7 +27,6 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
     } else {
       setDeleteError(response.message)
     }
-    await mutateShares()
   }
 
   return (

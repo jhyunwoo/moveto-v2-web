@@ -21,7 +21,7 @@ export default function SearchBar({
   className?: string
   children?: ReactNode
 }) {
-  const { register, handleSubmit, setFocus, watch, resetField } = useForm<Code>()
+  const { getValues, register, handleSubmit, setFocus, resetField } = useForm<Code>()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -50,7 +50,7 @@ export default function SearchBar({
       controls.stop()
       if (isExpanded) {
         if (e.key === 'Escape') {
-          if (watch('code')) {
+          if (getValues('code')) {
             resetField('code')
           } else {
             if (setIsExpanded) setIsExpanded(false)
@@ -64,7 +64,7 @@ export default function SearchBar({
     }
     window.addEventListener('keydown', detectEscape)
     return () => window.removeEventListener('keydown', detectEscape)
-  }, [controls, isExpanded, resetField, setFocus, setIsExpanded, watch])
+  }, [controls, getValues, isExpanded, resetField, setFocus, setIsExpanded])
 
   useEffect(() => {
     if (isExpanded) setFocus('code')

@@ -1,7 +1,7 @@
 'use client'
 
 import useUsedStorage from '@/lib/hooks/use-used-storage'
-import { useSession } from 'next-auth/react'
+import { useSession } from '@/lib/auth-client'
 import getUserLimit from '@/lib/get-user-limit'
 import { motion } from 'motion/react'
 import formatBytes from '@/lib/format-bytes'

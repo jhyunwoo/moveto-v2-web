@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react'
+import { useSession } from '@/lib/auth-client'
 import { useEffect } from 'react'
 import FileUploadButton from '@/app/components/file-upload/file-upload-button'
 import ModalLayout from '@/app/components/modal-layout'

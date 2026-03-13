@@ -2,7 +2,7 @@ import SignInButton from '@/app/components/sign-in-button'
 import Link from 'next/link'
 import { Metadata } from 'next'
 import PasskeySignInButton from '@/app/auth/sign-in/passkey-sign-in-button'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid'
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function SignInPage() {
-  const session = await auth()
+  const session = await getSession()
   if (session?.user.id) redirect('/profile')
 
   return (
