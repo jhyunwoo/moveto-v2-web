@@ -55,10 +55,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html
       lang="ko"
-      className={`${pretendard.variable} ${syne.variable} bg-gradient-page min-h-screen`}
+      className={`${pretendard.variable} ${syne.variable} bg-gradient-page min-h-[100dvh]`}
       suppressHydrationWarning
     >
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="relative z-10 text-text-primary">

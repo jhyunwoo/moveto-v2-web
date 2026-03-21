@@ -7,16 +7,16 @@ import HomeEntrance from '@/app/components/home-entrance'
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center p-4">
-      <div className="h-[28vh] w-full" />
+    <div className="flex min-h-[100dvh] w-full flex-col items-center p-4">
+      <div className="h-[16vh] w-full md:h-[28vh]" />
       <div className="relative flex w-full max-w-3xl flex-col gap-4 text-text-primary">
-        <div className="absolute -top-16 flex w-full items-center justify-between gap-3">
+        <div className="mb-2 flex w-full items-center justify-between gap-2 md:absolute md:-top-16 md:mb-0 md:gap-3">
           <HomeEntrance delay={0}>
-            <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex size-8 items-center justify-center sm:size-10">
                 <Image src="/vector-logo.svg" alt="Moveto Logo" width={36} height={36} />
               </div>
-              <div className="font-display text-4xl font-800 tracking-tight sm:text-5xl">Moveto</div>
+              <div className="font-display text-3xl font-800 tracking-tight sm:text-5xl">Moveto</div>
               <ProfileButton />
               <ThemeToggle />
             </div>

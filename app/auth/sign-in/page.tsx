@@ -15,7 +15,7 @@ export default async function SignInPage() {
   if (session?.user.id) redirect('/profile')
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center p-4 text-text-primary">
+    <div className="flex min-h-[100dvh] w-full flex-col items-center justify-center p-4 text-text-primary">
       <div className="brutalist-card flex w-full max-w-md flex-col items-center gap-3 rounded-2xl p-8">
         <div className="w-full pb-3 font-display text-3xl font-800 tracking-tight">Moveto 로그인</div>
         <SignInButton

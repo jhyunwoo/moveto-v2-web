@@ -27,12 +27,12 @@ export default function SearchAnimation() {
         layoutId="key"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute -top-7 right-0 rounded-md border-2 border-border-primary px-2 py-0.5 font-display text-[10px] font-600 uppercase tracking-wider"
+        className="absolute -top-7 right-0 hidden rounded-md border-2 border-border-primary px-2 py-0.5 font-display text-[10px] font-600 uppercase tracking-wider sm:block"
       >
         Enter
       </motion.div>
       <motion.input
-        className="flex w-24 cursor-pointer items-center justify-center rounded-xl border-2 border-border-primary bg-surface-elevated p-1.5 px-4 font-display text-sm font-500 transition-colors placeholder:text-text-muted focus:border-accent focus:outline-hidden sm:w-72 md:w-80"
+        className="flex w-full min-w-24 max-w-32 cursor-pointer items-center justify-center rounded-xl border-2 border-border-primary bg-surface-elevated p-1.5 px-3 font-display text-sm font-500 transition-colors placeholder:text-text-muted focus:border-accent focus:outline-hidden sm:max-w-72 sm:px-4 md:max-w-80"
         onFocus={() => setIsExpanded(true)}
         placeholder="코드 검색"
         layoutId="search"

@@ -38,21 +38,21 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
       {shareList.length === 0 && (
         <div className="brutalist-card rounded-xl p-8 text-center text-text-secondary">아직 공유한 파일이 없습니다.</div>
       )}
-      <div className="flex w-full items-center justify-end gap-4 p-4">
+      <div className="flex w-full items-center justify-end gap-3 p-3 sm:gap-4 sm:p-4">
         <Link
           href={`/profile/history?page=${Math.max(1, currentPage - 1)}`}
-          className={`font-display font-600 transition-colors hover:text-accent ${currentPage <= 1 ? 'pointer-events-none opacity-40' : ''}`}
+          className={`font-display text-sm font-600 transition-colors hover:text-accent sm:text-base ${currentPage <= 1 ? 'pointer-events-none opacity-40' : ''}`}
         >
-          &larr; 이전 페이지
+          &larr; 이전
         </Link>
-        <div className="rounded-lg border-2 border-accent bg-accent px-3 py-1 font-display font-700 text-white">
+        <div className="rounded-lg border-2 border-accent bg-accent px-3 py-1 font-display text-sm font-700 text-white sm:text-base">
           {currentPage}
         </div>
         <Link
           href={`/profile/history?page=${Math.min(pageLimit, currentPage + 1)}`}
-          className={`font-display font-600 transition-colors hover:text-accent ${currentPage >= pageLimit ? 'pointer-events-none opacity-40' : ''}`}
+          className={`font-display text-sm font-600 transition-colors hover:text-accent sm:text-base ${currentPage >= pageLimit ? 'pointer-events-none opacity-40' : ''}`}
         >
-          다음 페이지 &rarr;
+          다음 &rarr;
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">

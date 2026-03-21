@@ -52,7 +52,7 @@ export default function UploadProgressModal({
         style={{ willChange: 'opacity' }}
         className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
       >
-        <div className="brutalist-card flex max-h-[70vh] w-full max-w-xl flex-col rounded-2xl p-6">
+        <div className="brutalist-card flex max-h-[85dvh] w-full max-w-xl flex-col rounded-2xl p-4 sm:max-h-[70vh] sm:p-6">
           <div className="pb-4 font-display text-xl font-700">
             {isGeneratingCode ? '접근 코드 생성중...' : isPaused ? '업로드 일시 정지' : '파일 업로드 중...'}
           </div>
@@ -81,7 +81,7 @@ export default function UploadProgressModal({
             </div>
           )}
 
-          <div className="mt-4 flex items-center justify-between">
+          <div className="mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
             {!isGeneratingCode && (
               <div className="flex items-center gap-2">
                 <button

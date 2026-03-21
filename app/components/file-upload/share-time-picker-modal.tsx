@@ -19,13 +19,13 @@ export default function ShareTimePickerModal({ upload }: { upload: () => void })
 
   return (
     <ModalLayout isOpen={shareTimePopUp} closeModal={() => setShareTimePopUp(false)}>
-      <div className="pb-3 font-display text-2xl font-700">공유 시간</div>
-      <div className="grid grid-cols-3 grid-rows-3 gap-2">
+      <div className="pb-3 font-display text-xl font-700 sm:text-2xl">공유 시간</div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {planShareTime.map((data) => (
           <button
             onClick={() => setShareTime(data.value)}
             key={data.text}
-            className={`cursor-pointer rounded-xl border-2 p-3 font-display font-600 transition-colors ${shareTime === data.value ? 'border-accent bg-accent text-white' : 'border-border-primary bg-surface-elevated text-text-primary hover:border-accent hover:bg-accent-soft'} flex items-center justify-center`}
+            className={`cursor-pointer rounded-xl border-2 p-2.5 font-display text-sm font-600 transition-colors sm:p-3 sm:text-base ${shareTime === data.value ? 'border-accent bg-accent text-white' : 'border-border-primary bg-surface-elevated text-text-primary hover:border-accent hover:bg-accent-soft'} flex items-center justify-center`}
           >
             <div>{data.text}</div>
           </button>
