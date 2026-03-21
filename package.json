@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": " pnpm db:generate && pnpm db:migrate && next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "rm -rf .next/types .next/dev/types tsconfig.tsbuildinfo && next typegen && mkdir -p .next/types && printf \"declare module 'next/cache' { interface CacheLifeProfiles {} }\\n\" > .next/types/cache-life.d.ts && tsc --noEmit --incremental false",
