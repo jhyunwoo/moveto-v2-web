@@ -8,53 +8,53 @@ export default function SearchAnimation() {
   const [isExpanded, setIsExpanded] = useState(false)
 
   useEffect(() => {
-    function detectEscape(e: KeyboardEvent) {
+    function detectEnter(e: KeyboardEvent) {
       if (e.key === 'Enter') {
-        if (setIsExpanded) setIsExpanded(true)
+        const active = document.activeElement
+        if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT')) {
+          return
+        }
+        setIsExpanded(true)
       }
     }
-    window.addEventListener('keydown', detectEscape)
-    return () => window.removeEventListener('keydown', detectEscape)
+    window.addEventListener('keydown', detectEnter)
+    return () => window.removeEventListener('keydown', detectEnter)
   }, [])
 
   return (
-    <div className={'relative'}>
+    <div className="relative">
       <motion.div
-        layoutId={'key'}
+        layoutId="key"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={'absolute -top-6 right-0 rounded-lg border-[1px] border-white p-[2px] px-2 text-xs'}
+        className="absolute -top-7 right-0 rounded-md border-2 border-border-primary px-2 py-0.5 font-display text-[10px] font-600 uppercase tracking-wider"
       >
-        Press Enter
+        Enter
       </motion.div>
       <motion.input
-        className={
-          'flex w-24 items-center justify-center rounded-full border-2 border-white bg-black p-1 px-4 focus:outline-hidden sm:w-80 md:w-96'
-        }
+        className="flex w-24 cursor-pointer items-center justify-center rounded-xl border-2 border-border-primary bg-surface-elevated p-1.5 px-4 font-display text-sm font-500 transition-colors placeholder:text-text-muted focus:border-accent focus:outline-hidden sm:w-72 md:w-80"
         onFocus={() => setIsExpanded(true)}
-        placeholder={'코드 검색'}
-        layoutId={'search'}
-        autoComplete={'off'}
+        placeholder="코드 검색"
+        layoutId="search"
+        autoComplete="off"
       />
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            className={
-              'fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-black/70 p-4 backdrop-blur-xs'
-            }
+            className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={e => setIsExpanded(e.target !== e.currentTarget)}
+            onClick={(e) => setIsExpanded(e.target !== e.currentTarget)}
           >
             <SearchBar isExpanded={isExpanded} setIsExpanded={setIsExpanded}>
               <motion.div
-                layoutId={'key'}
+                layoutId="key"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={'absolute -top-7 left-4 rounded-lg border-[1px] border-white p-[2px] px-2 text-sm'}
+                className="absolute -top-8 left-4 rounded-md border-2 border-border-primary bg-surface-elevated px-2 py-0.5 font-display text-xs font-600 uppercase tracking-wider"
               >
-                Press Esc
+                Esc
               </motion.div>
             </SearchBar>
           </motion.div>

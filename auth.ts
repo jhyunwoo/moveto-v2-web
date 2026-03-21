@@ -26,10 +26,6 @@ export const auth = betterAuth({
       clientId: process.env.AUTH_GITHUB_ID!,
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
     },
-    kakao: {
-      clientId: process.env.AUTH_KAKAO_ID!,
-      clientSecret: process.env.AUTH_KAKAO_SECRET!,
-    },
   },
   user: {
     additionalFields: {
@@ -44,7 +40,7 @@ export const auth = betterAuth({
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ['github', 'kakao'],
+      trustedProviders: ['github'],
     },
   },
   plugins: [

@@ -9,64 +9,107 @@ import { useFileData } from '@/lib/stores/file-data'
 
 export default function useFileUpload() {
   const workerRef = useRef<Worker | null>(null)
-  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp(store => store)
-  const { setFileUploadProgress } = useFileUploadProgress(store => store)
-  const { shareTime } = useShareTime(store => store)
-  const { setCode } = useCode(store => store)
-  const { files, setFiles } = useFiles(store => store)
-  const { setFileData } = useFileData(store => store)
+  const { setShareTimePopUp } = useShareTimePopUp((store) => store)
+  const { setFileUploadProgress, setIsGeneratingCode, setIsPaused, setUploadError } = useFileUploadProgress(
+    (store) => store
+  )
+  const { shareTime } = useShareTime((store) => store)
+  const { setCode } = useCode((store) => store)
+  const { files, setFiles } = useFiles((store) => store)
+  const { setFileData } = useFileData((store) => store)
   const { mutateUsedStorage } = useUsedStorage()
 
+  // Refs for values that change during upload
+  const shareTimeRef = useRef(shareTime)
   useEffect(() => {
-    // Service Worker 로부터 메시지를 받아 처리하는 함수
-    async function handleMessage(event: MessageEvent<WorkerToClient>) {
-      // 파일 업로드 진행 상태 처리
-      if (event.data.progress?.length) {
-        if (shareTimePopUp) setShareTimePopUp(false)
-        setFileUploadProgress(event.data.progress)
-        // 파일 업로드 완료 후 접근 코드 요청
-      } else if (event.data.status === 'Upload Complete' && event.data.id) {
-        const requestCode = await fetch(`/api/share/${event.data.id}/code`, {
-          method: 'PUT',
-          body: JSON.stringify({ shareTime: shareTime }),
-        })
-        const response = await requestCode.json()
-        if (requestCode.ok) {
-          setCode(response.code)
-          setFileUploadProgress([])
-          setFiles([])
-          setFileData([])
-          await mutateUsedStorage()
-        }
-      }
-    }
-    // Service Worker 생성
+    shareTimeRef.current = shareTime
+  }, [shareTime])
+
+  const shareTimePopUpRef = useRef(false)
+  const { shareTimePopUp } = useShareTimePopUp((store) => store)
+  useEffect(() => {
+    shareTimePopUpRef.current = shareTimePopUp
+  }, [shareTimePopUp])
+
+  // Worker creation (once) and message handler
+  useEffect(() => {
     workerRef.current = new Worker(new URL('../worker/file-upload-worker.ts', import.meta.url), {
       type: 'module',
     })
-    // Service Worker 로부터 메시지를 받아 처리하는 이벤트 리스너 등록
-    workerRef.current.addEventListener('message', handleMessage)
-  }, [
-    setCode,
-    setFileUploadProgress,
-    setFiles,
-    setShareTimePopUp,
-    shareTime,
-    shareTimePopUp,
-    setFileData,
-    mutateUsedStorage,
-  ])
 
-  /**
-   * 추가한 파일을 업로드 하는 함수
-   * Service Worker 에서 Uppy 를 사용해 파일을 업로드
-   * @returns void
-   */
+    async function handleMessage(event: MessageEvent<WorkerToClient>) {
+      if (event.data.progress?.length) {
+        if (shareTimePopUpRef.current) setShareTimePopUp(false)
+        setFileUploadProgress(event.data.progress)
+      } else if (event.data.status === 'Upload Complete' && event.data.id) {
+        setIsGeneratingCode(true)
+        try {
+          const requestCode = await fetch(`/api/share/${event.data.id}/code`, {
+            method: 'PUT',
+            body: JSON.stringify({ shareTime: shareTimeRef.current }),
+          })
+          const response = await requestCode.json()
+          if (requestCode.ok) {
+            setCode(response.code)
+            setFileUploadProgress([])
+            setFiles([])
+            setFileData([])
+            setIsGeneratingCode(false)
+            await mutateUsedStorage()
+          } else {
+            setUploadError(response.error || '코드 생성에 실패했습니다')
+            setFileUploadProgress([])
+            setIsGeneratingCode(false)
+          }
+        } catch {
+          setUploadError('서버 연결에 실패했습니다')
+          setFileUploadProgress([])
+          setIsGeneratingCode(false)
+        }
+      } else if (event.data.status === 'Cancelled' && event.data.id) {
+        // Clean up the share on the server
+        try {
+          await fetch(`/api/share/${event.data.id}`, { method: 'DELETE' })
+        } catch {
+          // Ignore cleanup errors
+        }
+        setFileUploadProgress([])
+        setFiles([])
+        setFileData([])
+        setIsPaused(false)
+        setUploadError('')
+      }
+    }
+
+    workerRef.current.addEventListener('message', handleMessage)
+
+    return () => {
+      workerRef.current?.terminate()
+      workerRef.current = null
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   function upload() {
+    setUploadError('')
     workerRef.current?.postMessage({
       files: files,
     } as ClientToFileUploadWorker)
   }
 
-  return { upload }
+  function pause() {
+    setIsPaused(true)
+    workerRef.current?.postMessage({ action: 'pause' } as ClientToFileUploadWorker)
+  }
+
+  function resume() {
+    setIsPaused(false)
+    workerRef.current?.postMessage({ action: 'resume' } as ClientToFileUploadWorker)
+  }
+
+  function cancel() {
+    workerRef.current?.postMessage({ action: 'cancel' } as ClientToFileUploadWorker)
+  }
+
+  return { upload, pause, resume, cancel }
 }

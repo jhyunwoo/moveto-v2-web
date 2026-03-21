@@ -28,7 +28,7 @@ export default function SearchBar({
   const controls = useAnimation()
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<Code> = async data => {
+  const onSubmit: SubmitHandler<Code> = async (data) => {
     setError('')
     setLoading(true)
     const searchShare = await fetch(`/api/share/code/${data.code}`)
@@ -56,10 +56,6 @@ export default function SearchBar({
             if (setIsExpanded) setIsExpanded(false)
           }
         }
-      } else {
-        if (e.key === 'Enter') {
-          setFocus('code')
-        }
       }
     }
     window.addEventListener('keydown', detectEscape)
@@ -79,7 +75,7 @@ export default function SearchBar({
   return (
     <div className={`relative w-full ${className}`}>
       <form
-        className={'relative mx-auto flex w-full max-w-4xl items-center justify-center'}
+        className="relative mx-auto flex w-full max-w-3xl items-center justify-center"
         onSubmit={handleSubmit(onSubmit)}
       >
         {children}
@@ -88,22 +84,33 @@ export default function SearchBar({
             required: { value: true, message: '코드를 입력해주세요' },
             onChange: () => setError(''),
           })}
-          className={`z-10 rounded-full border-4 p-2 px-5 transition-colors focus:outline-0 disabled:animate-pulse disabled:border-sky-400 ${error ? 'border-red-500' : 'border-white'} w-full bg-neutral-900/50 text-xl font-bold outline-hidden transition-colors placeholder:text-xl placeholder:text-gray-300`}
-          layoutId={'search'}
+          className={`z-10 w-full rounded-xl border-3 bg-surface-elevated p-3 px-5 font-display text-xl font-700 tracking-tight outline-hidden transition-colors placeholder:font-500 placeholder:text-text-muted disabled:opacity-60 disabled:border-accent ${error ? 'border-danger' : 'border-border-primary focus:border-accent'}`}
+          layoutId="search"
           disabled={loading}
-          placeholder={'코드 검색'}
-          autoComplete={'off'}
+          placeholder="코드 검색"
+          autoComplete="off"
           animate={controls}
-          type={'text'}
-          inputMode={'search'}
+          type="text"
+          inputMode="search"
         />
         <motion.button
-          type={'submit'}
+          type="submit"
           disabled={loading}
-          layoutId={'search-button'}
-          className={`disabled:animate-pulse disabled:text-sky-400 ${error ? 'text-red-500' : 'text-white'} transition-colors`}
+          layoutId="search-button"
+          className={`cursor-pointer disabled:text-accent ${error ? 'text-danger' : 'text-text-primary hover:text-accent'} transition-colors`}
         >
-          <MagnifyingGlassCircleIcon className={'size-14'} />
+          {loading ? (
+            <svg className="size-14 animate-spin text-accent" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+          ) : (
+            <MagnifyingGlassCircleIcon className="size-14" />
+          )}
         </motion.button>
       </form>
 
@@ -111,7 +118,7 @@ export default function SearchBar({
         initial={{ opacity: 0 }}
         animate={error && { opacity: 1 }}
         exit={{ opacity: 0 }}
-        className={'absolute top-14 flex w-full justify-center text-sm text-red-500'}
+        className="absolute top-16 flex w-full justify-center font-display text-sm font-600 text-danger"
       >
         <div>{error}</div>
       </motion.div>

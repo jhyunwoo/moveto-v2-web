@@ -1,15 +1,18 @@
 type ClientToFileUploadWorker = {
   files?: File[]
+  action?: 'pause' | 'resume' | 'cancel'
 }
 
 type WorkerToClient = {
-  status?: string
+  status?: 'Upload Complete' | 'Cancelled'
   error?: string
   progress?: {
     name: string | undefined
     progress: number | undefined
     type: string | undefined
     size: number | undefined
+    bytesUploaded: number
+    bytesTotal: number
   }[]
   id?: string
 }

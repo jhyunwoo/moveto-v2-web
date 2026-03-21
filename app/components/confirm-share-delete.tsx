@@ -7,7 +7,7 @@ import { useDeleteShare } from '@/lib/stores/delete-share'
 
 export default function ConfirmShareDelete({ redirect }: { redirect?: string }) {
   const [deleteError, setDeleteError] = useState('')
-  const { deleteShare, setDeleteShare } = useDeleteShare(store => store)
+  const { deleteShare, setDeleteShare } = useDeleteShare((store) => store)
 
   const router = useRouter()
 
@@ -33,39 +33,33 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
     <>
       {deleteShare && (
         <motion.div
-          className={
-            'fixed top-0 left-0 z-10 flex h-screen w-full items-center justify-center bg-neutral-950/50 p-4 backdrop-blur-sm'
-          }
+          className="fixed inset-0 z-10 flex items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <div className={'flex w-full max-w-lg flex-col items-center gap-2 rounded-xl bg-neutral-900 p-4'}>
+          <div className="brutalist-card flex w-full max-w-lg flex-col items-center gap-3 rounded-2xl p-6">
             {!deleteError ? (
               <>
-                <div className={'p-4 text-xl font-semibold'}>파일을 삭제 하시겠습니까?</div>
-                <div className={'flex w-full items-center justify-around gap-2'}>
+                <div className="p-4 font-display text-xl font-700">파일을 삭제 하시겠습니까?</div>
+                <div className="flex w-full items-center justify-around gap-2">
                   <button
-                    type={'button'}
+                    type="button"
                     onClick={() => setDeleteShare('')}
-                    className={'w-full rounded-full bg-neutral-100 p-2 px-4 font-semibold text-neutral-950'}
+                    className="w-full cursor-pointer rounded-xl border-2 border-accent bg-accent p-2.5 px-4 font-display font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
                   >
                     취소
                   </button>
                   <button
-                    type={'button'}
+                    type="button"
                     onClick={deleteFile}
-                    className={
-                      'w-full rounded-full border-2 border-red-500 bg-neutral-950 p-2 px-4 font-semibold text-red-500'
-                    }
+                    className="w-full cursor-pointer rounded-xl border-2 border-danger p-2.5 px-4 font-display font-700 text-danger transition-colors hover:bg-danger hover:text-white"
                   >
                     삭제
                   </button>
                 </div>
               </>
             ) : (
-              <>
-                <div className={'font-semibold text-red-500'}>{deleteError}</div>
-              </>
+              <div className="font-display font-700 text-danger">{deleteError}</div>
             )}
           </div>
         </motion.div>

@@ -13,16 +13,18 @@ export default function SharableFileSizeInfo({
 }) {
   const leftStorage = totalStorage - usedStorage
   return (
-    <div className={className ? className : 'flex items-center justify-between py-1 text-xs'}>
+    <div className={className ? className : 'flex items-center justify-between py-1 font-display text-xs font-500'}>
       {isLoading ? (
-        <div className={'h-4 w-16 animate-pulse rounded-full bg-neutral-500'} />
+        <div className="h-4 w-16 animate-pulse rounded-lg bg-border-subtle" />
       ) : (
-        <div>{leftStorage >= 0 ? `${formatBytes(leftStorage)} 남음` : `${formatBytes(-leftStorage)} 부족`}</div>
+        <div className={leftStorage < 0 ? 'font-600 text-danger' : ''}>
+          {leftStorage >= 0 ? `${formatBytes(leftStorage)} 남음` : `${formatBytes(-leftStorage)} 부족`}
+        </div>
       )}
       {isLoading ? (
-        <div className={'h-4 w-8 animate-pulse rounded-full bg-neutral-500'} />
+        <div className="h-4 w-8 animate-pulse rounded-lg bg-border-subtle" />
       ) : (
-        <div>{formatBytes(totalStorage)}</div>
+        <div className="text-text-muted">{formatBytes(totalStorage)}</div>
       )}
     </div>
   )

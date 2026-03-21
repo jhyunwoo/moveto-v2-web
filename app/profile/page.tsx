@@ -8,34 +8,38 @@ export default async function ProfilePage() {
   const session = await getSession()
 
   return (
-    <div className={'grid w-full grid-cols-1 gap-2 md:grid-cols-2'}>
-      <div className={'flex w-full flex-col gap-1 rounded-xl bg-neutral-900 p-4 text-white'}>
-        <div className={'mb-2 border-b-[1px] border-neutral-400 text-sm font-semibold'}>프로필</div>
-        <div>{session?.user.name}</div>
-        <div>{session?.user.email}</div>
-        <div className={'mt-4 flex gap-2'}>
-          <SignOutButton
-            className={'w-full rounded-xl border-[1px] border-neutral-300 p-2 px-4 text-sm text-neutral-50'}
-          />
+    <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+      <div className="brutalist-card flex w-full flex-col gap-1.5 rounded-2xl p-5 text-text-primary">
+        <div className="mb-2 border-b-2 border-border-primary pb-2 font-display text-sm font-700 uppercase tracking-wider">
+          프로필
+        </div>
+        <div className="font-display font-600">{session?.user.name}</div>
+        <div className="text-sm text-text-secondary">{session?.user.email}</div>
+        <div className="mt-4 flex gap-2">
+          <SignOutButton className="w-full cursor-pointer rounded-xl border-2 border-border-primary p-2 px-4 font-display text-sm font-600 text-text-primary transition-colors hover:bg-accent-soft" />
           <RegisterPasskeyButton />
         </div>
       </div>
-      <div className={'flex flex-col gap-1 rounded-xl bg-neutral-900 p-4 text-white'}>
-        <div className={'mb-2 border-b-[1px] border-neutral-400 text-sm'}>플랜</div>
-        <div>{session?.user.plan} Plan</div>
+      <div className="brutalist-card flex flex-col gap-1.5 rounded-2xl p-5 text-text-primary">
+        <div className="mb-2 border-b-2 border-border-primary pb-2 font-display text-sm font-700 uppercase tracking-wider">
+          플랜
+        </div>
+        <div className="font-display font-600">{session?.user.plan} Plan</div>
         <Link
-          href={'/profile/subscription'}
-          className={'mt-auto w-full rounded-xl bg-neutral-200 p-2 text-center text-sm font-semibold text-neutral-950'}
+          href="/profile/subscription"
+          className="mt-auto w-full rounded-xl border-2 border-accent bg-accent p-2 text-center font-display text-sm font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
         >
           구독 변경
         </Link>
       </div>
-      <div className={'flex flex-col gap-1 rounded-xl bg-neutral-900 p-4 text-white'}>
-        <div className={'mb-2 border-b-[1px] border-neutral-400 text-sm'}>파일 공유</div>
+      <div className="brutalist-card flex flex-col gap-1.5 rounded-2xl p-5 text-text-primary">
+        <div className="mb-2 border-b-2 border-border-primary pb-2 font-display text-sm font-700 uppercase tracking-wider">
+          파일 공유
+        </div>
         <UserStorageStatusBar />
         <Link
-          href={'/profile/history'}
-          className={'mt-auto w-full rounded-xl bg-neutral-200 p-2 text-center font-semibold text-neutral-950'}
+          href="/profile/history"
+          className="mt-auto w-full rounded-xl border-2 border-accent bg-accent p-2 text-center font-display font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
         >
           공유 기록
         </Link>

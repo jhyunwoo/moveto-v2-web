@@ -6,9 +6,9 @@ import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
 import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
 import { useShareTime } from '@/lib/stores/share-time'
 
-export default function ShareTimePickerModal() {
-  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp(store => store)
-  const { shareTime, setShareTime } = useShareTime(store => store)
+export default function ShareTimePickerModal({ upload }: { upload: () => void }) {
+  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp((store) => store)
+  const { shareTime, setShareTime } = useShareTime((store) => store)
   const session = useSession()
 
   const planShareTime = getShareTimeOptionsForPlan(session.data?.user.plan)
@@ -19,27 +19,27 @@ export default function ShareTimePickerModal() {
 
   return (
     <ModalLayout isOpen={shareTimePopUp} closeModal={() => setShareTimePopUp(false)}>
-      <div className={'py-2 text-2xl font-semibold'}>공유 시간</div>
-      <div className={'grid grid-cols-3 grid-rows-3 gap-2'}>
-        {planShareTime.map(data => (
+      <div className="pb-3 font-display text-2xl font-700">공유 시간</div>
+      <div className="grid grid-cols-3 grid-rows-3 gap-2">
+        {planShareTime.map((data) => (
           <button
             onClick={() => setShareTime(data.value)}
             key={data.text}
-            className={`rounded-lg p-3 ${shareTime === data.value ? 'bg-neutral-100 text-black' : 'bg-neutral-800 text-neutral-50'} flex items-center justify-center transition-colors`}
+            className={`cursor-pointer rounded-xl border-2 p-3 font-display font-600 transition-colors ${shareTime === data.value ? 'border-accent bg-accent text-white' : 'border-border-primary bg-surface-elevated text-text-primary hover:border-accent hover:bg-accent-soft'} flex items-center justify-center`}
           >
             <div>{data.text}</div>
           </button>
         ))}
       </div>
-      <div className={'mt-4 flex w-full items-center gap-2'}>
+      <div className="mt-4 flex w-full items-center gap-2">
         <button
-          className={'w-auto rounded-full border-2 border-red-600 p-2 px-4 text-red-500'}
-          type={'button'}
+          className="w-auto cursor-pointer rounded-xl border-2 border-danger p-2.5 px-4 font-display font-600 text-danger transition-colors hover:bg-danger hover:text-white"
+          type="button"
           onClick={() => setShareTimePopUp(false)}
         >
           취소
         </button>
-        <FileUploadButton />
+        <FileUploadButton upload={upload} />
       </div>
     </ModalLayout>
   )

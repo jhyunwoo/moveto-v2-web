@@ -6,7 +6,7 @@ import { authClient } from '@/lib/auth-client'
 export default function PasskeySignInButton() {
   return (
     <button
-      type={'button'}
+      type="button"
       onClick={async () => {
         await authClient.signIn.passkey({
           autoFill: true,
@@ -17,11 +17,9 @@ export default function PasskeySignInButton() {
           },
         })
       }}
-      className={
-        'flex w-full items-center justify-center gap-2 rounded-xl border-2 border-neutral-50 bg-neutral-900 p-3 text-lg font-semibold'
-      }
+      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-border-primary p-3 font-display text-lg font-700 transition-colors hover:bg-accent-soft"
     >
-      <KeyIcon className={'size-6'} />
+      <KeyIcon className="size-6" />
       <p>Passkey 로그인</p>
     </button>
   )

@@ -1,9 +1,12 @@
-import { Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { ArrowPathIcon } from '@heroicons/react/24/outline'
 
 export default function Loading() {
   return (
-    <div className={'fixed top-0 flex h-screen w-full items-center justify-center bg-black/50'}>
-      <Cog6ToothIcon className={'size-12 animate-spin text-slate-200'} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface-overlay backdrop-blur-sm">
+      <div className="brutalist-card flex items-center gap-3 rounded-xl p-4 px-6">
+        <ArrowPathIcon className="size-6 animate-spin text-accent" />
+        <span className="font-display text-sm font-600 tracking-wide">로딩중...</span>
+      </div>
     </div>
   )
 }

@@ -9,7 +9,7 @@
 - **Styling:** [Tailwind CSS 4](https://tailwindcss.com/) for utility-first styling.
 - **Database:** [PostgreSQL](https://www.postgresql.org/) managed via [Drizzle ORM](https://orm.drizzle.team/).
 - **Storage:** [Cloudflare R2](https://www.cloudflare.com/developer-platform/r2/) (S3-compatible) for file storage.
-- **Authentication:** [Better Auth](https://www.better-auth.com/) supporting Passkeys, GitHub, and Kakao OAuth.
+- **Authentication:** [Better Auth](https://www.better-auth.com/) supporting Passkeys and GitHub OAuth.
 - **File Uploads:** [Uppy](https://uppy.io/) integrated within a **Web Worker** (`lib/worker/file-upload-worker.ts`) to handle heavy upload tasks without blocking the main UI thread. Supports standard and multipart uploads for large files.
 - **State Management:** [Zustand](https://zustand-demo.pmnd.rs/) for client-side state.
 - **Animations:** [Motion](https://motion.dev/) (Framer Motion v12) for smooth UI transitions.
@@ -40,7 +40,6 @@ Create a `.env` file with the following keys:
 - `R2_ENDPOINT`, `R2_ACCESS_KEY`, `R2_SECRET_KEY`, `R2_BUCKET`: Cloudflare R2 credentials
 - `BETTER_AUTH_SECRET` / `AUTH_SECRET`: Secret for Better Auth
 - `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`: GitHub OAuth credentials
-- `AUTH_KAKAO_ID`, `AUTH_KAKAO_SECRET`: Kakao OAuth credentials
 - `NEXT_PUBLIC_SITE_URL`: The public URL of the application
 - `BETTER_AUTH_URL` / `AUTH_URL`: The URL for authentication callback
 

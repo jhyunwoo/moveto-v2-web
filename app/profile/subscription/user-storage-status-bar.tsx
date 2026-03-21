@@ -14,21 +14,26 @@ export default function UserStorageStatusBar() {
   const leftStorage = userLimit.storage - usedStorage
 
   return (
-    <div className={'flex w-full flex-col py-2'}>
-      <div className={`h-2 w-full rounded-full ${leftStorage < 0 ? 'bg-red-500' : 'bg-neutral-700'}`}>
+    <div className="flex w-full flex-col py-2">
+      <div
+        className={`h-2.5 w-full overflow-hidden rounded-full ${leftStorage < 0 ? 'bg-danger/20' : 'bg-border-subtle'}`}
+      >
         <motion.div
-          initial={{ width: '100%' }}
+          initial={{ scaleX: 1 }}
           animate={{
-            width: `${(leftStorage / userLimit.storage) * 100}%`,
+            scaleX: Math.max(0, leftStorage / userLimit.storage),
             opacity: leftStorage < 0 ? 0 : 1,
           }}
-          transition={{ duration: 1 }}
-          className={'h-2 rounded-full bg-sky-500'}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          style={{ willChange: 'transform', transformOrigin: 'left' }}
+          className="h-full w-full rounded-full bg-accent"
         />
       </div>
-      <div className={'flex items-center justify-between py-1 text-xs'}>
-        <div>{leftStorage >= 0 ? `${formatBytes(leftStorage)} 남음` : `${formatBytes(-leftStorage)} 부족`}</div>
-        <div>{formatBytes(userLimit.storage)}</div>
+      <div className="flex items-center justify-between py-1 font-display text-xs font-500">
+        <div className={leftStorage < 0 ? 'font-600 text-danger' : ''}>
+          {leftStorage >= 0 ? `${formatBytes(leftStorage)} 남음` : `${formatBytes(-leftStorage)} 부족`}
+        </div>
+        <div className="text-text-muted">{formatBytes(userLimit.storage)}</div>
       </div>
     </div>
   )

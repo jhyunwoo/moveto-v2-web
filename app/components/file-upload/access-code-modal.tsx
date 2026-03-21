@@ -4,54 +4,56 @@ import QRCode from 'react-qr-code'
 import { KeyIcon, QrCodeIcon, ShareIcon } from '@heroicons/react/24/outline'
 import ModalLayout from '@/app/components/modal-layout'
 import { useCode } from '@/lib/stores/code'
+import { useToastStore } from '@/lib/stores/toast'
 
 export default function AccessCodeModal() {
-  const { code, setCode } = useCode(store => store)
+  const { code, setCode } = useCode((store) => store)
+  const addToast = useToastStore((s) => s.addToast)
 
   async function shareFileLink() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 
     await window.navigator.clipboard.writeText(`${siteUrl}/search/${code.replaceAll(' ', '_')}`)
-    alert('링크가 복사되었습니다.')
+    addToast('링크가 복사되었습니다.')
   }
 
   return (
     <ModalLayout isOpen={code !== ''} closeModal={() => setCode('')}>
-      <div className={'flex flex-col gap-4'}>
+      <div className="flex flex-col gap-5">
         <div>
-          <div className={'mb-1 flex items-center gap-1 text-sm text-neutral-200'}>
-            <KeyIcon className={'size-5'} />
+          <div className="mb-2 flex items-center gap-1.5 font-display text-sm font-600 uppercase tracking-wider text-text-secondary">
+            <KeyIcon className="size-4" />
             <div>접근 코드</div>
           </div>
-          <div className={'rounded-xl bg-neutral-800 p-4 text-center text-3xl font-bold'}>{code}</div>
+          <div className="rounded-xl border-2 border-border-primary bg-surface p-4 text-center font-display text-3xl font-800 tracking-tight">
+            {code}
+          </div>
         </div>
-        <div className={'flex w-full flex-col items-start justify-center'}>
-          <div className={'mb-1 flex items-center gap-1 text-sm text-neutral-200'}>
-            <QrCodeIcon className={'size-6'} />
+        <div className="flex w-full flex-col items-start justify-center">
+          <div className="mb-2 flex items-center gap-1.5 font-display text-sm font-600 uppercase tracking-wider text-text-secondary">
+            <QrCodeIcon className="size-4" />
             <div>QR Code</div>
           </div>
-          <div className={'mx-auto rounded-xl bg-neutral-600 p-4'}>
+          <div className="mx-auto rounded-xl border-2 border-border-primary bg-white p-4">
             <QRCode
-              title={'Access Code'}
+              title="Access Code"
               value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${encodeURIComponent(code.replaceAll(' ', '_'))}`}
             />
           </div>
         </div>
-        <div className={'flex w-full items-center gap-2'}>
+        <div className="flex w-full items-center gap-2">
           <button
             onClick={shareFileLink}
-            type={'button'}
-            className={
-              'flex items-center gap-1 rounded-full border-2 border-neutral-200 bg-neutral-950 p-2 px-4 pr-5 text-neutral-50'
-            }
+            type="button"
+            className="brutalist-card flex cursor-pointer items-center gap-1.5 rounded-xl p-2.5 px-4 font-display font-600 text-text-primary transition-colors hover:bg-accent-soft"
           >
-            <ShareIcon className={'size-5'} />
+            <ShareIcon className="size-5" />
             <div>링크 복사</div>
           </button>
           <button
-            type={'button'}
+            type="button"
             onClick={() => setCode('')}
-            className={'grow rounded-full bg-neutral-50 p-2 px-4 font-semibold text-neutral-950'}
+            className="grow cursor-pointer rounded-xl border-2 border-accent bg-accent p-2.5 px-4 font-display font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
           >
             확인
           </button>

@@ -1,15 +1,9 @@
-import useFileUpload from '@/lib/hooks/use-file-upload'
-
-export default function FileUploadButton() {
-  const { upload } = useFileUpload()
-
+export default function FileUploadButton({ upload }: { upload: () => void }) {
   return (
     <button
       onClick={upload}
-      type={'button'}
-      className={
-        'grow rounded-full bg-white p-2 text-lg font-semibold text-black transition-colors hover:bg-neutral-200'
-      }
+      type="button"
+      className="grow cursor-pointer rounded-xl border-2 border-accent bg-accent p-2.5 font-display text-lg font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
     >
       공유
     </button>

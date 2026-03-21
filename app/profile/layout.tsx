@@ -15,10 +15,12 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
     redirect('/auth/sign-in')
   }
   return (
-    <div className={'mx-auto flex min-h-screen w-full max-w-4xl flex-col p-4'}>
-      <Link href={'/'} className={'flex items-center gap-2 pb-4 text-3xl font-bold text-white'}>
-        <Image src={'/vector-logo.svg'} alt={'Moveto Logo'} width={40} height={40} />
-        <div>Moveto</div>
+    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col p-4">
+      <Link href="/" className="flex items-center gap-3 pb-6 text-text-primary">
+        <div className="flex size-10 items-center justify-center">
+          <Image src="/vector-logo.svg" alt="Moveto Logo" width={36} height={36} />
+        </div>
+        <div className="font-display text-3xl font-800 tracking-tight">Moveto</div>
       </Link>
       {children}
     </div>
