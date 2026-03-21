@@ -1,15 +1,21 @@
 import Link from 'next/link'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
 
 export default async function ProfileButton() {
-  const session = await auth()
+  const session = await getSession()
 
   return session?.user?.id ? (
-    <Link className={'rounded-full bg-white p-[6px] px-4 text-sm font-semibold text-black'} href={'/profile'}>
+    <Link
+      className="rounded-lg border-2 border-accent bg-accent px-4 py-1.5 font-display text-sm font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
+      href="/profile"
+    >
       프로필
     </Link>
   ) : (
-    <Link className={'rounded-full bg-white p-[6px] px-4 text-sm font-semibold text-black'} href={'/auth/sign-in'}>
+    <Link
+      className="rounded-lg border-2 border-accent bg-accent px-4 py-1.5 font-display text-sm font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
+      href="/auth/sign-in"
+    >
       로그인
     </Link>
   )

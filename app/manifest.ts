@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: '로그인 없이 빠르게 파일을 공유하고 다운받을 수 있는 모베토',
     start_url: '/',
     display: 'standalone',
-    background_color: '#000',
-    theme_color: '#000',
+    background_color: '#f5f0e8',
+    theme_color: '#ff5d3b',
     icons: [
       {
         src: '/favicon.ico',

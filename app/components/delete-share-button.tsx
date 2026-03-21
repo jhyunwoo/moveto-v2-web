@@ -5,16 +5,16 @@ import ConfirmShareDelete from '@/app/components/confirm-share-delete'
 import { useDeleteShare } from '@/lib/stores/delete-share'
 
 export default function DeleteShareButton({ shareId }: { shareId: string }) {
-  const setDeleteShare = useDeleteShare(store => store.setDeleteShare)
+  const setDeleteShare = useDeleteShare((store) => store.setDeleteShare)
   return (
     <>
-      <ConfirmShareDelete redirect={'/'} />
+      <ConfirmShareDelete redirect="/" />
       <button
         onClick={() => setDeleteShare(shareId)}
-        className={'flex items-center gap-1 rounded-full border-2 border-red-600 bg-neutral-900 p-3 px-4 text-red-600'}
+        className="brutalist-card flex cursor-pointer items-center gap-1.5 rounded-xl border-2 border-danger px-4 py-3 font-display font-600 text-danger transition-colors hover:bg-danger hover:text-white"
       >
-        <TrashIcon className={'size-6'} />
-        <div className={'text-lg font-semibold'}>삭제...</div>
+        <TrashIcon className="size-6" />
+        <div className="text-lg font-700">삭제...</div>
       </button>
     </>
   )

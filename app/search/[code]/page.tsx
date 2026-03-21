@@ -10,7 +10,8 @@ import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import DeleteShareButton from '@/app/components/delete-share-button'
 import getIp from '@/lib/server/get-user-ip'
-import { auth } from '@/auth'
+import { getSession } from '@/auth'
+import HomeEntrance from '@/app/components/home-entrance'
 
 export default async function SearchPage({ params }: { params: Promise<{ code: string }> }) {
   const code = decodeKoCode((await params).code)
@@ -33,7 +34,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
   const downloadUrl = await Promise.all(urlRequests)
 
   if (shareData) {
-    const session = await auth()
+    const session = await getSession()
     await db.insert(logs).values({
       ip: await getIp(),
       shareId: shareData.id,
@@ -41,29 +42,40 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     })
 
     return (
-      <div className={'mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-2 p-4 pt-24 pb-24 text-white md:pb-28'}>
-        <div className={'flex items-center justify-between gap-2 rounded-xl bg-neutral-900 p-2 px-3'}>
-          <div className={'flex items-center gap-2'}>
-            <FolderOpenIcon className={'size-8 text-white'} />
-            <div className={'text-2xl font-bold'}>{code}</div>
+      <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-3 p-4 pt-24 pb-24 text-text-primary md:pb-28">
+        <HomeEntrance delay={0}>
+          <div className="brutalist-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
+            <div className="flex items-center gap-2">
+              <FolderOpenIcon className="size-7" />
+              <div className="font-display text-2xl font-800 tracking-tight">{code}</div>
+            </div>
+            <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
           </div>
-          <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
-        </div>
-        <div className={'rounded-xl p-2'}>
-          <div className={'text-xl font-semibold'}>파일</div>
-          <div className={'flex flex-col gap-1'}>
-            {shareData.file?.map((fileData, index) => (
-              <div key={index} className={'flex items-center justify-between rounded-lg bg-neutral-900 p-2 px-4'}>
-                <div className={'break-all'}>{fileData}</div>
-                <a href={downloadUrl[index]} download={fileData}>
-                  <CloudArrowDownIcon className={'size-8'} />
-                </a>
-              </div>
-            ))}
+        </HomeEntrance>
+        <HomeEntrance delay={0.05}>
+          <div className="p-2">
+            <div className="font-display text-lg font-700 uppercase tracking-wider">파일</div>
+            <div className="mt-2 flex flex-col gap-2">
+              {shareData.file?.map((fileData, index) => (
+                <HomeEntrance key={index} delay={0.08 + index * 0.04}>
+                  <div className="brutalist-card flex items-center justify-between rounded-xl p-3 px-4">
+                    <div className="break-all font-display font-600">{fileData}</div>
+                    <a
+                      href={downloadUrl[index]}
+                      download={fileData}
+                      className="rounded-lg border-2 border-transparent p-1 transition-colors hover:border-accent hover:bg-accent-soft"
+                      aria-label={`${fileData} 다운로드`}
+                    >
+                      <CloudArrowDownIcon className="size-8 text-accent" />
+                    </a>
+                  </div>
+                </HomeEntrance>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className={'fixed bottom-0 left-0 flex w-full p-4 md:pb-12'}>
-          <div className={'mx-auto flex w-full max-w-4xl gap-2'}>
+        </HomeEntrance>
+        <div className="fixed bottom-0 left-0 flex w-full border-t-2 border-border-subtle bg-surface/80 p-4 backdrop-blur-md md:pb-12">
+          <div className="mx-auto flex w-full max-w-3xl gap-2">
             <DeleteShareButton shareId={shareData?.id} />
             <HomePageButton />
           </div>
@@ -72,13 +84,15 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     )
   }
   return (
-    <div className={'flex h-screen w-full flex-col items-center justify-center p-4 text-white'}>
-      <div className={'p-4 text-2xl font-bold'}>
-        404 Not Found <br />
-        코드를 찾을 수 없습니다
-      </div>
-      <div className={'fixed bottom-0 left-0 flex w-full p-4 md:pb-12'}>
-        <div className={'mx-auto flex w-full max-w-4xl gap-2'}>
+    <div className="flex h-screen w-full flex-col items-center justify-center p-4 text-text-primary">
+      <HomeEntrance>
+        <div className="brutalist-card rounded-2xl p-8 text-center">
+          <div className="font-display text-4xl font-800">404</div>
+          <div className="mt-2 text-text-secondary">코드를 찾을 수 없습니다</div>
+        </div>
+      </HomeEntrance>
+      <div className="fixed bottom-0 left-0 flex w-full border-t-2 border-border-subtle bg-surface/80 p-4 backdrop-blur-md md:pb-12">
+        <div className="mx-auto flex w-full max-w-3xl gap-2">
           <HomePageButton />
         </div>
       </div>

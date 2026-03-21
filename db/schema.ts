@@ -1,83 +1,136 @@
-import { boolean, timestamp, pgTable, text, primaryKey, integer, jsonb, bigint, serial } from 'drizzle-orm/pg-core'
-import type { AdapterAccountType } from 'next-auth/adapters'
+import {
+  bigint,
+  boolean,
+  index,
+  integer,
+  jsonb,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  uniqueIndex,
+} from 'drizzle-orm/pg-core'
 
-export const users = pgTable('user', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text('name'),
-  email: text('email'),
-  emailVerified: timestamp('emailVerified', { mode: 'date' }),
-  image: text('image'),
-  plan: text('plan').default('Free').notNull(),
-})
+export const users = pgTable(
+  'user',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    name: text('name').notNull(),
+    email: text('email').notNull(),
+    emailVerified: boolean('emailVerified').notNull().default(false),
+    legacyEmailVerifiedAt: timestamp('legacyEmailVerifiedAt', { mode: 'date' }),
+    image: text('image'),
+    createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updatedAt', { mode: 'date' })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+    plan: text('plan').default('Free').notNull(),
+  },
+  table => ({
+    emailUnique: uniqueIndex('user_email_unique').on(table.email),
+  })
+)
 
 export const accounts = pgTable(
   'account',
   {
+    id: text('id').primaryKey(),
+    accountId: text('accountId').notNull(),
+    providerId: text('providerId').notNull(),
     userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    type: text('type').$type<AdapterAccountType>().notNull(),
-    provider: text('provider').notNull(),
-    providerAccountId: text('providerAccountId').notNull(),
-    refresh_token: text('refresh_token'),
-    access_token: text('access_token'),
-    expires_at: integer('expires_at'),
-    token_type: text('token_type'),
+    accessToken: text('accessToken'),
+    refreshToken: text('refreshToken'),
+    idToken: text('idToken'),
+    accessTokenExpiresAt: timestamp('accessTokenExpiresAt', { mode: 'date' }),
+    refreshTokenExpiresAt: timestamp('refreshTokenExpiresAt', { mode: 'date' }),
     scope: text('scope'),
-    id_token: text('id_token'),
-    session_state: text('session_state'),
+    password: text('password'),
+    createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updatedAt', { mode: 'date' })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
-  account => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
+  table => ({
+    providerAccountUnique: uniqueIndex('account_provider_account_unique').on(table.providerId, table.accountId),
+    userIdIndex: index('account_user_id_idx').on(table.userId),
   })
 )
 
-export const sessions = pgTable('session', {
-  sessionToken: text('sessionToken').primaryKey(),
-  userId: text('userId')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  expires: timestamp('expires', { mode: 'date' }).notNull(),
-})
-
-export const verificationTokens = pgTable(
-  'verificationToken',
+export const sessions = pgTable(
+  'session',
   {
-    identifier: text('identifier').notNull(),
+    id: text('id').primaryKey(),
+    expiresAt: timestamp('expiresAt', { mode: 'date' }).notNull(),
     token: text('token').notNull(),
-    expires: timestamp('expires', { mode: 'date' }).notNull(),
-  },
-  verificationToken => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.identifier, verificationToken.token],
-    }),
-  })
-)
-
-export const authenticators = pgTable(
-  'authenticator',
-  {
-    credentialID: text('credentialID').notNull().unique(),
+    createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updatedAt', { mode: 'date' })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+    ipAddress: text('ipAddress'),
+    userAgent: text('userAgent'),
     userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    providerAccountId: text('providerAccountId').notNull(),
-    credentialPublicKey: text('credentialPublicKey').notNull(),
-    counter: integer('counter').notNull(),
-    credentialDeviceType: text('credentialDeviceType').notNull(),
-    credentialBackedUp: boolean('credentialBackedUp').notNull(),
-    transports: text('transports'),
   },
-  authenticator => ({
-    compositePK: primaryKey({
-      columns: [authenticator.userId, authenticator.credentialID],
-    }),
+  table => ({
+    tokenUnique: uniqueIndex('session_token_unique').on(table.token),
+    userIdIndex: index('session_user_id_idx').on(table.userId),
   })
 )
+
+export const verifications = pgTable(
+  'verification',
+  {
+    id: text('id').primaryKey(),
+    identifier: text('identifier').notNull(),
+    value: text('value').notNull(),
+    expiresAt: timestamp('expiresAt', { mode: 'date' }).notNull(),
+    createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updatedAt', { mode: 'date' })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+  },
+  table => ({
+    identifierIndex: index('verification_identifier_idx').on(table.identifier),
+  })
+)
+
+export const passkeys = pgTable(
+  'passkey',
+  {
+    id: text('id').primaryKey(),
+    name: text('name'),
+    publicKey: text('publicKey').notNull(),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    credentialID: text('credentialID').notNull(),
+    counter: integer('counter').notNull(),
+    deviceType: text('deviceType').notNull(),
+    backedUp: boolean('backedUp').notNull(),
+    transports: text('transports'),
+    createdAt: timestamp('createdAt', { mode: 'date' }),
+    aaguid: text('aaguid'),
+  },
+  table => ({
+    credentialUnique: uniqueIndex('passkey_credential_id_unique').on(table.credentialID),
+    userIdIndex: index('passkey_user_id_idx').on(table.userId),
+  })
+)
+
+export const user = users
+export const account = accounts
+export const session = sessions
+export const verification = verifications
+export const passkey = passkeys
 
 export const share = pgTable('share', {
   id: text('id')

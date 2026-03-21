@@ -43,11 +43,9 @@ export default function useDragAndDropFile({
     [addFileData, addFiles, fileData, inputRef]
   )
   const onChangeFiles = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | any): void => {
-      // 드래그 했을 때와 안했을 때 가리키는 파일 배열을 다르게 해줍니다.
-      if (e.type === 'drop') {
-        // 드래그 앤 드롭 했을때
-        handleFileInput(e.dataTransfer.files)
+    (e: ChangeEvent<HTMLInputElement> | DragEvent): void => {
+      if (e.type === 'drop' && 'dataTransfer' in e) {
+        handleFileInput(e.dataTransfer?.files ?? null)
       }
     },
     [handleFileInput]

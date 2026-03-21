@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useSession } from '@/lib/auth-client'
 import { motion } from 'motion/react'
 import getUserLimit from '@/lib/get-user-limit'
 import { useEffect } from 'react'
@@ -12,7 +12,7 @@ import { useDisableUpload } from '@/lib/stores/disable-upload'
 
 export default function ShareableFileSize() {
   const totalSize = useTotalSize()
-  const setDisableUpload = useDisableUpload(store => store.setDisableUpload)
+  const setDisableUpload = useDisableUpload((store) => store.setDisableUpload)
 
   const session = useSession()
   const userPlan = session.data?.user.plan ? `${session.data.user.plan} Plan` : '미인증 사용자'
@@ -26,16 +26,16 @@ export default function ShareableFileSize() {
   }, [leftStorage, setDisableUpload])
 
   return (
-    <div className={'flex w-full flex-col rounded-xl border-[1px] border-white bg-neutral-900 p-2 px-4'}>
+    <div className="brutalist-card flex w-full flex-col rounded-xl p-3 px-4">
       {usedStorageLoading ? (
-        <div className={'mb-1 h-5 w-24 animate-pulse rounded-full bg-neutral-600 text-center text-sm'} />
+        <div className="mb-1 h-5 w-24 animate-pulse rounded-lg bg-border-subtle text-center text-sm" />
       ) : (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-display text-sm font-600">
           {userPlan}
         </motion.div>
       )}
 
-      <div className={'flex w-full flex-col'}>
+      <div className="flex w-full flex-col">
         <ShareableFileSizeBar totalStorage={userShareLimit.storage} usedStorage={usedStorage + totalSize} />
         <SharableFileSizeInfo
           totalStorage={userShareLimit.storage}

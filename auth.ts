@@ -1,41 +1,73 @@
-import NextAuth, { DefaultSession } from 'next-auth'
-import GitHub from 'next-auth/providers/github'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
-import Kakao from 'next-auth/providers/kakao'
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { nextCookies } from 'better-auth/next-js'
+import { passkey } from '@better-auth/passkey'
+import { headers } from 'next/headers'
 import db from '@/db'
-import { eq } from 'drizzle-orm'
-import { users } from '@/db/schema'
-import Passkey from 'next-auth/providers/passkey'
+import * as schema from '@/db/schema'
 
-declare module 'next-auth' {
-  /**
-   * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-   */
-  interface Session {
-    user: {
-      /** The user's postal address. */
-      plan: string
-      /**
-       * By default, TypeScript merges new interface properties and overwrites existing ones.
-       * In this case, the default session user properties will be overwritten,
-       * with the new ones defined above. To keep the default session user properties,
-       * you need to add them back into the newly declared interface.
-       */
-    } & DefaultSession['user']
+const authBaseUrl = process.env.BETTER_AUTH_URL ?? process.env.AUTH_URL ?? process.env.NEXT_PUBLIC_SITE_URL
+const authSecret = process.env.BETTER_AUTH_SECRET ?? process.env.AUTH_SECRET
+const authOrigin = authBaseUrl ? new URL(authBaseUrl) : undefined
+
+export const auth = betterAuth({
+  appName: 'Moveto',
+  baseURL: authBaseUrl,
+  secret: authSecret,
+  trustedOrigins: [process.env.NEXT_PUBLIC_SITE_URL, process.env.AUTH_URL, process.env.BETTER_AUTH_URL].filter(
+    (origin): origin is string => Boolean(origin)
+  ),
+  database: drizzleAdapter(db, {
+    provider: 'pg',
+    schema,
+  }),
+  socialProviders: {
+    github: {
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_GITHUB_SECRET!,
+    },
+  },
+  user: {
+    additionalFields: {
+      plan: {
+        type: 'string',
+        required: true,
+        defaultValue: 'Free',
+        input: false,
+      },
+    },
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ['github'],
+    },
+  },
+  plugins: [
+    passkey({
+      rpID: process.env.BETTER_AUTH_RP_ID ?? authOrigin?.hostname ?? 'localhost',
+      rpName: 'Moveto',
+      origin: authOrigin?.origin,
+    }),
+    nextCookies(),
+  ],
+  advanced: {
+    useSecureCookies: process.env.NODE_ENV === 'production',
+  },
+})
+
+type BetterAuthSession = typeof auth.$Infer.Session
+
+export type AuthSession = BetterAuthSession & {
+  user: BetterAuthSession['user'] & {
+    plan: string
   }
 }
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db),
-  experimental: { enableWebAuthn: true },
-  providers: [GitHub, Kakao, Passkey],
-  callbacks: {
-    async session({ session, user }) {
-      const userPlan = await db.select({ plan: users.plan }).from(users).where(eq(users.id, user.id))
-      session.user.plan = userPlan[0].plan
-      return session
-    },
-  },
-  debug: process.env.NODE_ENV !== 'production',
-  logger: { warn() {} },
-})
+export type Session = AuthSession
+
+export async function getSession() {
+  return (await auth.api.getSession({
+    headers: await headers(),
+  })) as AuthSession | null
+}

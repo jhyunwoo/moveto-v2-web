@@ -8,16 +8,18 @@ export default function ShareableFileSizeBar({
   usedStorage: number
 }) {
   const leftStorage = totalStorage - usedStorage
+
   return (
-    <div className={`h-2 w-full rounded-full ${leftStorage < 0 ? 'bg-red-500' : 'bg-neutral-700'}`}>
+    <div className={`my-1 h-2.5 w-full overflow-hidden rounded-full ${leftStorage < 0 ? 'bg-danger/20' : 'bg-border-subtle'}`}>
       <motion.div
-        initial={{ width: '100%' }}
+        initial={{ scaleX: 1 }}
         animate={{
-          width: `${(leftStorage / totalStorage) * 100}%`,
+          scaleX: Math.max(0, leftStorage / totalStorage),
           opacity: leftStorage < 0 ? 0 : 1,
         }}
-        transition={{ duration: 1 }}
-        className={'h-2 rounded-full bg-sky-500'}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        style={{ willChange: 'transform', transformOrigin: 'left' }}
+        className="h-full w-full rounded-full bg-accent"
       />
     </div>
   )
