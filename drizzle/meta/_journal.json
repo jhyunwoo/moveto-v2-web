@@ -15,6 +15,13 @@
       "when": 1773404655336,
       "tag": "0001_better_auth_upgrade",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774390800000,
+      "tag": "0002_fix_passkey_credential_base64url",
+      "breakpoints": true
     }
   ]
 }
