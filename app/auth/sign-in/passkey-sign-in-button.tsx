@@ -9,7 +9,6 @@ export default function PasskeySignInButton() {
       type="button"
       onClick={async () => {
         await authClient.signIn.passkey({
-          autoFill: true,
           fetchOptions: {
             onSuccess() {
               window.location.href = '/profile'
