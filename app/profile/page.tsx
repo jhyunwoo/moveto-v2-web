@@ -15,7 +15,7 @@ export default async function ProfilePage() {
         </div>
         <div className="font-display font-600">{session?.user.name}</div>
         <div className="text-sm text-text-secondary">{session?.user.email}</div>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <SignOutButton className="w-full cursor-pointer rounded-xl border-2 border-border-primary p-2 px-4 font-display text-sm font-600 text-text-primary transition-colors hover:bg-accent-soft" />
           <RegisterPasskeyButton />
         </div>

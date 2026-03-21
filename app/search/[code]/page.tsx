@@ -42,12 +42,12 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     })
 
     return (
-      <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-3 p-4 pt-24 pb-24 text-text-primary md:pb-28">
+      <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-20 pb-24 text-text-primary sm:pt-24 md:pb-28">
         <HomeEntrance delay={0}>
           <div className="brutalist-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
-            <div className="flex items-center gap-2">
-              <FolderOpenIcon className="size-7" />
-              <div className="font-display text-2xl font-800 tracking-tight">{code}</div>
+            <div className="flex min-w-0 items-center gap-2">
+              <FolderOpenIcon className="size-6 shrink-0 sm:size-7" />
+              <div className="truncate font-display text-xl font-800 tracking-tight sm:text-2xl">{code}</div>
             </div>
             <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
           </div>
@@ -58,15 +58,15 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
             <div className="mt-2 flex flex-col gap-2">
               {shareData.file?.map((fileData, index) => (
                 <HomeEntrance key={index} delay={0.08 + index * 0.04}>
-                  <div className="brutalist-card flex items-center justify-between rounded-xl p-3 px-4">
-                    <div className="break-all font-display font-600">{fileData}</div>
+                  <div className="brutalist-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
+                    <div className="min-w-0 break-all font-display text-sm font-600 sm:text-base">{fileData}</div>
                     <a
                       href={downloadUrl[index]}
                       download={fileData}
-                      className="rounded-lg border-2 border-transparent p-1 transition-colors hover:border-accent hover:bg-accent-soft"
+                      className="shrink-0 rounded-lg border-2 border-transparent p-1 transition-colors hover:border-accent hover:bg-accent-soft"
                       aria-label={`${fileData} 다운로드`}
                     >
-                      <CloudArrowDownIcon className="size-8 text-accent" />
+                      <CloudArrowDownIcon className="size-7 text-accent sm:size-8" />
                     </a>
                   </div>
                 </HomeEntrance>
@@ -74,7 +74,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
             </div>
           </div>
         </HomeEntrance>
-        <div className="fixed bottom-0 left-0 flex w-full border-t-2 border-border-subtle bg-surface/80 p-4 backdrop-blur-md md:pb-12">
+        <div className="fixed bottom-0 left-0 flex w-full border-t-2 border-border-subtle bg-surface/80 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-md">
           <div className="mx-auto flex w-full max-w-3xl gap-2">
             <DeleteShareButton shareId={shareData?.id} />
             <HomePageButton />
@@ -84,7 +84,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     )
   }
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center p-4 text-text-primary">
+    <div className="flex min-h-[100dvh] w-full flex-col items-center justify-center p-4 text-text-primary">
       <HomeEntrance>
         <div className="brutalist-card rounded-2xl p-8 text-center">
           <div className="font-display text-4xl font-800">404</div>

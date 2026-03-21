@@ -15,7 +15,7 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
     redirect('/auth/sign-in')
   }
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col p-4">
+    <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col p-4">
       <Link href="/" className="flex items-center gap-3 pb-6 text-text-primary">
         <div className="flex size-10 items-center justify-center">
           <Image src="/vector-logo.svg" alt="Moveto Logo" width={36} height={36} />

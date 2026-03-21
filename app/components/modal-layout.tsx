@@ -36,7 +36,7 @@ export default function ModalLayout({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="brutalist-card z-20 flex w-full max-w-xl flex-col rounded-2xl p-6"
+            className="brutalist-card z-20 flex max-h-[90dvh] w-full max-w-xl flex-col overflow-y-auto rounded-2xl p-4 sm:p-6"
           >
             {children}
           </motion.div>

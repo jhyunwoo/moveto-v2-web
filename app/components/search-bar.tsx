@@ -100,7 +100,7 @@ export default function SearchBar({
           className={`cursor-pointer disabled:text-accent ${error ? 'text-danger' : 'text-text-primary hover:text-accent'} transition-colors`}
         >
           {loading ? (
-            <svg className="size-14 animate-spin text-accent" viewBox="0 0 24 24" fill="none">
+            <svg className="size-10 animate-spin text-accent sm:size-14" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" />
               <path
                 className="opacity-75"
@@ -109,7 +109,7 @@ export default function SearchBar({
               />
             </svg>
           ) : (
-            <MagnifyingGlassCircleIcon className="size-14" />
+            <MagnifyingGlassCircleIcon className="size-10 sm:size-14" />
           )}
         </motion.button>
       </form>

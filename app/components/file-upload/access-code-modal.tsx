@@ -25,7 +25,7 @@ export default function AccessCodeModal() {
             <KeyIcon className="size-4" />
             <div>접근 코드</div>
           </div>
-          <div className="rounded-xl border-2 border-border-primary bg-surface p-4 text-center font-display text-3xl font-800 tracking-tight">
+          <div className="rounded-xl border-2 border-border-primary bg-surface p-3 text-center font-display text-2xl font-800 tracking-tight sm:p-4 sm:text-3xl">
             {code}
           </div>
         </div>
@@ -34,10 +34,12 @@ export default function AccessCodeModal() {
             <QrCodeIcon className="size-4" />
             <div>QR Code</div>
           </div>
-          <div className="mx-auto rounded-xl border-2 border-border-primary bg-white p-4">
+          <div className="mx-auto rounded-xl border-2 border-border-primary bg-white p-3 sm:p-4">
             <QRCode
               title="Access Code"
               value={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${encodeURIComponent(code.replaceAll(' ', '_'))}`}
+              size={192}
+              style={{ width: '100%', maxWidth: 256, height: 'auto' }}
             />
           </div>
         </div>

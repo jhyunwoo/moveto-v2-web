@@ -18,7 +18,7 @@ export default function DragAndDropBox({
 
   return (
     <motion.div
-      className={`relative h-[30vh] w-full rounded-2xl border-3 border-dashed transition-colors ${isDragOver ? 'border-accent bg-accent-soft' : 'border-border-primary hover:border-accent hover:bg-accent-soft'}`}
+      className={`relative h-[25vh] w-full rounded-2xl border-3 border-dashed transition-colors sm:h-[30vh] ${isDragOver ? 'border-accent bg-accent-soft' : 'border-border-primary hover:border-accent hover:bg-accent-soft'}`}
       animate={isDragOver ? { scale: 1.01 } : { scale: 1 }}
       transition={{ duration: 0.15, ease: 'easeOut' }}
     >
