@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import getS3Client from '@/lib/server/get-s3-client'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
+import checkShareAuth from '@/lib/server/check-share-auth'
 
 const expiresIn = 60 * 60 * 24 // 24 hours
 
@@ -18,6 +19,10 @@ export async function GET(request: NextRequest) {
       },
       { status: 400 }
     )
+  }
+
+  if (!(await checkShareAuth(path))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const url = await getSignedUrl(

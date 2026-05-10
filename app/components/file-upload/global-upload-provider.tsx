@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react'
+'use client'
+
+import { createContext, useContext, useEffect, useRef, ReactNode } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
 import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
 import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
@@ -7,7 +9,16 @@ import { useCode } from '@/lib/stores/code'
 import { useFiles } from '@/lib/stores/files'
 import { useFileData } from '@/lib/stores/file-data'
 
-export default function useFileUpload() {
+type GlobalUploadContextType = {
+  upload: () => void
+  pause: () => void
+  resume: () => void
+  cancel: () => void
+}
+
+const GlobalUploadContext = createContext<GlobalUploadContextType | null>(null)
+
+export function GlobalUploadProvider({ children }: { children: ReactNode }) {
   const workerRef = useRef<Worker | null>(null)
   const { setShareTimePopUp } = useShareTimePopUp((store) => store)
   const { setFileUploadProgress, setIsGeneratingCode, setIsPaused, setUploadError } = useFileUploadProgress(
@@ -33,7 +44,7 @@ export default function useFileUpload() {
 
   // Worker creation (once) and message handler
   useEffect(() => {
-    workerRef.current = new Worker(new URL('../worker/file-upload-worker.ts', import.meta.url), {
+    workerRef.current = new Worker(new URL('../../../lib/worker/file-upload-worker.ts', import.meta.url), {
       type: 'module',
     })
 
@@ -67,7 +78,6 @@ export default function useFileUpload() {
           setIsGeneratingCode(false)
         }
       } else if (event.data.status === 'Cancelled' && event.data.id) {
-        // Clean up the share on the server
         try {
           await fetch(`/api/share/${event.data.id}`, { method: 'DELETE' })
         } catch {
@@ -93,7 +103,7 @@ export default function useFileUpload() {
   function upload() {
     setUploadError('')
     workerRef.current?.postMessage({
-      files: files,
+      files: useFiles.getState().files, // Use getState to get latest files
     } as ClientToFileUploadWorker)
   }
 
@@ -111,5 +121,17 @@ export default function useFileUpload() {
     workerRef.current?.postMessage({ action: 'cancel' } as ClientToFileUploadWorker)
   }
 
-  return { upload, pause, resume, cancel }
+  return (
+    <GlobalUploadContext.Provider value={{ upload, pause, resume, cancel }}>
+      {children}
+    </GlobalUploadContext.Provider>
+  )
+}
+
+export function useGlobalUpload() {
+  const context = useContext(GlobalUploadContext)
+  if (!context) {
+    throw new Error('useGlobalUpload must be used within a GlobalUploadProvider')
+  }
+  return context
 }

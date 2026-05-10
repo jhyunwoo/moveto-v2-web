@@ -7,11 +7,15 @@ import ThemeProvider from '@/app/components/theme-provider'
 import Toast from '@/app/components/toast'
 import localFont from 'next/font/local'
 import { Syne } from 'next/font/google'
+import { GlobalUploadProvider } from '@/app/components/file-upload/global-upload-provider'
+import UploadProgressModal from '@/app/components/file-upload/upload-progress-modal'
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
   display: 'swap',
   variable: '--font-pretendard',
+  preload: true,
+  adjustFontFallback: 'Arial',
 })
 
 const syne = Syne({
@@ -23,8 +27,29 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
-  title: '모베토 Moveto | 로그인 없이 빠르고 안전한 파일 전송',
-  description: '번거로운 로그인 과정 없이 빠르고 안전하게 파일을 옮겨보세요.',
+  title: {
+    default: '모베토 Moveto | 로그인 없이 빠르고 안전한 파일 전송',
+    template: '%s | 모베토 Moveto',
+  },
+  description: '번거로운 로그인 과정 없이 빠르고 안전하게 파일을 옮겨보세요. 랜덤 한글 코드만으로 누구나 쉽게 다운로드할 수 있습니다.',
+  keywords: ['파일 공유', '대용량 파일 전송', '무설치 파일 전송', '모베토', 'Moveto', '한글 코드 공유'],
+  openGraph: {
+    title: '모베토 Moveto | 빠르고 안전한 파일 전송',
+    description: '번거로운 로그인 과정 없이 빠르고 안전하게 파일을 옮겨보세요.',
+    url: process.env.NEXT_PUBLIC_SITE_URL,
+    siteName: 'Moveto',
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '모베토 Moveto',
+    description: '로그인 없이 랜덤 한글 코드만으로 파일을 주고받으세요.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   appleWebApp: {
     startupImage: [
       {
@@ -64,9 +89,12 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       </head>
       <body className="relative z-10 text-text-primary">
         <ThemeProvider>
-          {children}
-          <Footer />
-          <Toast />
+          <GlobalUploadProvider>
+            {children}
+            <UploadProgressModal />
+            <Footer />
+            <Toast />
+          </GlobalUploadProvider>
         </ThemeProvider>
       </body>
       <GoogleAnalytics gaId={'G-BVNJYWQGEF'} />
