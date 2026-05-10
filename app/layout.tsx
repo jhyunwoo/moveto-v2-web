@@ -7,6 +7,8 @@ import ThemeProvider from '@/app/components/theme-provider'
 import Toast from '@/app/components/toast'
 import localFont from 'next/font/local'
 import { Syne } from 'next/font/google'
+import { GlobalUploadProvider } from '@/app/components/file-upload/global-upload-provider'
+import UploadProgressModal from '@/app/components/file-upload/upload-progress-modal'
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
@@ -87,9 +89,12 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       </head>
       <body className="relative z-10 text-text-primary">
         <ThemeProvider>
-          {children}
-          <Footer />
-          <Toast />
+          <GlobalUploadProvider>
+            {children}
+            <UploadProgressModal />
+            <Footer />
+            <Toast />
+          </GlobalUploadProvider>
         </ThemeProvider>
       </body>
       <GoogleAnalytics gaId={'G-BVNJYWQGEF'} />
