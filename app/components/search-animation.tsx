@@ -22,7 +22,7 @@ export default function SearchAnimation() {
   }, [])
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <motion.div
         layoutId="key"
         initial={{ opacity: 0 }}
@@ -32,7 +32,7 @@ export default function SearchAnimation() {
         Enter
       </motion.div>
       <motion.input
-        className="flex w-full min-w-24 max-w-32 cursor-pointer items-center justify-center rounded-xl border-2 border-border-primary bg-surface-elevated p-1.5 px-3 font-display text-sm font-500 transition-colors placeholder:text-text-muted focus:border-accent focus:outline-hidden sm:max-w-72 sm:px-4 md:max-w-80"
+        className="flex w-full cursor-pointer items-center justify-center rounded-xl border-2 border-border-primary bg-surface-elevated p-1.5 px-3 font-display text-sm font-500 transition-colors placeholder:text-text-muted focus:border-accent focus:outline-hidden sm:max-w-72 sm:px-4 md:max-w-80"
         onFocus={() => setIsExpanded(true)}
         placeholder="코드 검색"
         layoutId="search"
