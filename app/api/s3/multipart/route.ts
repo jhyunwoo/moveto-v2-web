@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import getS3Client from '@/lib/server/get-s3-client'
 import { CreateMultipartUploadCommand } from '@aws-sdk/client-s3'
+import checkShareAuth from '@/lib/server/check-share-auth'
 
 export async function POST(request: NextRequest) {
   const client = getS3Client()
@@ -25,6 +26,10 @@ export async function POST(request: NextRequest) {
   }
   if (typeof path !== 'string') {
     return NextResponse.json({ error: 's3: content path must be a string' }, { status: 400 })
+  }
+
+  if (!(await checkShareAuth(path))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const params = {

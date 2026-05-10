@@ -7,7 +7,12 @@ import getS3Client from '@/lib/server/get-s3-client'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
+
   const expiringShares = await db
     .update(share)
     .set({ code: null })

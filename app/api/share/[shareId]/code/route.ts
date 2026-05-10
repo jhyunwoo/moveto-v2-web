@@ -9,10 +9,17 @@ import getUserLimit from '@/lib/get-user-limit'
 import getUsedStorage from '@/lib/get-used-storage'
 import { addMinutes } from 'date-fns'
 import deleteShareFiles from '@/lib/server/delete-share-files'
+import checkShareAuth from '@/lib/server/check-share-auth'
+import crypto from 'crypto'
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ shareId: string }> }) {
   const client = getS3Client()
   const paramsData = await params
+
+  if (!(await checkShareAuth(paramsData.shareId))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const command = new ListObjectsV2Command({
     Bucket: process.env.R2_BUCKET,
     Prefix: paramsData.shareId,
@@ -43,8 +50,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   // Create access code of files
   const nounLength = (await db.select({ count: count() }).from(nouns))[0].count
   const adjectiveLength = (await db.select({ count: count() }).from(adjectives))[0].count
-  const randomNounId = Math.floor(Math.random() * nounLength) + 1
-  const randomAdjectiveId = Math.floor(Math.random() * adjectiveLength) + 1
+  const randomNounId = crypto.randomInt(1, nounLength + 1)
+  const randomAdjectiveId = crypto.randomInt(1, adjectiveLength + 1)
   const randomNoun = (await db.select().from(nouns).where(eq(nouns.id, randomNounId)))[0].word
   const randomAdjective = (await db.select().from(adjectives).where(eq(adjectives.id, randomAdjectiveId)))[0].word
 

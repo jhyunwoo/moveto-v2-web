@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import getS3Client from '@/lib/server/get-s3-client'
 import { UploadPartCommand } from '@aws-sdk/client-s3'
+import checkShareAuth from '@/lib/server/check-share-auth'
 
 function validatePartNumber(partNumber: string) {
   const number = Number(partNumber)
@@ -35,6 +36,12 @@ export async function GET(
       { status: 400 }
     )
   }
+
+  const shareId = key.split('/')[0]
+  if (!shareId || !(await checkShareAuth(shareId))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const url = await getSignedUrl(
     getS3Client(),
     new UploadPartCommand({

@@ -4,10 +4,12 @@ import FileUpload from '@/app/components/file-upload/file-upload'
 import SearchAnimation from '@/app/components/search-animation'
 import ThemeToggle from '@/app/components/theme-toggle'
 import HomeEntrance from '@/app/components/home-entrance'
+import JsonLd from '@/app/components/json-ld'
 
 export default function HomePage() {
   return (
     <div className="flex min-h-[100dvh] w-full flex-col items-center p-4">
+      <JsonLd />
       <div className="h-[16vh] w-full md:h-[28vh]" />
       <div className="relative flex w-full max-w-3xl flex-col gap-4 text-text-primary">
         <div className="mb-4 flex w-full flex-col gap-4 md:absolute md:-top-16 md:mb-0 md:flex-row md:items-center md:justify-between md:gap-3">

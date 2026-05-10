@@ -64,10 +64,11 @@ const uppy = new Uppy<Meta, AwsBody>()
     retryDelays: [0, 1000, 3000, 5000],
     shouldUseMultipart: (file) => (file.size ?? 0) > 10 * 1024 * 1024,
     getChunkSize: (file) => {
-      const size = file.size
-      if (size > 500 * 1024 * 1024) return 50 * 1024 * 1024
-      if (size > 100 * 1024 * 1024) return 20 * 1024 * 1024
-      return 10 * 1024 * 1024
+      const size = file.size ?? 0
+      if (size > 500 * 1024 * 1024 * 1024) return 110 * 1024 * 1024 // 110MB for > 500GB
+      if (size > 100 * 1024 * 1024 * 1024) return 50 * 1024 * 1024  // 50MB for > 100GB
+      if (size > 10 * 1024 * 1024 * 1024) return 20 * 1024 * 1024   // 20MB for > 10GB
+      return 10 * 1024 * 1024                                       // 10MB default
     },
   })
   .on('upload-progress', () => {

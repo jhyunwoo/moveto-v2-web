@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import getS3Client from '@/lib/server/get-s3-client'
 import { ListPartsCommand, Part } from '@aws-sdk/client-s3'
+import checkShareAuth from '@/lib/server/check-share-auth'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ uploadId: string }> }) {
   const client = getS3Client()
@@ -14,6 +15,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       },
       { status: 400 }
     )
+  }
+
+  const shareId = key.split('/')[0]
+  if (!shareId || !(await checkShareAuth(shareId))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const parts: Part[] = []
