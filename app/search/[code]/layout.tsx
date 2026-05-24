@@ -12,7 +12,7 @@ export default function SearchCodeLayout({ children }: { children: ReactNode }) 
   return (
     <>
       {children}
-      <div className="fixed top-4 right-4 left-4 z-20 mx-auto max-w-3xl text-text-primary">
+      <div className="fixed top-20 right-4 left-4 z-20 mx-auto max-w-3xl text-text-primary">
         <SearchBar />
       </div>
     </>

@@ -42,7 +42,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     })
 
     return (
-      <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-20 pb-24 text-text-primary sm:pt-24 md:pb-28">
+      <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-40 pb-24 text-text-primary sm:pt-44 md:pb-28">
         <HomeEntrance delay={0}>
           <div className="modern-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
             <div className="flex min-w-0 items-center gap-2">

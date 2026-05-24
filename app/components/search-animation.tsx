@@ -2,10 +2,17 @@
 
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import SearchBar from '@/app/components/search-bar'
 
 export default function SearchAnimation() {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     function detectEnter(e: KeyboardEvent) {
@@ -20,6 +27,31 @@ export default function SearchAnimation() {
     window.addEventListener('keydown', detectEnter)
     return () => window.removeEventListener('keydown', detectEnter)
   }, [])
+
+  const expandedContent = (
+    <AnimatePresence>
+      {isExpanded && (
+        <motion.div
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={(e) => setIsExpanded(e.target !== e.currentTarget)}
+        >
+          <SearchBar isExpanded={isExpanded} setIsExpanded={setIsExpanded}>
+            <motion.div
+              layoutId="key"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute -top-8 left-4 rounded-md border-2 border-border-primary bg-surface-elevated px-2 py-0.5 font-display text-xs font-600 uppercase tracking-wider"
+            >
+              Esc
+            </motion.div>
+          </SearchBar>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
 
   return (
     <div className="relative w-full">
@@ -38,28 +70,7 @@ export default function SearchAnimation() {
         layoutId="search"
         autoComplete="off"
       />
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => setIsExpanded(e.target !== e.currentTarget)}
-          >
-            <SearchBar isExpanded={isExpanded} setIsExpanded={setIsExpanded}>
-              <motion.div
-                layoutId="key"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="absolute -top-8 left-4 rounded-md border-2 border-border-primary bg-surface-elevated px-2 py-0.5 font-display text-xs font-600 uppercase tracking-wider"
-              >
-                Esc
-              </motion.div>
-            </SearchBar>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mounted && createPortal(expandedContent, document.body)}
     </div>
   )
 }
