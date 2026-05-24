@@ -5,7 +5,7 @@ describe('getUserLimit', () => {
   it('returns the Free plan limits', () => {
     expect(getUserLimit('Free')).toEqual({
       time: 30,
-      storage: 100000000,
+      storage: 10000000000,
     })
   })
 
@@ -19,7 +19,7 @@ describe('getUserLimit', () => {
   it('falls back to unauthorized limits', () => {
     expect(getUserLimit(undefined)).toEqual({
       time: 10,
-      storage: 50000000,
+      storage: 1000000000,
     })
   })
 })
