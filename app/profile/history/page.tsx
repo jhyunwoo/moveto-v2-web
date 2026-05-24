@@ -29,25 +29,25 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
   return (
     <div className="text-text-primary mt-6">
       <ConfirmShareDelete />
-      <Link href="/profile" className="group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition-all hover:bg-white/10 hover:border-white/20 backdrop-blur-md">
+      <Link href="/profile" className="group mb-8 inline-flex items-center gap-2 rounded-full border border-border-primary bg-surface-alt px-4 py-2 text-sm transition-all hover:bg-surface-elevated hover:border-border-primary/50 backdrop-blur-md">
         <ChevronLeftIcon className="size-4" />
         <div className="font-display font-600">프로필로 돌아가기</div>
       </Link>
       
-      <div className="mb-8 font-display text-3xl font-800 tracking-tight text-white drop-shadow-md">
+      <div className="mb-8 font-display text-3xl font-800 tracking-tight text-text-primary drop-shadow-md">
         파일 <span className="text-gradient-neon">공유 기록</span>
       </div>
       
       {shareList.length === 0 ? (
         <div className="modern-card relative flex min-h-[400px] flex-col items-center justify-center gap-5 p-8 text-center overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-soft via-transparent to-transparent opacity-50" />
-          <div className="relative flex size-20 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-lg shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+          <div className="relative flex size-20 items-center justify-center rounded-full bg-surface-alt border border-border-primary backdrop-blur-lg shadow-[0_0_30px_rgba(139,92,246,0.3)]">
             <svg className="size-10 text-accent-hover drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
           </div>
           <div className="relative z-10">
-            <div className="font-display text-xl font-800 text-white">아직 공유한 파일이 없습니다</div>
+            <div className="font-display text-xl font-800 text-text-primary">아직 공유한 파일이 없습니다</div>
             <div className="mt-2 text-sm text-text-secondary">새로운 파일을 업로드하고 안전하게 공유해 보세요.</div>
           </div>
           <Link href="/" className="btn-premium relative z-10 mt-4 rounded-full px-8 py-3 font-display text-sm font-700">
@@ -60,14 +60,14 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
             {shareList.map((share) => (
               <div key={share.id} className="modern-card flex flex-col gap-4 p-5 group hover:border-accent-soft/50">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="line-clamp-2 break-all font-display text-lg font-700 leading-snug text-white group-hover:text-accent-hover transition-colors">
+                  <div className="line-clamp-2 break-all font-display text-lg font-700 leading-snug text-text-primary group-hover:text-accent-hover transition-colors">
                     {share.file ? share.file[0] : null}
                     {share.file?.length && (share.file.length > 1 ? ` 외 ${share.file.length - 1}개의 파일` : null)}
                   </div>
                   <DeleteShareTrashIconButton shareId={share.id} />
                 </div>
                 
-                <div className="mt-auto flex items-end justify-between pt-4 border-t border-white/10">
+                <div className="mt-auto flex items-end justify-between pt-4 border-t border-border-primary">
                   {share.code && !isExpired(share.expireAt) ? (
                     <Link
                       href={`/search/${share.code.replaceAll(' ', '_')}`}
@@ -76,13 +76,13 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
                       {share.code}
                     </Link>
                   ) : (
-                    <span className="rounded-lg bg-white/5 border border-white/10 px-3 py-1.5 font-display text-sm font-600 text-text-muted">
+                    <span className="rounded-lg bg-surface-alt border border-border-primary px-3 py-1.5 font-display text-sm font-600 text-text-muted">
                       만료됨
                     </span>
                   )}
                   <div className="text-right text-xs text-text-secondary">
                     <div>{dateToKor(new Date(share.createdAt))} 생성</div>
-                    <div className="font-500 mt-1 text-white/70">{dateToKor(new Date(share.expireAt!))} 만료</div>
+                    <div className="font-500 mt-1 text-text-secondary">{dateToKor(new Date(share.expireAt!))} 만료</div>
                   </div>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
             <Link
               href={`/profile/history?page=${Math.max(1, currentPage - 1)}`}
               className={`flex h-10 items-center justify-center rounded-xl px-5 font-display text-sm font-700 transition-all ${
-                currentPage <= 1 ? 'pointer-events-none opacity-30 bg-white/5 text-white/50' : 'border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-white backdrop-blur-sm'
+                currentPage <= 1 ? 'pointer-events-none opacity-30 bg-surface-alt text-text-muted' : 'border border-border-primary bg-surface-alt hover:bg-surface-elevated hover:border-border-primary/50 text-text-primary backdrop-blur-sm'
               }`}
             >
               이전
@@ -104,7 +104,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
             <Link
               href={`/profile/history?page=${Math.min(pageLimit, currentPage + 1)}`}
               className={`flex h-10 items-center justify-center rounded-xl px-5 font-display text-sm font-700 transition-all ${
-                currentPage >= pageLimit ? 'pointer-events-none opacity-30 bg-white/5 text-white/50' : 'border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-white backdrop-blur-sm'
+                currentPage >= pageLimit ? 'pointer-events-none opacity-30 bg-surface-alt text-text-muted' : 'border border-border-primary bg-surface-alt hover:bg-surface-elevated hover:border-border-primary/50 text-text-primary backdrop-blur-sm'
               }`}
             >
               다음
