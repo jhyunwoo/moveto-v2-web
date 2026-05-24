@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ProfileButton from '@/app/components/profile-button'
 import ThemeToggle from '@/app/components/theme-toggle'
+import { Suspense } from 'react'
 
 export default function Header() {
   return (
@@ -16,7 +17,9 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
-          <ProfileButton />
+          <Suspense fallback={<div className="h-8 w-16 animate-pulse rounded-lg bg-border-primary"></div>}>
+            <ProfileButton />
+          </Suspense>
         </div>
       </div>
     </header>

@@ -13,6 +13,14 @@ vi.mock('@/lib/server/get-user-share-history', () => ({
   default: getUserShareHistoryMock,
 }))
 
+vi.mock('next/server', async (importOriginal) => {
+  const mod = await importOriginal<typeof import('next/server')>()
+  return {
+    ...mod,
+    connection: vi.fn().mockResolvedValue(undefined),
+  }
+})
+
 describe('GET /api/user/shares/[page]', () => {
   beforeEach(() => {
     vi.clearAllMocks()

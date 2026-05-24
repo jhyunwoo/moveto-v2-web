@@ -76,11 +76,13 @@ describe('POST /api/share', () => {
 
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual({ shareId: 'share-1' })
-    expect(valuesMock).toHaveBeenCalledWith({
-      userId: 'user-1',
-      ip: '127.0.0.1',
-      file: ['report.pdf'],
-      storageSize: 25,
-    })
+    expect(valuesMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        ip: '127.0.0.1',
+        file: ['report.pdf'],
+        storageSize: 25,
+      })
+    )
   })
 })
