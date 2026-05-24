@@ -41,7 +41,7 @@ export default function ConfirmShareDelete({ redirect }: { redirect?: string }) 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="brutalist-card flex w-full max-w-lg flex-col items-center gap-3 rounded-2xl p-6">
+      <div className="modern-card flex w-full max-w-lg flex-col items-center gap-3 rounded-2xl p-6">
         {!deleteError ? (
           <>
             <div className="p-4 font-display text-xl font-700">파일을 삭제 하시겠습니까?</div>

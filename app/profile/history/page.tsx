@@ -17,7 +17,6 @@ function dateToKor(date: Date) {
 
 function isExpired(expiredAt: Date | null) {
   if (!expiredAt) return false
-
   return new Date() > expiredAt
 }
 
@@ -28,61 +27,91 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
   const { shareList, pageLimit, currentPage } = await getUserShareHistory(session!.user.id, requestedPage)
 
   return (
-    <div className="text-text-primary">
+    <div className="text-text-primary mt-6">
       <ConfirmShareDelete />
-      <Link href="/profile" className="group flex items-center gap-2 pb-2">
-        <ChevronLeftIcon className="size-5" />
-        <div className="font-display font-600 group-hover:text-accent">프로필 페이지</div>
+      <Link href="/profile" className="group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition-all hover:bg-white/10 hover:border-white/20 backdrop-blur-md">
+        <ChevronLeftIcon className="size-4" />
+        <div className="font-display font-600">프로필로 돌아가기</div>
       </Link>
-      <div className="py-4 font-display text-xl font-700">파일 공유 기록</div>
-      {shareList.length === 0 && (
-        <div className="brutalist-card rounded-xl p-8 text-center text-text-secondary">아직 공유한 파일이 없습니다.</div>
-      )}
-      <div className="flex w-full items-center justify-end gap-3 p-3 sm:gap-4 sm:p-4">
-        <Link
-          href={`/profile/history?page=${Math.max(1, currentPage - 1)}`}
-          className={`font-display text-sm font-600 transition-colors hover:text-accent sm:text-base ${currentPage <= 1 ? 'pointer-events-none opacity-40' : ''}`}
-        >
-          &larr; 이전
-        </Link>
-        <div className="rounded-lg border-2 border-accent bg-accent px-3 py-1 font-display text-sm font-700 text-white sm:text-base">
-          {currentPage}
-        </div>
-        <Link
-          href={`/profile/history?page=${Math.min(pageLimit, currentPage + 1)}`}
-          className={`font-display text-sm font-600 transition-colors hover:text-accent sm:text-base ${currentPage >= pageLimit ? 'pointer-events-none opacity-40' : ''}`}
-        >
-          다음 &rarr;
-        </Link>
+      
+      <div className="mb-8 font-display text-3xl font-800 tracking-tight text-white drop-shadow-md">
+        파일 <span className="text-gradient-neon">공유 기록</span>
       </div>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-        {shareList.map((share) => (
-          <div key={share.id} className="brutalist-card flex flex-col gap-2 rounded-xl p-4">
-            <div className="flex items-start justify-between">
-              <div className="break-all font-display font-600">
-                {share.file ? share.file[0] : null}
-                {share.file?.length && (share.file.length > 1 ? `외 ${share.file.length - 1}개의 파일` : null)}
-              </div>
-
-              <DeleteShareTrashIconButton shareId={share.id} />
-            </div>
-            <div className="ml-auto flex w-full items-end justify-between">
-              {share.code && !isExpired(share.expireAt) ? (
-                <Link
-                  href={`/search/${share.code.replaceAll(' ', '_')}`}
-                  className="rounded-lg border-2 border-accent bg-accent px-2 py-1 font-display font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
-                >
-                  {share.code}
-                </Link>
-              ) : null}
-              <div className="ml-auto text-sm text-text-secondary">
-                <div>{dateToKor(new Date(share.createdAt))} 생성</div>
-                <div>{dateToKor(new Date(share.expireAt!))} 만료</div>
-              </div>
-            </div>
+      
+      {shareList.length === 0 ? (
+        <div className="modern-card relative flex min-h-[400px] flex-col items-center justify-center gap-5 p-8 text-center overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-soft via-transparent to-transparent opacity-50" />
+          <div className="relative flex size-20 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-lg shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+            <svg className="size-10 text-accent-hover drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
           </div>
-        ))}
-      </div>
+          <div className="relative z-10">
+            <div className="font-display text-xl font-800 text-white">아직 공유한 파일이 없습니다</div>
+            <div className="mt-2 text-sm text-text-secondary">새로운 파일을 업로드하고 안전하게 공유해 보세요.</div>
+          </div>
+          <Link href="/" className="btn-premium relative z-10 mt-4 rounded-full px-8 py-3 font-display text-sm font-700">
+            새 파일 업로드 시작
+          </Link>
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {shareList.map((share) => (
+              <div key={share.id} className="modern-card flex flex-col gap-4 p-5 group hover:border-accent-soft/50">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="line-clamp-2 break-all font-display text-lg font-700 leading-snug text-white group-hover:text-accent-hover transition-colors">
+                    {share.file ? share.file[0] : null}
+                    {share.file?.length && (share.file.length > 1 ? ` 외 ${share.file.length - 1}개의 파일` : null)}
+                  </div>
+                  <DeleteShareTrashIconButton shareId={share.id} />
+                </div>
+                
+                <div className="mt-auto flex items-end justify-between pt-4 border-t border-white/10">
+                  {share.code && !isExpired(share.expireAt) ? (
+                    <Link
+                      href={`/search/${share.code.replaceAll(' ', '_')}`}
+                      className="rounded-lg bg-gradient-to-r from-accent to-cyan-500 px-4 py-2 font-display text-sm font-800 text-white transition-all hover:scale-105 shadow-[0_0_15px_rgba(139,92,246,0.5)]"
+                    >
+                      {share.code}
+                    </Link>
+                  ) : (
+                    <span className="rounded-lg bg-white/5 border border-white/10 px-3 py-1.5 font-display text-sm font-600 text-text-muted">
+                      만료됨
+                    </span>
+                  )}
+                  <div className="text-right text-xs text-text-secondary">
+                    <div>{dateToKor(new Date(share.createdAt))} 생성</div>
+                    <div className="font-500 mt-1 text-white/70">{dateToKor(new Date(share.expireAt!))} 만료</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-10 flex w-full items-center justify-center gap-4">
+            <Link
+              href={`/profile/history?page=${Math.max(1, currentPage - 1)}`}
+              className={`flex h-10 items-center justify-center rounded-xl px-5 font-display text-sm font-700 transition-all ${
+                currentPage <= 1 ? 'pointer-events-none opacity-30 bg-white/5 text-white/50' : 'border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-white backdrop-blur-sm'
+              }`}
+            >
+              이전
+            </Link>
+            <div className="flex size-10 items-center justify-center rounded-xl bg-accent font-display text-sm font-800 text-white shadow-[0_0_15px_rgba(139,92,246,0.4)]">
+              {currentPage}
+            </div>
+            <Link
+              href={`/profile/history?page=${Math.min(pageLimit, currentPage + 1)}`}
+              className={`flex h-10 items-center justify-center rounded-xl px-5 font-display text-sm font-700 transition-all ${
+                currentPage >= pageLimit ? 'pointer-events-none opacity-30 bg-white/5 text-white/50' : 'border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-white backdrop-blur-sm'
+              }`}
+            >
+              다음
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   )
 }

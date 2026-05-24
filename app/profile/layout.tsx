@@ -1,8 +1,6 @@
 import { ReactNode } from 'react'
 import { getSession } from '@/auth'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -15,13 +13,7 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
     redirect('/auth/sign-in')
   }
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col p-4">
-      <Link href="/" className="flex items-center gap-3 pb-6 text-text-primary">
-        <div className="flex size-10 items-center justify-center">
-          <Image src="/vector-logo.svg" alt="Moveto Logo" width={36} height={36} />
-        </div>
-        <div className="font-display text-3xl font-800 tracking-tight">Moveto</div>
-      </Link>
+    <div className="mx-auto flex w-full max-w-4xl flex-col p-4 md:p-8">
       {children}
     </div>
   )

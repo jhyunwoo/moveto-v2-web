@@ -1,51 +1,46 @@
-import ProfileButton from '@/app/components/profile-button'
-import Image from 'next/image'
 import FileUpload from '@/app/components/file-upload/file-upload'
 import SearchAnimation from '@/app/components/search-animation'
-import ThemeToggle from '@/app/components/theme-toggle'
 import HomeEntrance from '@/app/components/home-entrance'
 import JsonLd from '@/app/components/json-ld'
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col items-center p-4">
+    <div className="flex w-full flex-col items-center p-4">
       <JsonLd />
-      <div className="h-[16vh] w-full md:h-[28vh]" />
-      <div className="relative flex w-full max-w-3xl flex-col gap-4 text-text-primary">
-        <div className="mb-4 flex w-full flex-col gap-4 md:absolute md:-top-16 md:mb-0 md:flex-row md:items-center md:justify-between md:gap-3">
-          <div className="flex w-full items-center justify-between md:w-auto">
-            <HomeEntrance delay={0}>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="flex size-8 items-center justify-center sm:size-10">
-                  <Image src="/vector-logo.svg" alt="Moveto Logo" width={36} height={36} />
-                </div>
-                <div className="font-display text-3xl font-800 tracking-tight sm:text-5xl">Moveto</div>
-              </div>
-            </HomeEntrance>
-            
-            <HomeEntrance delay={0} className="md:hidden">
-              <div className="flex items-center gap-2">
-                <ProfileButton />
-                <ThemeToggle />
-              </div>
-            </HomeEntrance>
+      <div className="h-[4vh] w-full md:h-[12vh]" />
+      <div className="relative flex w-full max-w-3xl flex-col gap-8 text-text-primary">
+        
+        {/* Typography Hero Section */}
+        <HomeEntrance delay={0.05}>
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="inline-block rounded-full border border-accent-soft bg-accent-soft/30 px-3 py-1 font-display text-xs font-600 text-accent-hover backdrop-blur-md">
+              로그인 없이 1초만에
+            </div>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-800 tracking-tight text-text-primary drop-shadow-sm dark:text-white dark:drop-shadow-lg transition-colors">
+              안전하고 빠른 <span className="text-gradient-neon">파일 공유</span>
+            </h1>
+            <p className="text-text-secondary text-sm sm:text-base max-w-xl font-400 transition-colors">
+              어떤 파일이든 드래그해서 바로 공유하세요. 생성된 한글 코드만 입력하면 어디서든 다운로드할 수 있습니다.
+            </p>
           </div>
-          
-          <div className="flex w-full items-center gap-2 sm:gap-3 md:w-auto md:justify-end">
-            <HomeEntrance delay={0.05} className="w-full md:w-auto">
+        </HomeEntrance>
+
+        <div className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-end md:gap-3">
+          <div className="flex w-full items-center justify-center md:w-auto md:justify-end z-20">
+            <HomeEntrance delay={0.1} className="w-full md:w-auto">
               <SearchAnimation />
-            </HomeEntrance>
-            
-            <HomeEntrance delay={0.05} className="hidden md:block">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <ProfileButton />
-                <ThemeToggle />
-              </div>
             </HomeEntrance>
           </div>
         </div>
-        <HomeEntrance delay={0.1}>
-          <FileUpload />
+        
+        <HomeEntrance delay={0.15}>
+          <div className="relative">
+            {/* Ambient Glow behind the card */}
+            <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-violet-400 to-cyan-400 opacity-40 blur-xl transition-all duration-500 dark:from-violet-600 dark:to-cyan-600 dark:opacity-20" />
+            <div className="relative">
+              <FileUpload />
+            </div>
+          </div>
         </HomeEntrance>
       </div>
     </div>

@@ -26,6 +26,10 @@ export const auth = betterAuth({
       clientId: process.env.AUTH_GITHUB_ID!,
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
     },
+    google: {
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    },
   },
   user: {
     additionalFields: {
@@ -40,7 +44,7 @@ export const auth = betterAuth({
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ['github'],
+      trustedProviders: ['github', 'google'],
     },
   },
   plugins: [

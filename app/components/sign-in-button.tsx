@@ -9,7 +9,7 @@ export default function SignInButton({
   children,
 }: {
   className?: string
-  provider: 'github'
+  provider: 'github' | 'google'
   children: ReactNode
 }) {
   return (

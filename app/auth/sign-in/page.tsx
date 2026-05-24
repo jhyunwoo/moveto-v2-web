@@ -16,7 +16,7 @@ export default async function SignInPage() {
 
   return (
     <div className="flex min-h-[100dvh] w-full flex-col items-center justify-center p-4 text-text-primary">
-      <div className="brutalist-card flex w-full max-w-md flex-col items-center gap-3 rounded-2xl p-8">
+      <div className="modern-card flex w-full max-w-md flex-col items-center gap-3 rounded-2xl p-8">
         <div className="w-full pb-3 font-display text-3xl font-800 tracking-tight">Moveto 로그인</div>
         <SignInButton
           className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-border-primary p-3 font-display text-lg font-700 transition-colors hover:bg-accent-soft"
@@ -27,9 +27,18 @@ export default async function SignInPage() {
           </div>
           <p>Github 로그인</p>
         </SignInButton>
+        <SignInButton
+          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-border-primary p-3 font-display text-lg font-700 transition-colors hover:bg-accent-soft"
+          provider="google"
+        >
+          <div className="flex size-6 items-center justify-center rounded-full bg-white p-0.5 shadow-sm">
+            <Image src="/google-mark.svg" alt="Google Logo" width={20} height={20} />
+          </div>
+          <p>Google 로그인</p>
+        </SignInButton>
         <PasskeySignInButton />
-        <p className="pt-1 text-sm text-text-secondary">
-          Passkey로 로그인 하기 위해선 Github로 로그인 한 후 Passkey 등록이 필요합니다.
+        <p className="pt-1 text-sm text-text-secondary text-center">
+          Passkey 등록은 소셜 로그인을 통해 접속한 후 <br className="hidden sm:block" />프로필 설정에서 가능합니다.
         </p>
         <Link
           href="/"

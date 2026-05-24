@@ -11,7 +11,7 @@ export default function DeleteShareButton({ shareId }: { shareId: string }) {
       <ConfirmShareDelete redirect="/" />
       <button
         onClick={() => setDeleteShare(shareId)}
-        className="brutalist-card flex cursor-pointer items-center gap-1.5 rounded-xl border-2 border-danger px-4 py-3 font-display font-600 text-danger transition-colors hover:bg-danger hover:text-white"
+        className="modern-card flex cursor-pointer items-center gap-1.5 rounded-xl border-2 border-danger px-4 py-3 font-display font-600 text-danger transition-colors hover:bg-danger hover:text-white"
       >
         <TrashIcon className="size-6" />
         <div className="text-lg font-700">삭제...</div>

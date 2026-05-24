@@ -1,7 +1,42 @@
-<svg width="2048" height="2048" viewBox="0 0 2048 2048" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="2048" height="2048" rx="360" fill="#F5F0E8"/>
-  <rect x="3" y="3" width="2042" height="2042" rx="358" fill="none" stroke="#1A1715" stroke-width="6"/>
-  <rect x="504" y="464" width="720" height="880" rx="80" fill="#1A1715"/>
-  <rect x="824" y="704" width="720" height="880" rx="80" fill="#FF5D3B"/>
-  <polygon points="824,964 1104,964 1104,824 1384,1024 1104,1224 1104,1084 824,1084" fill="#FFFFFF"/>
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Vibrant Violet to Cyan gradient (Space Glass Theme) -->
+    <linearGradient id="neonGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    
+    <!-- Secondary glowing gradient for depth -->
+    <linearGradient id="depthGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C084FC" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <!-- Glass reflection -->
+    <linearGradient id="glassReflection" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Drop shadow for the neon effect -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#8B5CF6" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#neonGlow)">
+    <!-- Left diagonal pillar of the 'M' -->
+    <path d="M14 52 L26 12 L38 28 L28 52 Z" fill="url(#depthGradient)" />
+    
+    <!-- Right diagonal pillar of the 'M' overlapping -->
+    <path d="M50 52 L38 12 L26 28 L36 52 Z" fill="url(#neonGradient)" />
+    
+    <!-- Forward/Speed arrow intersecting the 'M' -->
+    <path d="M18 32 L46 32 L36 44 L56 24 L36 12 L42 22 L18 22 Z" fill="url(#glassReflection)" />
+  </g>
+  
+  <!-- Smooth inner glow details -->
+  <path d="M26 12 L38 28 L28 52" stroke="white" stroke-width="1.5" stroke-opacity="0.4" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M38 12 L26 28 L36 52" stroke="white" stroke-width="1.5" stroke-opacity="0.6" stroke-linecap="round" stroke-linejoin="round" />
 </svg>
