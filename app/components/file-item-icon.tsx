@@ -80,6 +80,7 @@ export default function FileItemIcon({ file }: { file: File }) {
 
   if (src) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={src}
         alt={file.name}

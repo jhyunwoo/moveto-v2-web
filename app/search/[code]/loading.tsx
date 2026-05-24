@@ -2,7 +2,7 @@ import { FolderOpenIcon } from '@heroicons/react/24/outline'
 
 export default function Loading() {
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-20 animate-pulse sm:pt-24 md:pb-28">
+    <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-40 animate-pulse sm:pt-44 md:pb-28">
       <div className="modern-card flex h-20 items-center justify-between gap-2 rounded-xl bg-surface-subtle p-3 px-4" />
       <div className="p-2">
         <div className="font-display text-lg font-700 uppercase tracking-wider text-text-secondary/50">파일</div>
