@@ -10,7 +10,7 @@ export default async function ProfilePage() {
   return (
     <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 mt-8">
       <div className="modern-card flex w-full flex-col gap-1.5 p-6 text-text-primary group">
-        <div className="mb-4 flex items-center gap-3 border-b border-white/10 pb-4">
+        <div className="mb-4 flex items-center gap-3 border-b border-border-primary pb-4">
           <div className="flex size-10 items-center justify-center rounded-full bg-accent-soft text-accent-hover font-display font-800">
             {session?.user.name?.[0]?.toUpperCase() || 'U'}
           </div>
@@ -23,18 +23,18 @@ export default async function ProfilePage() {
         </div>
         
         <div className="flex flex-col mt-2">
-          <div className="font-display text-2xl font-800 tracking-tight text-white drop-shadow-sm">{session?.user.name}</div>
+          <div className="font-display text-2xl font-800 tracking-tight text-text-primary drop-shadow-sm">{session?.user.name}</div>
           <div className="mb-4 text-sm text-text-secondary">{session?.user.email}</div>
         </div>
         
         <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
-          <SignOutButton className="w-full cursor-pointer rounded-xl border border-white/10 bg-white/5 p-2.5 px-4 font-display text-sm font-600 text-text-primary transition-all hover:bg-white/10 hover:border-white/20 hover:text-white" />
+          <SignOutButton className="w-full cursor-pointer rounded-xl border border-border-primary bg-surface-alt p-2.5 px-4 font-display text-sm font-600 text-text-primary transition-all hover:bg-surface-elevated hover:border-border-primary/50" />
           <RegisterPasskeyButton />
         </div>
       </div>
       
       <div className="modern-card flex flex-col gap-1.5 p-6 text-text-primary group">
-        <div className="mb-4 flex items-center gap-3 border-b border-white/10 pb-4">
+        <div className="mb-4 flex items-center gap-3 border-b border-border-primary pb-4">
           <div className="flex size-10 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400">
             <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
