@@ -47,7 +47,7 @@ export default function AccessCodeModal() {
           <button
             onClick={shareFileLink}
             type="button"
-            className="brutalist-card flex cursor-pointer items-center gap-1.5 rounded-xl p-2.5 px-4 font-display font-600 text-text-primary transition-colors hover:bg-accent-soft"
+            className="modern-card flex cursor-pointer items-center gap-1.5 rounded-xl p-2.5 px-4 font-display font-600 text-text-primary transition-colors hover:bg-accent-soft"
           >
             <ShareIcon className="size-5" />
             <div>링크 복사</div>

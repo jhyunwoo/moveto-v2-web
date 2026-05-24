@@ -26,7 +26,7 @@ export default function UploadProgressModal() {
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
       >
-        <div className="brutalist-card flex w-full max-w-xl flex-col gap-4 rounded-2xl p-6">
+        <div className="modern-card flex w-full max-w-xl flex-col gap-4 rounded-2xl p-6">
           <div className="font-display text-xl font-700 text-danger">업로드 오류</div>
           <div className="text-text-secondary">{uploadError}</div>
           <button
@@ -48,7 +48,7 @@ export default function UploadProgressModal() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-4 right-4 z-50 flex w-72 flex-col gap-3 rounded-2xl bg-surface-overlay p-4 shadow-xl backdrop-blur-md border border-border-primary brutalist-card"
+          className="fixed bottom-4 right-4 z-50 flex w-72 flex-col gap-3 rounded-2xl bg-surface-overlay p-4 shadow-xl backdrop-blur-md border border-border-primary modern-card"
         >
           <div className="flex items-center justify-between">
             <div className="font-display text-sm font-700">
@@ -96,7 +96,7 @@ export default function UploadProgressModal() {
         style={{ willChange: 'opacity' }}
         className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
       >
-        <div className="brutalist-card flex max-h-[85dvh] w-full max-w-xl flex-col rounded-2xl p-4 sm:max-h-[70vh] sm:p-6 relative">
+        <div className="modern-card flex max-h-[85dvh] w-full max-w-xl flex-col rounded-2xl p-4 sm:max-h-[70vh] sm:p-6 relative">
           <button
             type="button"
             onClick={() => setIsMinimized(true)}

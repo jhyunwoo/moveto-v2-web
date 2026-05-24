@@ -15,7 +15,7 @@ export default function FileList({ files, deleteFile }: { files: File[]; deleteF
             exit={{ opacity: 0, x: 12, scale: 0.97 }}
             transition={{ duration: 0.2, ease: 'easeOut', delay: index * 0.03 }}
             key={`${file.name}-${file.size}-${file.lastModified}`}
-            className="brutalist-card flex items-center justify-between rounded-xl p-3"
+            className="modern-card flex items-center justify-between rounded-xl p-3"
           >
             <div className="flex items-center gap-3 pr-2">
               <FileItemIcon file={file} />

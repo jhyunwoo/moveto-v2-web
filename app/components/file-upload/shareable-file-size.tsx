@@ -26,7 +26,7 @@ export default function ShareableFileSize() {
   }, [leftStorage, setDisableUpload])
 
   return (
-    <div className="brutalist-card flex w-full flex-col rounded-xl p-3 px-4">
+    <div className="modern-card flex w-full flex-col rounded-xl p-3 px-4">
       {usedStorageLoading ? (
         <div className="mb-1 h-5 w-24 animate-pulse rounded-lg bg-border-subtle text-center text-sm" />
       ) : (

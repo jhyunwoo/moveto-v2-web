@@ -1,47 +1,62 @@
 import { getSession } from '@/auth'
 import Link from 'next/link'
 import SignOutButton from '@/app/components/sign-out-button'
-import UserStorageStatusBar from '@/app/profile/subscription/user-storage-status-bar'
+import UserStorageStatusBar from '@/app/profile/user-storage-status-bar'
 import RegisterPasskeyButton from '@/app/profile/register-passkey-button'
 
 export default async function ProfilePage() {
   const session = await getSession()
 
   return (
-    <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-      <div className="brutalist-card flex w-full flex-col gap-1.5 rounded-2xl p-5 text-text-primary">
-        <div className="mb-2 border-b-2 border-border-primary pb-2 font-display text-sm font-700 uppercase tracking-wider">
-          프로필
+    <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 mt-8">
+      <div className="modern-card flex w-full flex-col gap-1.5 p-6 text-text-primary group">
+        <div className="mb-4 flex items-center gap-3 border-b border-white/10 pb-4">
+          <div className="flex size-10 items-center justify-center rounded-full bg-accent-soft text-accent-hover font-display font-800">
+            {session?.user.name?.[0]?.toUpperCase() || 'U'}
+          </div>
+          <div>
+            <div className="font-display text-sm font-700 uppercase tracking-wider text-accent-hover">
+              프로필 정보
+            </div>
+            <div className="text-xs text-text-muted">내 계정 관리</div>
+          </div>
         </div>
-        <div className="font-display font-600">{session?.user.name}</div>
-        <div className="text-sm text-text-secondary">{session?.user.email}</div>
-        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-          <SignOutButton className="w-full cursor-pointer rounded-xl border-2 border-border-primary p-2 px-4 font-display text-sm font-600 text-text-primary transition-colors hover:bg-accent-soft" />
+        
+        <div className="flex flex-col mt-2">
+          <div className="font-display text-2xl font-800 tracking-tight text-white drop-shadow-sm">{session?.user.name}</div>
+          <div className="mb-4 text-sm text-text-secondary">{session?.user.email}</div>
+        </div>
+        
+        <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
+          <SignOutButton className="w-full cursor-pointer rounded-xl border border-white/10 bg-white/5 p-2.5 px-4 font-display text-sm font-600 text-text-primary transition-all hover:bg-white/10 hover:border-white/20 hover:text-white" />
           <RegisterPasskeyButton />
         </div>
       </div>
-      <div className="brutalist-card flex flex-col gap-1.5 rounded-2xl p-5 text-text-primary">
-        <div className="mb-2 border-b-2 border-border-primary pb-2 font-display text-sm font-700 uppercase tracking-wider">
-          플랜
+      
+      <div className="modern-card flex flex-col gap-1.5 p-6 text-text-primary group">
+        <div className="mb-4 flex items-center gap-3 border-b border-white/10 pb-4">
+          <div className="flex size-10 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400">
+            <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+            </svg>
+          </div>
+          <div>
+            <div className="font-display text-sm font-700 uppercase tracking-wider text-cyan-400">
+              파일 공유 현황
+            </div>
+            <div className="text-xs text-text-muted">스토리지 사용량</div>
+          </div>
         </div>
-        <div className="font-display font-600">{session?.user.plan} Plan</div>
-        <Link
-          href="/profile/subscription"
-          className="mt-auto w-full rounded-xl border-2 border-accent bg-accent p-2 text-center font-display text-sm font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
-        >
-          구독 변경
-        </Link>
-      </div>
-      <div className="brutalist-card flex flex-col gap-1.5 rounded-2xl p-5 text-text-primary">
-        <div className="mb-2 border-b-2 border-border-primary pb-2 font-display text-sm font-700 uppercase tracking-wider">
-          파일 공유
+        
+        <div className="mt-2">
+          <UserStorageStatusBar />
         </div>
-        <UserStorageStatusBar />
+        
         <Link
           href="/profile/history"
-          className="mt-auto w-full rounded-xl border-2 border-accent bg-accent p-2 text-center font-display font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
+          className="btn-premium mt-auto w-full rounded-xl p-3 text-center font-display text-sm font-700 mt-6"
         >
-          공유 기록
+          공유 기록 상세 보기
         </Link>
       </div>
     </div>

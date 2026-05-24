@@ -4,27 +4,23 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Moveto',
     short_name: 'Moveto',
-    description: '로그인 없이 빠르게 파일을 공유하고 다운받을 수 있는 모베토',
+    description: '초고속 파일 공유의 새로운 차원, 로그인 없이 빠르고 안전하게',
     start_url: '/',
     display: 'standalone',
-    background_color: '#f5f0e8',
-    theme_color: '#ff5d3b',
+    background_color: '#050505',
+    theme_color: '#8b5cf6',
     icons: [
       {
-        src: '/favicon.ico',
-        sizes: '32x32',
-        type: 'image/x-icon',
+        src: '/vector-logo.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
       },
       {
-        src: '/moveto-logo-192.png',
-        sizes: '192x192',
-        type: 'image/png',
-      },
-      {
-        src: '/moveto-logo-512.png',
-        sizes: '512x512',
-        type: 'image/png',
-      },
+        src: '/vector-logo.svg',
+        sizes: '192x192 512x512',
+        type: 'image/svg+xml',
+        purpose: 'maskable',
+      }
     ],
   }
 }

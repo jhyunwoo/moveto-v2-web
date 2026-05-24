@@ -18,7 +18,7 @@ export default function Toast() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="brutalist-card flex items-center gap-2.5 rounded-xl px-4 py-3 font-display text-sm font-600"
+            className="modern-card flex items-center gap-2.5 rounded-xl px-4 py-3 font-display text-sm font-600"
           >
             {toast.type === 'success' ? (
               <CheckCircleIcon className="size-5 shrink-0 text-accent" />

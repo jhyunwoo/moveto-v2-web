@@ -44,7 +44,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     return (
       <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-20 pb-24 text-text-primary sm:pt-24 md:pb-28">
         <HomeEntrance delay={0}>
-          <div className="brutalist-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
+          <div className="modern-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
             <div className="flex min-w-0 items-center gap-2">
               <FolderOpenIcon className="size-6 shrink-0 sm:size-7" />
               <div className="truncate font-display text-xl font-800 tracking-tight sm:text-2xl">{code}</div>
@@ -58,7 +58,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
             <div className="mt-2 flex flex-col gap-2">
               {shareData.file?.map((fileData, index) => (
                 <HomeEntrance key={index} delay={0.08 + index * 0.04}>
-                  <div className="brutalist-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
+                  <div className="modern-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
                     <div className="min-w-0 break-all font-display text-sm font-600 sm:text-base">{fileData}</div>
                     <a
                       href={downloadUrl[index]}
@@ -86,7 +86,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
   return (
     <div className="flex min-h-[100dvh] w-full flex-col items-center justify-center p-4 text-text-primary">
       <HomeEntrance>
-        <div className="brutalist-card rounded-2xl p-8 text-center">
+        <div className="modern-card rounded-2xl p-8 text-center">
           <div className="font-display text-4xl font-800">404</div>
           <div className="mt-2 text-text-secondary">코드를 찾을 수 없습니다</div>
         </div>
