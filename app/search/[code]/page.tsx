@@ -12,6 +12,7 @@ import DeleteShareButton from '@/app/components/delete-share-button'
 import getIp from '@/lib/server/get-user-ip'
 import { getSession } from '@/auth'
 import HomeEntrance from '@/app/components/home-entrance'
+import path from 'path'
 
 export default async function SearchPage({ params }: { params: Promise<{ code: string }> }) {
   const code = decodeKoCode((await params).code)
@@ -25,8 +26,8 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     for (const file of shareData?.file) {
       const downloadCommand = new GetObjectCommand({
         Bucket: process.env.R2_BUCKET,
-        Key: `${shareData.id}/${file}`,
-        ResponseContentDisposition: `attachment; filename="${file}"`,
+        Key: `${shareData.id}/${path.basename(file)}`,
+        ResponseContentDisposition: `attachment; filename="${path.basename(file)}"`,
       })
       urlRequests.push(getSignedUrl(r2client, downloadCommand, { expiresIn: 60 * 60 * 24 }))
     }

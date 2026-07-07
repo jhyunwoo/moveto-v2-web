@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server'
 import { connection } from 'next/server'
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
 import getS3Client from '@/lib/server/get-s3-client'
+import path from 'path'
 
 export async function GET(request: Request) {
   await connection()
@@ -25,14 +26,14 @@ export async function GET(request: Request) {
     for (const share of expiringShares) {
       if (share.file) {
         for (const file of share.file) {
-          files.push({ Key: `${share.id}/${file}` })
+          files.push({ Key: `${share.id}/${path.basename(file)}` })
         }
       }
     }
 
-    for (let i = 0; i < Math.ceil(files.length / 1000); i += 1) {
-      const chunk = files.splice(i * 1000, 1000)
-      const client = getS3Client()
+    const client = getS3Client()
+    while (files.length > 0) {
+      const chunk = files.splice(0, 1000)
       const command = new DeleteObjectsCommand({
         Bucket: process.env.R2_BUCKET!,
         Delete: { Objects: chunk },

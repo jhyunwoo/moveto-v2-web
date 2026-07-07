@@ -4,11 +4,16 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Footer() {
-  const [year, setYear] = useState(2024)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setYear(new Date().getFullYear())
+    const timer = setTimeout(() => {
+      setMounted(true)
+    }, 0)
+    return () => clearTimeout(timer)
   }, [])
+
+  const year = mounted ? new Date().getFullYear() : 2024
 
   return (
     <div className="w-full border-t-2 border-border-primary p-4">

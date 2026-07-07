@@ -42,6 +42,11 @@ export async function GET(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // Path Traversal 방지를 위해 key 검증
+  if (!key.startsWith(`${shareId}/`) || key.includes('..')) {
+    return NextResponse.json({ error: 'Invalid key structure' }, { status: 400 })
+  }
+
   const url = await getSignedUrl(
     getS3Client(),
     new UploadPartCommand({

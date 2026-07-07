@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import FileUpload from '@/app/components/file-upload/file-upload'
 import { GlobalUploadProvider } from '@/app/components/file-upload/global-upload-provider'
-import { ThemeProvider } from '@/app/components/theme-provider'
+import ThemeProvider from '@/app/components/theme-provider'
 
 // Mock the child components and hooks if necessary, or just mock the Worker and API calls
 const mockUpload = vi.fn()
@@ -27,7 +27,7 @@ vi.mock('@/auth', () => ({
 // Mock Worker globally for jsdom
 class MockWorker {
   url: string;
-  onmessage: ((this: Worker, ev: MessageEvent) => any) | null = null;
+  onmessage: ((this: any, ev: MessageEvent) => any) | null = null;
   constructor(stringUrl: string) {
     this.url = stringUrl;
   }

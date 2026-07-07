@@ -22,6 +22,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // Path Traversal 방지를 위해 key 검증
+  if (!key.startsWith(`${shareId}/`) || key.includes('..')) {
+    return NextResponse.json({ error: 'Invalid key structure' }, { status: 400 })
+  }
+
   const parts: Part[] = []
 
   async function listPartsPage(startsAt?: string) {
@@ -66,6 +71,11 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   const shareId = key.split('/')[0]
   if (!shareId || !(await checkShareAuth(shareId))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Path Traversal 방지를 위해 key 검증
+  if (!key.startsWith(`${shareId}/`) || key.includes('..')) {
+    return NextResponse.json({ error: 'Invalid key structure' }, { status: 400 })
   }
 
   try {

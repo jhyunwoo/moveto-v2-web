@@ -10,7 +10,7 @@ function isValidPart(part: Part) {
 export async function POST(request: NextRequest, { params }: { params: Promise<{ uploadId: string }> }) {
   const client = getS3Client()
   const searchParams = request.nextUrl.searchParams
-  const body = (await request.json()) as { key: string; parts: Part }
+  const body = (await request.json()) as { key: string; parts: Part[] }
   const key = searchParams.get('key')
   const parts = body.parts
 
@@ -34,6 +34,11 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const shareId = key.split('/')[0]
   if (!shareId || !(await checkShareAuth(shareId))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Path Traversal 방지를 위해 key 검증
+  if (!key.startsWith(`${shareId}/`) || key.includes('..')) {
+    return NextResponse.json({ error: 'Invalid key structure' }, { status: 400 })
   }
 
   try {
