@@ -120,12 +120,12 @@ export default function TransferJourney() {
   return (
     <section
       ref={sectionRef}
-      className="journey-section relative mx-auto w-full max-w-[1504px] scroll-mt-24 px-4 pt-16 pb-20 sm:px-6 sm:pt-20 lg:px-10 lg:pt-6 lg:pb-28"
+      className="journey-section relative mx-auto w-full max-w-[1504px] scroll-mt-24 px-4 pt-28 pb-24 sm:px-6 sm:pt-36 sm:pb-32 lg:px-10 lg:pt-[clamp(10rem,12vw,13rem)] lg:pb-40"
       aria-labelledby="journey-title"
     >
       <motion.h2
         id="journey-title"
-        className="font-800 text-text-primary max-w-5xl text-[clamp(2.4rem,4vw,4rem)] leading-[1.02] tracking-[-0.055em]"
+        className="font-800 text-text-primary max-w-5xl scroll-mt-28 text-[clamp(2.4rem,4vw,4rem)] leading-[1.02] tracking-[-0.055em]"
         initial={false}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -134,7 +134,7 @@ export default function TransferJourney() {
         세 번의 움직임이면 충분해요.
       </motion.h2>
 
-      <div className="relative mt-16">
+      <div className="relative mt-20 lg:mt-24">
         <svg
           className="pointer-events-none absolute inset-x-[4%] top-[180px] hidden h-[180px] w-[92%] lg:block"
           viewBox="0 0 1200 180"
@@ -157,7 +157,7 @@ export default function TransferJourney() {
           />
         </svg>
 
-        <ol className="grid gap-20 lg:grid-cols-3 lg:gap-12">
+        <ol className="grid gap-24 lg:grid-cols-3 lg:gap-16">
           {steps.map(({ number, title, description, Scene }, index) => (
             <motion.li
               key={number}
@@ -185,7 +185,7 @@ export default function TransferJourney() {
       </div>
 
       <motion.div
-        className="closing-panel border-border-primary bg-surface-elevated relative mt-20 overflow-hidden rounded-[30px] border px-6 py-14 shadow-[0_28px_90px_rgba(20,55,82,0.08)] backdrop-blur-xl sm:px-10 lg:mt-16 lg:grid lg:min-h-[330px] lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-16"
+        className="closing-panel border-border-primary bg-surface-elevated relative mt-32 overflow-hidden rounded-[30px] border px-6 py-14 shadow-[0_28px_90px_rgba(20,55,82,0.08)] backdrop-blur-xl sm:mt-40 sm:px-10 lg:mt-[clamp(9rem,12vw,12rem)] lg:grid lg:min-h-[350px] lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-16"
         initial={reduceMotion ? false : { opacity: 0, transform: 'translateY(34px)' }}
         whileInView={{ opacity: 1, transform: 'translateY(0)' }}
         viewport={{ once: true, amount: 0.28 }}
