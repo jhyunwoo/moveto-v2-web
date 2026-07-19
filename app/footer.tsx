@@ -2,23 +2,27 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 w-full border-t border-border-subtle bg-surface/72 px-4 py-8 backdrop-blur-lg sm:px-6">
-      <div className="mx-auto flex max-w-7xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2 text-sm text-text-secondary">
-          <span className="font-600 text-text-primary">Moveto</span>
-          <span>&copy; 2026 Moveto Team</span>
-        </div>
-        <nav className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-secondary" aria-label="하단 메뉴">
-          <Link href="/how-to-use" className="transition-colors hover:text-text-primary">
+    <footer className="site-footer relative z-10 w-full px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto grid w-full max-w-[1504px] gap-6 py-7 sm:py-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+        <Link href="/" className="site-wordmark site-wordmark--footer" aria-label="Moveto 홈">
+          Moveto
+        </Link>
+
+        <nav className="site-footer__nav" aria-label="하단 메뉴">
+          <Link href="/how-to-use" className="site-footer__link">
             사용 방법
           </Link>
-          <Link href="/privacy" className="transition-colors hover:text-text-primary">
+          <span className="site-footer__divider" aria-hidden="true" />
+          <Link href="/privacy" className="site-footer__link">
             개인정보 처리방침
           </Link>
-          <Link href="/terms" className="transition-colors hover:text-text-primary">
+          <span className="site-footer__divider" aria-hidden="true" />
+          <Link href="/terms" className="site-footer__link">
             웹사이트 이용약관
           </Link>
         </nav>
+
+        <p className="site-footer__copyright">&copy; 2026 Moveto Team</p>
       </div>
     </footer>
   )

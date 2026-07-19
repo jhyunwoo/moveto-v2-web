@@ -10,6 +10,9 @@ node_modules
 /.next/
 /out/
 
+# opennext / cloudflare build output (retired stack)
+/.open-next/
+
 # production
 /build
 
@@ -23,6 +26,8 @@ npm-debug.log*
 # local env files
 .env*.local
 .env
+.dev.vars
+.dev.vars.*
 
 # typescript
 *.tsbuildinfo

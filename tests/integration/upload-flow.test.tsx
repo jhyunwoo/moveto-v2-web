@@ -26,34 +26,38 @@ vi.mock('@/auth', () => ({
 
 // Mock Worker globally for jsdom
 class MockWorker {
-  url: string;
-  onmessage: ((this: any, ev: MessageEvent) => any) | null = null;
+  url: string
+  onmessage: ((this: any, ev: MessageEvent) => any) | null = null
   constructor(stringUrl: string) {
-    this.url = stringUrl;
+    this.url = stringUrl
   }
   postMessage(msg: any) {
     // Simulate worker responses
     if (msg.files) {
       setTimeout(() => {
         if (this.onmessage) {
-          this.onmessage(new MessageEvent('message', {
-            data: { status: 'Upload Complete', id: 'share-id' }
-          }));
+          this.onmessage(
+            new MessageEvent('message', {
+              data: { status: 'Upload Complete', id: 'share-id' },
+            })
+          )
         }
-      }, 100);
+      }, 100)
     }
   }
   terminate() {}
   addEventListener(type: string, listener: any) {
     if (type === 'message') {
-      this.onmessage = listener;
+      this.onmessage = listener
     }
   }
   removeEventListener() {}
-  dispatchEvent() { return true; }
+  dispatchEvent() {
+    return true
+  }
 }
 
-global.Worker = MockWorker as any;
+global.Worker = MockWorker as any
 
 describe('File Upload Flow', () => {
   beforeEach(() => {
@@ -67,8 +71,8 @@ describe('File Upload Flow', () => {
         <FileUpload />
       </GlobalUploadProvider>
     )
-    
-    expect(screen.getByText(/전송할 파일을 드롭하거나 선택해주세요/i)).toBeInTheDocument()
+
+    expect(screen.getByText(/여기에 파일을 놓으세요/i)).toBeInTheDocument()
   })
 
   it('allows selecting files', async () => {
@@ -81,9 +85,9 @@ describe('File Upload Flow', () => {
 
     const file = new File(['hello'], 'hello.png', { type: 'image/png' })
     const input = document.querySelector('input[type="file"]') as HTMLInputElement
-    
+
     await user.upload(input, file)
-    
+
     expect(screen.getByText('hello.png')).toBeInTheDocument()
   })
 })
