@@ -1,0 +1,3 @@
+module.exports=[36598,a=>{"use strict";a.s(["default",0,function(a){return decodeURIComponent(a).replaceAll("_"," ")}])},42049,a=>{"use strict";var b=a.i(68241),c=a.i(36598);async function d({params:a}){return{title:`${(0,c.default)((await a).code)} | 모베토 Moveto`}}a.s(["default",0,function({children:a}){return(0,b.jsx)(b.Fragment,{children:a})},"generateMetadata",0,d])},26448,a=>{a.n(a.i(42049))}];
+
+//# sourceMappingURL=_147sli3._.js.map

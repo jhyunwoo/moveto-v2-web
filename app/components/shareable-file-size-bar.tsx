@@ -10,7 +10,14 @@ export default function ShareableFileSizeBar({
   const leftStorage = totalStorage - usedStorage
 
   return (
-    <div className={`my-1 h-2.5 w-full overflow-hidden rounded-full ${leftStorage < 0 ? 'bg-danger/20' : 'bg-border-subtle'}`}>
+    <div
+      className={`my-1 h-2 w-full overflow-hidden rounded-full ${leftStorage < 0 ? 'bg-danger/20' : 'bg-border-subtle'}`}
+      role="progressbar"
+      aria-label="남은 저장 공간"
+      aria-valuemin={0}
+      aria-valuemax={totalStorage}
+      aria-valuenow={Math.max(0, leftStorage)}
+    >
       <motion.div
         initial={{ scaleX: 1 }}
         animate={{

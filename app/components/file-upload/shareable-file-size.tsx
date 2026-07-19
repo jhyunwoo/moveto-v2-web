@@ -26,12 +26,13 @@ export default function ShareableFileSize() {
   }, [leftStorage, setDisableUpload])
 
   return (
-    <div className="modern-card flex w-full flex-col rounded-xl p-3 px-4">
+    <div className="order-2 flex min-w-0 w-full flex-col md:order-none">
       {usedStorageLoading ? (
-        <div className="mb-1 h-5 w-24 animate-pulse rounded-lg bg-border-subtle text-center text-sm" />
+        <div className="mb-2 h-4 w-24 animate-pulse rounded bg-border-subtle" />
       ) : (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-display text-sm font-600">
-          {userPlan}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="section-label mb-2 flex items-center justify-between gap-2">
+          <span>저장 가능 용량</span>
+          <span className="font-500 text-text-muted">{userPlan}</span>
         </motion.div>
       )}
 

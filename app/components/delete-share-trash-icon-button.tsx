@@ -10,9 +10,11 @@ export default function DeleteShareTrashIconButton({ shareId }: { shareId: strin
     <button
       type="button"
       onClick={() => setDeleteShare(shareId)}
-      className="cursor-pointer rounded-lg p-1 text-danger transition-colors hover:bg-danger hover:text-white"
+      className="icon-button size-8 cursor-pointer text-danger hover:border-danger/30 hover:bg-danger/5 hover:text-danger"
+      aria-label="공유 삭제"
+      title="공유 삭제"
     >
-      <TrashIcon className="size-5" />
+      <TrashIcon className="size-[18px]" />
     </button>
   )
 }

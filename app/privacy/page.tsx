@@ -6,9 +6,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen w-full px-4 py-20 text-text-secondary">
-      <div className="modern-card mx-auto max-w-3xl rounded-2xl p-6 md:p-10">
-        <h1 className="mb-8 font-display text-3xl font-800 tracking-tight text-text-primary">개인정보처리방침</h1>
+    <div className="min-h-screen w-full px-4 py-14 text-text-secondary sm:px-6 sm:py-20">
+      <article className="document-panel mx-auto max-w-4xl p-6 md:p-10">
+        <h1 className="mb-8 text-3xl font-700 text-text-primary sm:text-4xl">개인정보처리방침</h1>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed">
           <section>
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
               회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제
               등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
             </p>
-            <div className="rounded-xl border-2 border-border-primary bg-surface p-4">
+            <div className="rounded-lg border border-border-primary bg-surface p-4">
               <ul className="space-y-1">
                 <li>책임자: Moveto Team</li>
                 <li>
@@ -83,11 +83,11 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          <section className="border-t-2 border-border-primary pt-8">
+          <section className="border-t border-border-primary pt-8">
             <p>본 방침은 2024년 1월 1일부터 시행됩니다.</p>
           </section>
         </div>
-      </div>
+      </article>
     </div>
   )
 }

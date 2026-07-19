@@ -1,0 +1,3 @@
+module.exports=[66188,a=>{"use strict";var b=a.i(68241),c=a.i(69253);a.s(["default",0,function(){return(0,b.jsx)("div",{className:"flex min-h-[70dvh] w-full flex-col items-center justify-center p-4 text-text-primary",children:(0,b.jsxs)("div",{className:"modern-card flex w-full max-w-md flex-col gap-4 p-8 text-center",children:[(0,b.jsx)("h1",{className:"text-6xl font-600 tracking-tight",children:"404"}),(0,b.jsx)("div",{className:"text-base text-text-secondary",children:"페이지를 찾을 수 없습니다."}),(0,b.jsx)(c.default,{href:"/",className:"btn-pill-primary mt-2 w-full p-3 text-center text-sm",children:"홈으로 돌아가기"})]})})}])},2894,a=>{a.n(a.i(66188))}];
+
+//# sourceMappingURL=app_not-found_tsx_1gi3i27._.js.map

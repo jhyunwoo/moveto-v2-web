@@ -13,7 +13,7 @@ export default function SharableFileSizeInfo({
 }) {
   const leftStorage = totalStorage - usedStorage
   return (
-    <div className={className ? className : 'flex items-center justify-between py-1 font-display text-xs font-500'}>
+    <div className={className ? className : 'flex items-center justify-between py-1 text-xs font-500'}>
       {isLoading ? (
         <div className="h-4 w-16 animate-pulse rounded-lg bg-border-subtle" />
       ) : (

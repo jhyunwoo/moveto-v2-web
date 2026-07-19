@@ -7,11 +7,11 @@ export const contentType = 'image/png'
 export default function Icon() {
   return new ImageResponse(
     (
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#050505' }}>
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="120" height="120">
-          <path d="M14 52 L26 12 L38 28 L28 52 Z" fill="#8B5CF6" />
-          <path d="M50 52 L38 12 L26 28 L36 52 Z" fill="#06B6D4" />
-          <path d="M18 32 L46 32 L36 44 L56 24 L36 12 L42 22 L18 22 Z" fill="#ffffff" opacity="0.8" />
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#ffffff' }}>
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="124" height="124">
+          <path d="M8 50V14c0-3.4 4-5.2 6.6-2.9L32 26.6l17.4-15.5C52 8.8 56 10.6 56 14v36h-9V25.1L35.2 35.7a4.8 4.8 0 0 1-6.4 0L17 25.1V50H8Z" fill="#171717" />
+          <path d="m32 29 8 7.2-8 7.3-8-7.3 8-7.2Z" fill="#5eb5ff" fillOpacity="0.9" />
+          <path d="m27.1 33.8 4.9-4.5 5 4.5-5 4.5-4.9-4.5Z" fill="#d9efff" fillOpacity="0.76" />
         </svg>
       </div>
     ),

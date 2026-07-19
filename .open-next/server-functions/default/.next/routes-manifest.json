@@ -1,0 +1,268 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
+      ],
+      "regex": "^(?:/(.*))(?:/)?$"
+    }
+  ],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/s3/multipart/[uploadId]",
+      "regex": "^/api/s3/multipart/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPuploadId": "nxtPuploadId"
+      },
+      "namedRegex": "^/api/s3/multipart/(?<nxtPuploadId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/s3/multipart/[uploadId]/complete",
+      "regex": "^/api/s3/multipart/([^/]+?)/complete(?:/)?$",
+      "routeKeys": {
+        "nxtPuploadId": "nxtPuploadId"
+      },
+      "namedRegex": "^/api/s3/multipart/(?<nxtPuploadId>[^/]+?)/complete(?:/)?$"
+    },
+    {
+      "page": "/api/s3/multipart/[uploadId]/[partNumber]",
+      "regex": "^/api/s3/multipart/([^/]+?)/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPuploadId": "nxtPuploadId",
+        "nxtPpartNumber": "nxtPpartNumber"
+      },
+      "namedRegex": "^/api/s3/multipart/(?<nxtPuploadId>[^/]+?)/(?<nxtPpartNumber>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/share/code/[code]",
+      "regex": "^/api/share/code/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcode": "nxtPcode"
+      },
+      "namedRegex": "^/api/share/code/(?<nxtPcode>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/share/[shareId]",
+      "regex": "^/api/share/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPshareId": "nxtPshareId"
+      },
+      "namedRegex": "^/api/share/(?<nxtPshareId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/share/[shareId]/code",
+      "regex": "^/api/share/([^/]+?)/code(?:/)?$",
+      "routeKeys": {
+        "nxtPshareId": "nxtPshareId"
+      },
+      "namedRegex": "^/api/share/(?<nxtPshareId>[^/]+?)/code(?:/)?$"
+    },
+    {
+      "page": "/api/user/shares/[page]",
+      "regex": "^/api/user/shares/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPpage": "nxtPpage"
+      },
+      "namedRegex": "^/api/user/shares/(?<nxtPpage>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/search/[code]",
+      "regex": "^/search/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcode": "nxtPcode"
+      },
+      "namedRegex": "^/search/(?<nxtPcode>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/admin/storage",
+      "regex": "^/api/admin/storage(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/storage(?:/)?$"
+    },
+    {
+      "page": "/api/s3/multipart",
+      "regex": "^/api/s3/multipart(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/s3/multipart(?:/)?$"
+    },
+    {
+      "page": "/api/s3/params",
+      "regex": "^/api/s3/params(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/s3/params(?:/)?$"
+    },
+    {
+      "page": "/api/share",
+      "regex": "^/api/share(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/share(?:/)?$"
+    },
+    {
+      "page": "/api/user/storage",
+      "regex": "^/api/user/storage(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/user/storage(?:/)?$"
+    },
+    {
+      "page": "/apple-icon.png",
+      "regex": "^/apple\\-icon\\.png(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/apple\\-icon\\.png(?:/)?$"
+    },
+    {
+      "page": "/auth/sign-in",
+      "regex": "^/auth/sign\\-in(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/sign\\-in(?:/)?$"
+    },
+    {
+      "page": "/how-to-use",
+      "regex": "^/how\\-to\\-use(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/how\\-to\\-use(?:/)?$"
+    },
+    {
+      "page": "/icon.svg",
+      "regex": "^/icon\\.svg(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.svg(?:/)?$"
+    },
+    {
+      "page": "/manifest.webmanifest",
+      "regex": "^/manifest\\.webmanifest(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/manifest\\.webmanifest(?:/)?$"
+    },
+    {
+      "page": "/opengraph-image.png",
+      "regex": "^/opengraph\\-image\\.png(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/opengraph\\-image\\.png(?:/)?$"
+    },
+    {
+      "page": "/privacy",
+      "regex": "^/privacy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy(?:/)?$"
+    },
+    {
+      "page": "/profile",
+      "regex": "^/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile(?:/)?$"
+    },
+    {
+      "page": "/profile/history",
+      "regex": "^/profile/history(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile/history(?:/)?$"
+    },
+    {
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
+    },
+    {
+      "page": "/twitter-image.png",
+      "regex": "^/twitter\\-image\\.png(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/twitter\\-image\\.png(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

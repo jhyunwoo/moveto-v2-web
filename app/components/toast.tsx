@@ -8,7 +8,7 @@ export default function Toast() {
   const { toasts, removeToast } = useToastStore()
 
   return (
-    <div className="fixed bottom-6 left-4 right-4 z-50 mx-auto flex w-auto max-w-md flex-col gap-2 sm:left-1/2 sm:right-auto sm:-translate-x-1/2">
+    <div className="fixed bottom-6 left-4 right-4 z-50 mx-auto flex w-auto max-w-md flex-col gap-2 sm:left-1/2 sm:right-auto sm:-translate-x-1/2" aria-live="polite">
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => (
           <motion.div
@@ -18,10 +18,10 @@ export default function Toast() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="modern-card flex items-center gap-2.5 rounded-xl px-4 py-3 font-display text-sm font-600"
+            className="glass-panel flex items-center gap-2.5 px-4 py-3 text-sm font-600"
           >
             {toast.type === 'success' ? (
-              <CheckCircleIcon className="size-5 shrink-0 text-accent" />
+              <CheckCircleIcon className="size-5 shrink-0 text-success" />
             ) : (
               <XCircleIcon className="size-5 shrink-0 text-danger" />
             )}

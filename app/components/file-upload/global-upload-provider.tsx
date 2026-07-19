@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useRef, ReactNode } from 'react'
 import useUsedStorage from '@/lib/hooks/use-used-storage'
-import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
 import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
 import { useShareTime } from '@/lib/stores/share-time'
 import { useCode } from '@/lib/stores/code'
@@ -20,7 +19,6 @@ const GlobalUploadContext = createContext<GlobalUploadContextType | null>(null)
 
 export function GlobalUploadProvider({ children }: { children: ReactNode }) {
   const workerRef = useRef<Worker | null>(null)
-  const { setShareTimePopUp } = useShareTimePopUp((store) => store)
   const { setFileUploadProgress, setIsGeneratingCode, setIsPaused, setUploadError } = useFileUploadProgress(
     (store) => store
   )
@@ -36,12 +34,6 @@ export function GlobalUploadProvider({ children }: { children: ReactNode }) {
     shareTimeRef.current = shareTime
   }, [shareTime])
 
-  const shareTimePopUpRef = useRef(false)
-  const { shareTimePopUp } = useShareTimePopUp((store) => store)
-  useEffect(() => {
-    shareTimePopUpRef.current = shareTimePopUp
-  }, [shareTimePopUp])
-
   // Worker creation (once) and message handler
   useEffect(() => {
     workerRef.current = new Worker(new URL('../../../lib/worker/file-upload-worker.ts', import.meta.url), {
@@ -50,7 +42,6 @@ export function GlobalUploadProvider({ children }: { children: ReactNode }) {
 
     async function handleMessage(event: MessageEvent<WorkerToClient>) {
       if (event.data.progress?.length) {
-        if (shareTimePopUpRef.current) setShareTimePopUp(false)
         setFileUploadProgress(event.data.progress)
       } else if (event.data.status === 'Upload Complete' && event.data.id) {
         setIsGeneratingCode(true)

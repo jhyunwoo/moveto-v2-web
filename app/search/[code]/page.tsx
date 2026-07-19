@@ -23,7 +23,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
   const r2client = getS3Client()
   const urlRequests = []
   if (shareData?.file) {
-    for (const file of shareData?.file) {
+    for (const file of shareData.file) {
       const downloadCommand = new GetObjectCommand({
         Bucket: process.env.R2_BUCKET,
         Key: `${shareData.id}/${path.basename(file)}`,
@@ -43,60 +43,55 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     })
 
     return (
-      <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 pt-40 pb-24 text-text-primary sm:pt-44 md:pb-28">
+      <div className="mx-auto flex w-full max-w-4xl flex-col px-4 py-12 text-text-primary sm:px-6 sm:py-16 lg:px-8">
         <HomeEntrance delay={0}>
-          <div className="modern-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
-            <div className="flex min-w-0 items-center gap-2">
-              <FolderOpenIcon className="size-6 shrink-0 sm:size-7" />
-              <div className="truncate font-display text-xl font-800 tracking-tight sm:text-2xl">{code}</div>
-            </div>
-            <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
-          </div>
-        </HomeEntrance>
-        <HomeEntrance delay={0.05}>
-          <div className="p-2">
-            <div className="font-display text-lg font-700 uppercase tracking-wider">파일</div>
-            <div className="mt-2 flex flex-col gap-2">
-              {shareData.file?.map((fileData, index) => (
-                <HomeEntrance key={index} delay={0.08 + index * 0.04}>
-                  <div className="modern-card flex items-center justify-between gap-2 rounded-xl p-3 px-4">
-                    <div className="min-w-0 break-all font-display text-sm font-600 sm:text-base">{fileData}</div>
-                    <a
-                      href={downloadUrl[index]}
-                      download={fileData}
-                      className="shrink-0 rounded-lg border-2 border-transparent p-1 transition-colors hover:border-accent hover:bg-accent-soft"
-                      aria-label={`${fileData} 다운로드`}
-                    >
-                      <CloudArrowDownIcon className="size-7 text-accent sm:size-8" />
-                    </a>
-                  </div>
-                </HomeEntrance>
-              ))}
+          <div className="mb-8">
+            <p className="text-sm font-600 text-text-secondary">공유된 파일</p>
+            <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <h1 className="flex min-w-0 items-center gap-3 text-3xl font-700 sm:text-4xl">
+                <FolderOpenIcon className="size-8 shrink-0 text-accent" />
+                <span className="truncate">{code}</span>
+              </h1>
+              <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
             </div>
           </div>
         </HomeEntrance>
-        <div className="fixed bottom-0 left-0 flex w-full border-t-2 border-border-subtle bg-surface/80 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-md">
-          <div className="mx-auto flex w-full max-w-3xl gap-2">
-            <DeleteShareButton shareId={shareData?.id} />
-            <HomePageButton />
-          </div>
+
+        <HomeEntrance delay={0.04}>
+          <section className="document-panel overflow-hidden" aria-labelledby="file-list-title">
+            <div className="border-b border-border-subtle px-4 py-3 sm:px-5">
+              <h2 id="file-list-title" className="text-sm font-700">다운로드할 파일</h2>
+            </div>
+            {shareData.file?.map((fileData, index) => (
+              <div key={fileData} className="flex min-h-16 items-center justify-between gap-4 border-b border-border-subtle px-4 py-3 last:border-b-0 sm:px-5">
+                <div className="min-w-0 break-all text-sm font-600 sm:text-base">{fileData}</div>
+                <a href={downloadUrl[index]} download={fileData} className="btn-primary shrink-0 px-3 sm:px-4" aria-label={`${fileData} 다운로드`}>
+                  <CloudArrowDownIcon className="size-[18px]" />
+                  <span className="hidden sm:inline">다운로드</span>
+                </a>
+              </div>
+            ))}
+          </section>
+        </HomeEntrance>
+
+        <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <DeleteShareButton shareId={shareData.id} />
+          <div className="mt-6"><HomePageButton /></div>
         </div>
       </div>
     )
   }
+
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col items-center justify-center p-4 text-text-primary">
-      <HomeEntrance>
-        <div className="modern-card rounded-2xl p-8 text-center">
-          <div className="font-display text-4xl font-800">404</div>
-          <div className="mt-2 text-text-secondary">코드를 찾을 수 없습니다</div>
-        </div>
-      </HomeEntrance>
-      <div className="fixed bottom-0 left-0 flex w-full border-t-2 border-border-subtle bg-surface/80 p-4 backdrop-blur-md md:pb-12">
-        <div className="mx-auto flex w-full max-w-3xl gap-2">
+    <div className="flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center px-4 py-16 text-text-primary">
+      <HomeEntrance className="w-full max-w-md">
+        <div className="document-panel p-7 text-center sm:p-9">
+          <div className="text-5xl font-700">404</div>
+          <h1 className="mt-4 text-xl font-700">공유 코드를 찾을 수 없습니다</h1>
+          <p className="mt-2 text-sm leading-6 text-text-secondary">코드가 정확한지, 공유 시간이 만료되지 않았는지 확인해주세요.</p>
           <HomePageButton />
         </div>
-      </div>
+      </HomeEntrance>
     </div>
   )
 }
