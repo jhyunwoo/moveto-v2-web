@@ -6,9 +6,9 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen w-full px-4 py-20 text-text-secondary">
-      <div className="modern-card mx-auto max-w-3xl rounded-2xl p-6 md:p-10">
-        <h1 className="mb-8 font-display text-3xl font-800 tracking-tight text-text-primary">웹사이트 이용약관</h1>
+    <div className="min-h-screen w-full px-4 py-14 text-text-secondary sm:px-6 sm:py-20">
+      <article className="document-panel mx-auto max-w-4xl p-6 md:p-10">
+        <h1 className="mb-8 text-3xl font-700 text-text-primary sm:text-4xl">웹사이트 이용약관</h1>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed">
           <section>
@@ -106,11 +106,11 @@ export default function TermsPage() {
             </p>
           </section>
 
-          <section className="border-t-2 border-border-primary pt-8">
+          <section className="border-t border-border-primary pt-8">
             <p>본 약관은 2026년 5월 10일부터 적용됩니다.</p>
           </section>
         </div>
-      </div>
+      </article>
     </div>
   )
 }

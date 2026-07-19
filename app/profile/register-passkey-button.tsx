@@ -1,6 +1,7 @@
 'use client'
 
 import { authClient } from '@/lib/auth-client'
+import { KeyIcon } from '@heroicons/react/24/outline'
 
 export default function RegisterPasskeyButton() {
   return (
@@ -16,10 +17,11 @@ export default function RegisterPasskeyButton() {
           return
         }
 
-        alert('Complete Register Passkey')
+        alert('패스키가 등록되었습니다.')
       }}
-      className="w-full cursor-pointer rounded-xl border-2 border-border-primary p-2 px-4 font-display text-sm font-600 text-text-primary transition-colors hover:bg-accent-soft"
+      className="btn-secondary w-full cursor-pointer px-4"
     >
+      <KeyIcon className="size-4" />
       Passkey 등록
     </button>
   )

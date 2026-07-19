@@ -7,7 +7,6 @@ import ThemeProvider from '@/app/components/theme-provider'
 import Header from '@/app/components/header'
 import Toast from '@/app/components/toast'
 import localFont from 'next/font/local'
-import { Syne } from 'next/font/google'
 import { GlobalUploadProvider } from '@/app/components/file-upload/global-upload-provider'
 import UploadProgressModal from '@/app/components/file-upload/upload-progress-modal'
 import AnimatedBackground from '@/app/components/animated-background'
@@ -18,13 +17,6 @@ const pretendard = localFont({
   variable: '--font-pretendard',
   preload: true,
   adjustFontFallback: 'Arial',
-})
-
-const syne = Syne({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-syne',
-  weight: ['400', '500', '600', '700', '800'],
 })
 
 export const metadata: Metadata = {
@@ -52,6 +44,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon',
+  },
 }
 
 const themeScript = `
@@ -68,19 +64,19 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html
       lang="ko"
-      className={`${pretendard.variable} ${syne.variable} bg-gradient-page min-h-[100dvh] selection:bg-accent-soft selection:text-accent-hover`}
+      className={`${pretendard.variable} bg-gradient-page min-h-[100dvh]`}
       suppressHydrationWarning
     >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="relative z-10 text-text-primary antialiased">
+      <body className="relative text-text-primary antialiased">
         <AnimatedBackground />
         <ThemeProvider>
           <GlobalUploadProvider>
             <Header />
-            <main className="relative z-10 pt-16 min-h-[100dvh] flex flex-col">
+            <main className="relative z-10 flex min-h-[100dvh] flex-col pt-16">
               {children}
             </main>
             <UploadProgressModal />

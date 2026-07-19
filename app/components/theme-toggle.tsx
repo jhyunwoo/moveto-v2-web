@@ -15,12 +15,12 @@ export default function ThemeToggle() {
     <button
       onClick={cycleTheme}
       type="button"
-      className="cursor-pointer rounded-lg border-2 border-transparent p-1.5 text-text-primary transition-colors hover:border-border-primary hover:bg-surface-elevated"
+      className="icon-button cursor-pointer"
       title={theme === 'light' ? '라이트 모드' : theme === 'dark' ? '다크 모드' : '시스템 설정'}
     >
-      {theme === 'light' && <SunIcon className="size-5" />}
-      {theme === 'dark' && <MoonIcon className="size-5" />}
-      {theme === 'system' && <ComputerDesktopIcon className="size-5" />}
+      {theme === 'light' && <SunIcon className="size-[19px]" />}
+      {theme === 'dark' && <MoonIcon className="size-[19px]" />}
+      {theme === 'system' && <ComputerDesktopIcon className="size-[19px]" />}
     </button>
   )
 }

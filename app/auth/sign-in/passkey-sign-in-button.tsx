@@ -16,9 +16,9 @@ export default function PasskeySignInButton() {
           },
         })
       }}
-      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-border-primary p-3 font-display text-lg font-700 transition-colors hover:bg-accent-soft"
+      className="btn-primary h-12 w-full cursor-pointer px-4 text-[15px]"
     >
-      <KeyIcon className="size-6" />
+      <KeyIcon className="size-5" />
       <p>Passkey 로그인</p>
     </button>
   )

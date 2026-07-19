@@ -1,46 +1,49 @@
+'use client'
+
 import { useSession } from '@/lib/auth-client'
 import { useEffect } from 'react'
 import FileUploadButton from '@/app/components/file-upload/file-upload-button'
-import ModalLayout from '@/app/components/modal-layout'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
-import { useShareTimePopUp } from '@/lib/stores/share-time-pop-up'
 import { useShareTime } from '@/lib/stores/share-time'
+import { ClockIcon } from '@heroicons/react/24/outline'
 
-export default function ShareTimePickerModal({ upload }: { upload: () => void }) {
-  const { shareTimePopUp, setShareTimePopUp } = useShareTimePopUp((store) => store)
+export default function ShareTimePicker({ upload }: { upload: () => void }) {
   const { shareTime, setShareTime } = useShareTime((store) => store)
   const session = useSession()
-
   const planShareTime = getShareTimeOptionsForPlan(session.data?.user.plan)
 
   useEffect(() => {
-    setShareTime(planShareTime[0]?.value)
-  }, [planShareTime, setShareTime])
+    if (!planShareTime.some((option) => option.value === shareTime)) {
+      setShareTime(planShareTime[0].value)
+    }
+  }, [planShareTime, setShareTime, shareTime])
 
   return (
-    <ModalLayout isOpen={shareTimePopUp} closeModal={() => setShareTimePopUp(false)}>
-      <div className="pb-3 font-display text-xl font-700 sm:text-2xl">공유 시간</div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {planShareTime.map((data) => (
-          <button
-            onClick={() => setShareTime(data.value)}
-            key={data.text}
-            className={`cursor-pointer rounded-xl border-2 p-2.5 font-display text-sm font-600 transition-colors sm:p-3 sm:text-base ${shareTime === data.value ? 'border-accent bg-accent text-white' : 'border-border-primary bg-surface-elevated text-text-primary hover:border-accent hover:bg-accent-soft'} flex items-center justify-center`}
+    <>
+      <div>
+        <label htmlFor="share-time" className="section-label mb-2 block">
+          만료 시간
+        </label>
+        <div className="relative">
+          <ClockIcon className="pointer-events-none absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-text-muted" />
+          <select
+            id="share-time"
+            className="field-control appearance-none px-10"
+            value={shareTime || planShareTime[0].value}
+            onChange={(event) => setShareTime(Number(event.target.value))}
           >
-            <div>{data.text}</div>
-          </button>
-        ))}
+            {planShareTime.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.text} 후 자동 삭제
+              </option>
+            ))}
+          </select>
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-muted">⌄</span>
+        </div>
       </div>
-      <div className="mt-4 flex w-full items-center gap-2">
-        <button
-          className="w-auto cursor-pointer rounded-xl border-2 border-danger p-2.5 px-4 font-display font-600 text-danger transition-colors hover:bg-danger hover:text-white"
-          type="button"
-          onClick={() => setShareTimePopUp(false)}
-        >
-          취소
-        </button>
+      <div className="order-3 md:order-none md:col-start-3">
         <FileUploadButton upload={upload} />
       </div>
-    </ModalLayout>
+    </>
   )
 }

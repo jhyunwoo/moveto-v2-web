@@ -4,32 +4,40 @@ import { AnimatePresence, motion } from 'motion/react'
 import FileItemIcon from '@/app/components/file-item-icon'
 
 export default function FileList({ files, deleteFile }: { files: File[]; deleteFile: (index: number) => void }) {
+  if (!files.length) return null
+
   return (
-    <div className="flex flex-col gap-2 py-2 text-text-primary">
+    <div className="mt-3 overflow-hidden rounded-lg border border-border-subtle bg-surface/56 text-text-primary">
+      <div className="flex items-center justify-between border-b border-border-subtle px-4 py-2.5">
+        <h2 className="text-sm font-700">선택한 파일</h2>
+        <span className="text-xs text-text-secondary">{files.length}개</span>
+      </div>
       <AnimatePresence mode="popLayout">
-        {files?.map((file, index) => (
+        {files.map((file, index) => (
           <motion.div
             layout
-            initial={{ opacity: 0, x: -12, scale: 0.97 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 12, scale: 0.97 }}
-            transition={{ duration: 0.2, ease: 'easeOut', delay: index * 0.03 }}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16, ease: 'easeOut' }}
             key={`${file.name}-${file.size}-${file.lastModified}`}
-            className="modern-card flex items-center justify-between rounded-xl p-3"
+            className="flex min-h-16 items-center justify-between gap-3 border-b border-border-subtle px-4 py-2.5 last:border-b-0"
           >
-            <div className="flex items-center gap-3 pr-2">
+            <div className="flex min-w-0 items-center gap-3">
               <FileItemIcon file={file} />
-              <div>
-                <div className="break-all font-display font-600">{file.name}</div>
-                <div className="text-sm text-text-muted">{formatBytes(file.size, 2)}</div>
+              <div className="min-w-0">
+                <div className="truncate text-sm font-600">{file.name}</div>
+                <div className="mt-0.5 text-xs text-text-muted">{formatBytes(file.size, 2)}</div>
               </div>
             </div>
             <button
-              className="cursor-pointer rounded-lg border-2 border-danger p-1 text-danger transition-colors hover:bg-danger hover:text-white"
+              type="button"
+              className="icon-button text-danger hover:border-danger/30 hover:bg-danger/5 hover:text-danger"
               onClick={() => deleteFile(index)}
               aria-label={`${file.name} 삭제`}
+              title="파일 제거"
             >
-              <TrashIcon className="size-5" />
+              <TrashIcon className="size-[18px]" />
             </button>
           </motion.div>
         ))}

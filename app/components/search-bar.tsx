@@ -1,127 +1,76 @@
 'use client'
 
-import { motion, useAnimation } from 'motion/react'
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
+import { ArrowPathIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
 interface Code {
   code: string
 }
 
-export default function SearchBar({
-  isExpanded,
-  setIsExpanded,
-  className,
-  children,
-}: {
-  isExpanded?: boolean
-  setIsExpanded?: Dispatch<SetStateAction<boolean>>
-  className?: string
-  children?: ReactNode
-}) {
-  const { getValues, register, handleSubmit, setFocus, resetField } = useForm<Code>()
+export default function SearchBar({ className }: { className?: string }) {
+  const { register, handleSubmit } = useForm<Code>()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
-  const controls = useAnimation()
   const router = useRouter()
 
   const onSubmit: SubmitHandler<Code> = async (data) => {
     setError('')
     setLoading(true)
-    const searchShare = await fetch(`/api/share/code/${data.code}`)
-    if (searchShare.ok) {
-      const share = await searchShare.json()
-      router.push(`/search/${share.code.replaceAll(' ', '_')}`)
-    } else {
-      if (searchShare.status === 404) {
-        setError('코드를 찾을 수 없습니다')
-      } else {
-        setError('서버 오류가 발생했습니다')
+
+    try {
+      const searchShare = await fetch(`/api/share/code/${encodeURIComponent(data.code.trim())}`)
+      if (searchShare.ok) {
+        const share = await searchShare.json()
+        router.push(`/search/${share.code.replaceAll(' ', '_')}`)
+        return
       }
+
+      setError(searchShare.status === 404 ? '일치하는 공유 코드를 찾지 못했습니다.' : '잠시 후 다시 시도해주세요.')
+    } catch {
+      setError('네트워크 연결을 확인해주세요.')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
-  useEffect(() => {
-    function detectEscape(e: KeyboardEvent) {
-      controls.stop()
-      if (isExpanded) {
-        if (e.key === 'Escape') {
-          if (getValues('code')) {
-            resetField('code')
-          } else {
-            if (setIsExpanded) setIsExpanded(false)
-          }
-        }
-      }
-    }
-    window.addEventListener('keydown', detectEscape)
-    return () => window.removeEventListener('keydown', detectEscape)
-  }, [controls, getValues, isExpanded, resetField, setFocus, setIsExpanded])
-
-  useEffect(() => {
-    if (isExpanded) setFocus('code')
-  }, [isExpanded, setFocus])
-
-  useEffect(() => {
-    if (!loading) {
-      setFocus('code')
-    }
-  }, [loading, setFocus])
-
   return (
-    <div className={`relative w-full ${className}`}>
-      <form
-        className="relative mx-auto flex w-full max-w-3xl items-center justify-center"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {children}
-        <motion.input
-          {...register('code', {
-            required: { value: true, message: '코드를 입력해주세요' },
-            onChange: () => setError(''),
-          })}
-          className={`z-10 w-full rounded-xl border-3 bg-surface-elevated p-3 px-5 font-display text-xl font-700 tracking-tight outline-hidden transition-colors placeholder:font-500 placeholder:text-text-muted disabled:opacity-60 disabled:border-accent ${error ? 'border-danger' : 'border-border-primary focus:border-accent'}`}
-          layoutId="search"
-          disabled={loading}
-          placeholder="코드 검색"
-          autoComplete="off"
-          animate={controls}
-          type="text"
-          inputMode="search"
-        />
-        <motion.button
+    <div className={className}>
+      <form className="flex items-start gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <div className="min-w-0 grow">
+          <label htmlFor="share-code-search" className="sr-only">
+            공유 코드
+          </label>
+          <input
+            {...register('code', {
+              required: true,
+              onChange: () => setError(''),
+            })}
+            id="share-code-search"
+            className={`field-control px-3.5 ${error ? 'border-danger' : ''}`}
+            disabled={loading}
+            placeholder="예: 파란 여름 바다"
+            autoComplete="off"
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? 'share-code-error' : undefined}
+            type="text"
+            inputMode="search"
+          />
+          <div id="share-code-error" className="mt-1.5 min-h-5 text-xs font-500 text-danger" role="alert">
+            {error}
+          </div>
+        </div>
+        <button
           type="submit"
           disabled={loading}
-          layoutId="search-button"
-          className={`cursor-pointer disabled:text-accent ${error ? 'text-danger' : 'text-text-primary hover:text-accent'} transition-colors`}
+          className="btn-primary size-11 min-h-11 shrink-0 p-0"
+          aria-label="공유 코드 찾기"
+          title="공유 코드 찾기"
         >
-          {loading ? (
-            <svg className="size-10 animate-spin text-accent sm:size-14" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-          ) : (
-            <MagnifyingGlassCircleIcon className="size-10 sm:size-14" />
-          )}
-        </motion.button>
+          {loading ? <ArrowPathIcon className="size-5 animate-spin" /> : <ArrowRightIcon className="size-5" />}
+        </button>
       </form>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={error && { opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="absolute top-16 flex w-full justify-center font-display text-sm font-600 text-danger"
-      >
-        <div>{error}</div>
-      </motion.div>
     </div>
   )
 }

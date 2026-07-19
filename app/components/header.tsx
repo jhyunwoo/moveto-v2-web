@@ -6,18 +6,20 @@ import { Suspense } from 'react'
 
 export default function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 h-16 w-full border-b border-border-subtle bg-surface/80 backdrop-blur-2xl">
+    <header className="fixed inset-x-0 top-0 z-50 h-16 w-full border-b border-border-subtle bg-surface/80 backdrop-blur-xl">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="group flex items-center gap-2.5 transition-transform hover:scale-105 active:scale-95">
-          <div className="relative flex size-8 items-center justify-center sm:size-9">
-            <div className="absolute inset-0 rounded-full bg-accent opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-30 dark:group-hover:opacity-50" />
-            <Image src="/vector-logo.svg" alt="Moveto Logo" width={32} height={32} className="relative z-10 drop-shadow-sm dark:brightness-110 dark:drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
-          </div>
-          <div className="font-display text-xl font-800 tracking-tight sm:text-2xl text-gradient-neon drop-shadow-sm dark:drop-shadow-md">Moveto</div>
-        </Link>
+        <div className="flex items-center gap-7">
+          <Link href="/" className="flex items-center gap-2.5" aria-label="Moveto 홈">
+            <Image src="/vector-logo.svg" alt="" width={34} height={34} />
+            <span className="font-display text-xl font-700 text-text-primary">Moveto</span>
+          </Link>
+          <Link href="/how-to-use" className="hidden text-sm font-500 text-text-secondary transition-colors hover:text-text-primary sm:block">
+            사용 방법
+          </Link>
+        </div>
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
-          <Suspense fallback={<div className="h-8 w-16 animate-pulse rounded-lg bg-border-primary"></div>}>
+          <Suspense fallback={<div className="h-9 w-[68px] animate-pulse rounded-lg bg-surface-subtle" />}>
             <ProfileButton />
           </Suspense>
         </div>
