@@ -1,7 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
-import { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 export default function HomeEntrance({
   children,
@@ -13,13 +10,11 @@ export default function HomeEntrance({
   className?: string
 }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: 'easeOut', delay }}
+    <div
+      className={`home-entrance ${className ?? ''}`}
+      style={{ '--home-entrance-delay': `${delay}s` } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

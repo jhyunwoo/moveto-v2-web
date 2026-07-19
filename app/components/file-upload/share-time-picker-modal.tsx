@@ -5,40 +5,40 @@ import { useEffect } from 'react'
 import FileUploadButton from '@/app/components/file-upload/file-upload-button'
 import getShareTimeOptionsForPlan from '@/lib/get-share-time-options-for-plan'
 import { useShareTime } from '@/lib/stores/share-time'
-import { ClockIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, ClockIcon } from '@heroicons/react/24/outline'
 
 export default function ShareTimePicker({ upload }: { upload: () => void }) {
-  const { shareTime, setShareTime } = useShareTime((store) => store)
+  const { shareTime, setShareTime } = useShareTime(store => store)
   const session = useSession()
   const planShareTime = getShareTimeOptionsForPlan(session.data?.user.plan)
 
   useEffect(() => {
-    if (!planShareTime.some((option) => option.value === shareTime)) {
+    if (!planShareTime.some(option => option.value === shareTime)) {
       setShareTime(planShareTime[0].value)
     }
   }, [planShareTime, setShareTime, shareTime])
 
   return (
     <>
-      <div>
-        <label htmlFor="share-time" className="section-label mb-2 block">
+      <div className="min-w-0">
+        <label htmlFor="share-time" className="section-label mb-2.5 block">
           만료 시간
         </label>
         <div className="relative">
-          <ClockIcon className="pointer-events-none absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-text-muted" />
+          <ClockIcon className="text-accent pointer-events-none absolute top-1/2 left-3.5 size-[18px] -translate-y-1/2" />
           <select
             id="share-time"
-            className="field-control appearance-none px-10"
+            className="field-control bg-surface/80 font-650 dark:bg-surface-alt/80 h-12 appearance-none px-10 pr-10"
             value={shareTime || planShareTime[0].value}
-            onChange={(event) => setShareTime(Number(event.target.value))}
+            onChange={event => setShareTime(Number(event.target.value))}
           >
-            {planShareTime.map((option) => (
+            {planShareTime.map(option => (
               <option key={option.value} value={option.value}>
                 {option.text} 후 자동 삭제
               </option>
             ))}
           </select>
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-muted">⌄</span>
+          <ChevronDownIcon className="text-text-muted pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2" />
         </div>
       </div>
       <div className="order-3 md:order-none md:col-start-3">

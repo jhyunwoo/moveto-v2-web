@@ -12,7 +12,7 @@ import ShareTimePickerModal from '@/app/components/file-upload/share-time-picker
 export default function FileUpload() {
   const inputRef = useRef<HTMLInputElement>(null)
   const dragRef = useRef<HTMLLabelElement>(null)
-  const { files, deleteFile } = useDragAndDropFile({
+  const { files, deleteFile, handleFileInput, isDragging } = useDragAndDropFile({
     inputRef,
     dragRef,
   })
@@ -21,10 +21,20 @@ export default function FileUpload() {
   return (
     <>
       <AccessCodeModal />
-      <section className="glass-panel p-3 sm:p-5" aria-label="파일 공유 작업 영역">
-        <DragAndDropBox inputRef={inputRef} dragRef={dragRef} />
+      <section
+        className="glass-panel border-border-subtle bg-surface/90 dark:bg-surface-alt/88 isolate shadow-[0_30px_90px_color-mix(in_srgb,var(--accent)_9%,transparent)]"
+        aria-label="파일 공유 작업 영역"
+      >
+        <div className="relative p-2.5 sm:p-3">
+          <DragAndDropBox
+            inputRef={inputRef}
+            dragRef={dragRef}
+            handleFileInput={handleFileInput}
+            isDragging={isDragging}
+          />
+        </div>
         <FileList files={files} deleteFile={deleteFile} />
-        <div className="mt-3 grid items-end gap-4 border-t border-border-subtle pt-4 md:grid-cols-[minmax(180px,0.8fr)_minmax(220px,1fr)_minmax(190px,0.8fr)] md:gap-6">
+        <div className="border-border-subtle bg-surface/72 dark:bg-surface-alt/64 relative mt-3 grid items-end gap-5 border-t px-4 py-4 sm:px-5 md:grid-cols-[minmax(180px,0.8fr)_minmax(220px,1fr)_minmax(190px,0.8fr)] md:gap-7 md:py-3.5">
           <ShareTimePickerModal upload={upload} />
           <ShareableFileSize />
         </div>

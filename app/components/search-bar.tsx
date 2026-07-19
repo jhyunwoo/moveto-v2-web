@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { ArrowPathIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { motion } from 'motion/react'
+import useHydratedReducedMotion from '@/lib/hooks/use-hydrated-reduced-motion'
 
 interface Code {
   code: string
@@ -13,9 +15,10 @@ export default function SearchBar({ className }: { className?: string }) {
   const { register, handleSubmit } = useForm<Code>()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const shouldReduceMotion = useHydratedReducedMotion()
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<Code> = async (data) => {
+  const onSubmit: SubmitHandler<Code> = async data => {
     setError('')
     setLoading(true)
 
@@ -37,8 +40,8 @@ export default function SearchBar({ className }: { className?: string }) {
 
   return (
     <div className={className}>
-      <form className="flex items-start gap-2" onSubmit={handleSubmit(onSubmit)}>
-        <div className="min-w-0 grow">
+      <form onSubmit={handleSubmit(onSubmit)} aria-busy={loading}>
+        <div className="relative min-w-0">
           <label htmlFor="share-code-search" className="sr-only">
             공유 코드
           </label>
@@ -48,7 +51,7 @@ export default function SearchBar({ className }: { className?: string }) {
               onChange: () => setError(''),
             })}
             id="share-code-search"
-            className={`field-control px-3.5 ${error ? 'border-danger' : ''}`}
+            className={`field-control bg-surface/82 font-600 dark:bg-surface-alt/82 h-14 px-4 pr-[4.5rem] text-base tracking-[-0.015em] ${error ? 'border-danger' : ''}`}
             disabled={loading}
             placeholder="예: 파란 여름 바다"
             autoComplete="off"
@@ -57,19 +60,29 @@ export default function SearchBar({ className }: { className?: string }) {
             type="text"
             inputMode="search"
           />
-          <div id="share-code-error" className="mt-1.5 min-h-5 text-xs font-500 text-danger" role="alert">
-            {error}
-          </div>
+          <motion.button
+            type="submit"
+            disabled={loading}
+            className="btn-primary absolute top-1.5 right-1.5 size-11 min-h-11 p-0"
+            aria-label="공유 코드 찾기"
+            title="공유 코드 찾기"
+            whileHover={loading || shouldReduceMotion ? undefined : { transform: 'translateX(1px)' }}
+            whileTap={loading || shouldReduceMotion ? undefined : { transform: 'scale(0.94)' }}
+            transition={{ duration: 0.15, ease: [0.23, 1, 0.32, 1] }}
+          >
+            {loading ? <ArrowPathIcon className="size-5 animate-spin" /> : <ArrowRightIcon className="size-5" />}
+          </motion.button>
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn-primary size-11 min-h-11 shrink-0 p-0"
-          aria-label="공유 코드 찾기"
-          title="공유 코드 찾기"
+        <motion.div
+          id="share-code-error"
+          className="font-600 text-danger mt-2 min-h-5 text-xs leading-5"
+          role="alert"
+          initial={false}
+          animate={shouldReduceMotion ? undefined : error ? { opacity: 1, y: 0 } : { opacity: 0, y: -3 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: [0.23, 1, 0.32, 1] }}
         >
-          {loading ? <ArrowPathIcon className="size-5 animate-spin" /> : <ArrowRightIcon className="size-5" />}
-        </button>
+          {error}
+        </motion.div>
       </form>
     </div>
   )
