@@ -10,15 +10,15 @@ export default function HomePage() {
     <div className="home-page relative w-full overflow-hidden">
       <JsonLd />
       <section
-        className="relative mx-auto w-full max-w-[1504px] px-4 pt-[clamp(3.5rem,5vw,4rem)] pb-0 sm:px-6 lg:px-10"
+        className="relative mx-auto w-full max-w-[1504px] px-4 pt-[clamp(4.5rem,8vw,8rem)] pb-[clamp(7rem,11vw,11rem)] sm:px-6 lg:px-10"
         aria-labelledby="home-title"
       >
         <HeroTransferFlight />
 
-        <HomeEntrance delay={0.02} className="relative z-10 max-w-[790px]">
+        <HomeEntrance delay={0.02} className="relative z-10 max-w-[760px]">
           <h1
             id="home-title"
-            className="font-display font-850 text-text-primary text-[clamp(2.55rem,5.4vw,5rem)] leading-[0.94] tracking-[-0.065em]"
+            className="font-display font-850 text-text-primary text-[clamp(2.55rem,5.2vw,4.85rem)] leading-[0.96] tracking-[-0.065em]"
           >
             파일이 움직이는
             <br />
@@ -28,15 +28,18 @@ export default function HomePage() {
             로그인 없이 파일을 올리고, 기억하기 쉬운 한글 코드로 바로 공유하세요.
           </p>
         </HomeEntrance>
+      </section>
 
-        <div
-          id="upload"
-          className="relative z-20 mt-10 grid scroll-mt-28 items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(330px,0.48fr)] lg:gap-6"
-        >
+      <section
+        id="upload"
+        className="relative z-20 mx-auto w-full max-w-[1504px] scroll-mt-28 px-4 sm:px-6 lg:px-10"
+        aria-label="파일 전송 작업 영역"
+      >
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(330px,0.44fr)] lg:gap-8">
           <HomeEntrance delay={0.12}>
             <FileUpload />
           </HomeEntrance>
-          <HomeEntrance delay={0.2} className="lg:pt-8">
+          <HomeEntrance delay={0.2} className="lg:pt-14">
             <SearchAnimation />
           </HomeEntrance>
         </div>

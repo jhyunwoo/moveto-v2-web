@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 import useHydratedReducedMotion from '@/lib/hooks/use-hydrated-reduced-motion'
-import { DocumentChartBarIcon, PhotoIcon, TableCellsIcon } from '@heroicons/react/24/outline'
+import { DocumentChartBarIcon, PhotoIcon } from '@heroicons/react/24/outline'
 
 const floatingFiles = [
   {
@@ -15,19 +15,11 @@ const floatingFiles = [
   },
   {
     label: 'IMG',
-    className: 'right-[25%] top-[32%] text-[#1463ff]',
+    className: 'right-[28%] top-[42%] text-[#1463ff]',
     Icon: PhotoIcon,
     duration: 7.2,
     delay: 0.8,
     rotate: 6,
-  },
-  {
-    label: 'XLS',
-    className: 'right-[42%] top-[62%] text-[#21b997]',
-    Icon: TableCellsIcon,
-    duration: 6.8,
-    delay: 1.3,
-    rotate: 5,
   },
 ]
 
@@ -36,7 +28,7 @@ export default function HeroTransferFlight() {
 
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 top-0 hidden h-[430px] overflow-hidden lg:block"
+      className="pointer-events-none absolute inset-x-0 top-8 hidden h-[460px] overflow-hidden opacity-80 lg:block"
       aria-hidden="true"
     >
       <svg className="absolute inset-0 size-full" viewBox="0 0 1280 430" fill="none" preserveAspectRatio="none">
@@ -111,13 +103,6 @@ export default function HeroTransferFlight() {
           <span className="font-800 mt-1 text-[9px] tracking-[0.08em]">{label}</span>
         </motion.div>
       ))}
-
-      <motion.span
-        className="absolute top-[45%] right-[16%] size-1.5 rounded-full bg-[#ff725f]"
-        animate={reduceMotion ? undefined : { scale: [1, 1.8, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <span className="absolute top-[39%] right-[38%] size-1 rounded-full bg-[#43d7bb]" />
     </div>
   )
 }
