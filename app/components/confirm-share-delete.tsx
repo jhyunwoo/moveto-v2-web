@@ -1,76 +1,65 @@
 'use client'
 
-import { motion } from 'motion/react'
-import { useState, useEffect } from 'react'
-import { createPortal } from 'react-dom'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useDeleteShare } from '@/lib/stores/delete-share'
+import ModalLayout from '@/app/components/modal-layout'
 
 export default function ConfirmShareDelete({ redirect }: { redirect?: string }) {
   const [deleteError, setDeleteError] = useState('')
-  const [mounted, setMounted] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const { deleteShare, setDeleteShare } = useDeleteShare((store) => store)
-
   const router = useRouter()
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true)
-  }, [])
-
   async function deleteFile() {
-    const requestDelete = await fetch(`/api/share/${deleteShare}`, {
-      method: 'DELETE',
-    })
-    const response = await requestDelete.json()
-    if (requestDelete.ok) {
-      setDeleteShare('')
-      setDeleteError('')
-      if (redirect) {
-        router.replace(redirect)
-      } else {
-        router.refresh()
+    setDeleteError('')
+    setIsDeleting(true)
+
+    try {
+      const requestDelete = await fetch(`/api/share/${deleteShare}`, { method: 'DELETE' })
+      const response = await requestDelete.json().catch(() => ({}))
+      if (!requestDelete.ok) {
+        setDeleteError(response.message ?? '파일을 삭제하지 못했습니다.')
+        return
       }
-    } else {
-      setDeleteError(response.message)
+
+      setDeleteShare('')
+      if (redirect) router.replace(redirect)
+      else router.refresh()
+    } catch {
+      setDeleteError('네트워크 연결을 확인해주세요.')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
-  const modalContent = deleteShare ? (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-surface-overlay p-4 backdrop-blur-sm"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <div className="modern-card flex w-full max-w-lg flex-col items-center gap-3 rounded-2xl p-6">
-        {!deleteError ? (
-          <>
-            <div className="p-4 font-display text-xl font-700">파일을 삭제 하시겠습니까?</div>
-            <div className="flex w-full items-center justify-around gap-2">
-              <button
-                type="button"
-                onClick={() => setDeleteShare('')}
-                className="w-full cursor-pointer rounded-xl border-2 border-accent bg-accent p-2.5 px-4 font-display font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
-              >
-                취소
-              </button>
-              <button
-                type="button"
-                onClick={deleteFile}
-                className="w-full cursor-pointer rounded-xl border-2 border-danger p-2.5 px-4 font-display font-700 text-danger transition-colors hover:bg-danger hover:text-white"
-              >
-                삭제
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="font-display font-700 text-danger">{deleteError}</div>
-        )}
+  function closeModal() {
+    if (isDeleting) return
+    setDeleteError('')
+    setDeleteShare('')
+  }
+
+  return (
+    <ModalLayout isOpen={Boolean(deleteShare)} closeModal={closeModal} ariaLabel="공유 삭제 확인">
+      <div className="flex items-start gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-danger/10 text-danger">
+          <ExclamationTriangleIcon className="size-6" />
+        </span>
+        <div>
+          <h2 className="text-xl font-700">공유 파일을 삭제할까요?</h2>
+          <p className="mt-2 text-sm leading-6 text-text-secondary">삭제된 파일과 공유 코드는 다시 복구할 수 없습니다.</p>
+        </div>
       </div>
-    </motion.div>
-  ) : null
 
-  if (!mounted || !deleteShare) return null
+      {deleteError ? <p className="mt-5 rounded-lg bg-danger/10 px-3 py-2 text-sm font-600 text-danger" role="alert">{deleteError}</p> : null}
 
-  return createPortal(modalContent, document.body)
+      <div className="mt-7 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <button type="button" onClick={closeModal} disabled={isDeleting} className="btn-secondary px-5">취소</button>
+        <button type="button" onClick={deleteFile} disabled={isDeleting} className="btn-danger px-5 disabled:cursor-wait disabled:opacity-60">
+          {isDeleting ? '삭제 중...' : '삭제'}
+        </button>
+      </div>
+    </ModalLayout>
+  )
 }

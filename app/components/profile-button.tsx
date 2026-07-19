@@ -6,14 +6,14 @@ export default async function ProfileButton() {
 
   return session?.user?.id ? (
     <Link
-      className="shrink-0 whitespace-nowrap rounded-lg border-2 border-accent bg-accent px-4 py-1.5 font-display text-xs sm:text-sm font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
+      className="btn-primary h-9 min-h-9 shrink-0 whitespace-nowrap px-4 text-xs sm:text-sm"
       href="/profile"
     >
       프로필
     </Link>
   ) : (
     <Link
-      className="shrink-0 whitespace-nowrap rounded-lg border-2 border-accent bg-accent px-4 py-1.5 font-display text-xs sm:text-sm font-700 text-white transition-colors hover:bg-accent-hover hover:border-accent-hover"
+      className="btn-primary h-9 min-h-9 shrink-0 whitespace-nowrap px-4 text-xs sm:text-sm"
       href="/auth/sign-in"
     >
       로그인

@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useMemo } from 'react'
+import { ReactNode, useEffect, useMemo } from 'react'
 import {
   DocumentTextIcon,
   PhotoIcon,
@@ -78,12 +78,18 @@ export default function FileItemIcon({ file }: { file: File }) {
   const isImage = IMAGE_EXTENSIONS.has(ext)
   const src = useMemo(() => (isImage ? URL.createObjectURL(file) : null), [file]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    return () => {
+      if (src) URL.revokeObjectURL(src)
+    }
+  }, [src])
+
   if (src) {
     return (
       <img
         src={src}
         alt={file.name}
-        className="size-10 shrink-0 rounded-lg border-2 border-border-subtle object-cover"
+        className="size-10 shrink-0 rounded-lg border border-border-subtle object-cover"
       />
     )
   }

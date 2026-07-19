@@ -4,11 +4,11 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Moveto',
     short_name: 'Moveto',
-    description: '초고속 파일 공유의 새로운 차원, 로그인 없이 빠르고 안전하게',
+    description: '로그인 없이 파일을 올리고, 기억하기 쉬운 한글 코드로 바로 공유하세요.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#050505',
-    theme_color: '#8b5cf6',
+    background_color: '#ffffff',
+    theme_color: '#ffffff',
     icons: [
       {
         src: '/vector-logo.svg',

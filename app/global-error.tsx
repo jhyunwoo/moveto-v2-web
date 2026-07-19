@@ -4,18 +4,15 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
   console.error(error)
 
   return (
-    <html>
-      <body className="flex h-screen w-full flex-col items-center justify-center bg-[#f5f0e8] text-[#1a1715] dark:bg-[#141210] dark:text-[#f0ebe3]">
-        <div className="flex w-full max-w-md flex-col gap-4 rounded-2xl border-2 border-[#1a1715] bg-white p-8 shadow-sm dark:border-white/15 dark:bg-[#1e1c19]">
-          <h1 className="text-4xl font-bold">오류 발생</h1>
-          <p className="text-sm text-[#6b655b] dark:text-[#a09a90]">문제가 발생했습니다. 다시 시도해주세요.</p>
-          <button
-            className="w-full rounded-xl border-2 border-[#ff5d3b] bg-[#ff5d3b] p-3 font-semibold text-white transition-colors hover:bg-[#e5452a]"
-            onClick={() => reset()}
-          >
+    <html lang="ko">
+      <body style={{ margin: 0, display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', background: '#ffffff', color: '#171717', fontFamily: 'system-ui, sans-serif', padding: 24 }}>
+        <main style={{ width: '100%', maxWidth: 440, border: '1px solid #dcdee0', borderRadius: 8, background: '#ffffff', padding: 32, boxShadow: '0 18px 50px rgba(20,55,82,0.08)' }}>
+          <h1 style={{ margin: 0, fontSize: 30, lineHeight: 1.2 }}>문제가 발생했습니다</h1>
+          <p style={{ margin: '12px 0 0', color: '#60646c', fontSize: 14, lineHeight: 1.6 }}>요청을 처리하지 못했습니다. 잠시 후 다시 시도해주세요.</p>
+          <button type="button" onClick={reset} style={{ width: '100%', minHeight: 44, marginTop: 24, border: '1px solid #000', borderRadius: 8, background: '#000', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
             다시 시도
           </button>
-        </div>
+        </main>
       </body>
     </html>
   )
