@@ -4,6 +4,7 @@ import db from '@/db'
 import { share } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { cookies } from 'next/headers'
+import { verifyOwnerToken } from '@/lib/server/owner-token'
 
 export default async function checkShareAuth(shareId: string): Promise<boolean> {
   if (!shareId) return false
@@ -22,7 +23,8 @@ export default async function checkShareAuth(shareId: string): Promise<boolean> 
     }
 
     const cookieStore = await cookies()
-    const isOwner = cookieStore.get(`owner_${shareId}`)?.value === 'true'
+    const ownerToken = cookieStore.get(`owner_${shareId}`)?.value
+    const isOwner = verifyOwnerToken(shareId, ownerToken)
     return isOwner && shareRecord.ip === (await getIp())
   }
 }

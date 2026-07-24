@@ -7,16 +7,29 @@ import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
 import getS3Client from '@/lib/server/get-s3-client'
 import path from 'path'
 
+import crypto from 'crypto'
+
 export async function GET(request: Request) {
   await connection()
+  const cronSecret = process.env.CRON_SECRET
+  if (!cronSecret || cronSecret.trim() === '') {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
+
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const expectedHeader = `Bearer ${cronSecret}`
+
+  if (
+    !authHeader ||
+    authHeader.length !== expectedHeader.length ||
+    !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expectedHeader))
+  ) {
     return new NextResponse('Unauthorized', { status: 401 })
   }
 
   const expiringShares = await db
     .update(share)
-    .set({ code: null })
+    .set({ code: null, active: false })
     .where(and(lt(share.expireAt, new Date()), or(isNotNull(share.code), eq(share.active, true))))
     .returning({ id: share.id, file: share.file })
 

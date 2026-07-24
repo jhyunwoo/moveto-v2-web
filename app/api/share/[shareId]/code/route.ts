@@ -36,9 +36,27 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       }
     }
   }
-  // Check if totalSize is within user limit
+  let body: { shareTime?: unknown }
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
+
+  const shareTime = body?.shareTime
+  if (typeof shareTime !== 'number' || !Number.isInteger(shareTime) || shareTime <= 0) {
+    return NextResponse.json({ error: 'Invalid share time' }, { status: 400 })
+  }
+
   const session = await getSession()
-  const limit = getUserLimit(session?.user.plan)
+  const limit = getUserLimit(session?.user?.plan)
+
+  if (shareTime > limit.time) {
+    return NextResponse.json(
+      { error: `Share time exceeds maximum allowed (${limit.time} minutes) for your plan` },
+      { status: 400 }
+    )
+  }
 
   const usedStorage = await getUsedStorage()
 
@@ -48,17 +66,23 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   }
 
   // Create access code of files
-  const nounLength = (await db.select({ count: count() }).from(nouns))[0].count
-  const adjectiveLength = (await db.select({ count: count() }).from(adjectives))[0].count
+  const nounLength = (await db.select({ count: count() }).from(nouns))[0]?.count ?? 0
+  const adjectiveLength = (await db.select({ count: count() }).from(adjectives))[0]?.count ?? 0
+
+  if (nounLength === 0 || adjectiveLength === 0) {
+    return NextResponse.json({ error: 'Access code dictionary unavailable' }, { status: 500 })
+  }
+
   const randomNounId = crypto.randomInt(1, nounLength + 1)
   const randomAdjectiveId = crypto.randomInt(1, adjectiveLength + 1)
-  const randomNoun = (await db.select().from(nouns).where(eq(nouns.id, randomNounId)))[0].word
-  const randomAdjective = (await db.select().from(adjectives).where(eq(adjectives.id, randomAdjectiveId)))[0].word
+  const randomNoun = (await db.select().from(nouns).where(eq(nouns.id, randomNounId)))[0]?.word
+  const randomAdjective = (await db.select().from(adjectives).where(eq(adjectives.id, randomAdjectiveId)))[0]?.word
+
+  if (!randomNoun || !randomAdjective) {
+    return NextResponse.json({ error: 'Failed to generate access code' }, { status: 500 })
+  }
 
   const randomAccessCode = `${randomAdjective} ${randomNoun}`
-
-  const body = await request.json()
-  const shareTime = body.shareTime
   const currentTime = new Date()
   const expireTime = addMinutes(currentTime, shareTime)
 

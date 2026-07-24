@@ -6,6 +6,7 @@ import { DeleteObjectsCommand } from '@aws-sdk/client-s3'
 import { getSession } from '@/auth'
 import getIp from '@/lib/server/get-user-ip'
 import path from 'path'
+import { verifyOwnerToken } from '@/lib/server/owner-token'
 
 export default async function deleteShareFiles(shareId: string) {
   const session = await getSession()
@@ -38,7 +39,8 @@ export default async function deleteShareFiles(shareId: string) {
     } else {
       const { cookies } = await import('next/headers')
       const cookieStore = await cookies()
-      const isOwner = cookieStore.get(`owner_${shareId}`)?.value === 'true'
+      const ownerToken = cookieStore.get(`owner_${shareId}`)?.value
+      const isOwner = verifyOwnerToken(shareId, ownerToken)
       if (!isOwner || shareData.ip !== (await getIp())) {
         throw new Error('Unauthorized')
       }

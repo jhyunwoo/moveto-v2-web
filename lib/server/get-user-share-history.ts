@@ -5,6 +5,7 @@ import { and, count, desc, eq, isNotNull } from 'drizzle-orm'
 const PAGE_SIZE = 10
 
 export default async function getUserShareHistory(userId: string, requestedPage: number) {
+  const safePage = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1
   const totalShares = (
     await db
       .select({ count: count() })
@@ -13,7 +14,7 @@ export default async function getUserShareHistory(userId: string, requestedPage:
   )[0].count
 
   const pageLimit = Math.max(1, Math.ceil(totalShares / PAGE_SIZE))
-  const currentPage = Math.min(Math.max(requestedPage, 1), pageLimit)
+  const currentPage = Math.min(Math.max(safePage, 1), pageLimit)
 
   const shareList = await db
     .select()
