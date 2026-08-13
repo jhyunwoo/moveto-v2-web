@@ -1,3 +1,14 @@
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@aws-sdk/client-s3@3.1110.0'
+  - '@aws-sdk/client-sts@3.1110.0'
+  - '@aws-sdk/s3-request-presigner@3.1110.0'
+  - '@next/eslint-plugin-next@16.3.1'
+  - '@next/third-parties@16.3.1'
+  - eslint-config-next@16.3.1
+  - zustand@5.0.15
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
