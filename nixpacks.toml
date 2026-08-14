@@ -1,0 +1,23 @@
+# Build overrides for the Dokploy / Nixpacks deploy.
+#
+# The auto-generated plan cannot run the pnpm pinned in package.json
+# ("packageManager": "pnpm@11.21.0"):
+#   * it installs Node 22.11.0, but pnpm 11 requires Node >= 22.13 and exits 1
+#   * it installs corepack 0.24.1, which loads pnpm 11's bin/pnpm.cjs (a shim
+#     whose whole body is `import('./pnpm.mjs')`) through Module._compile and
+#     dies with ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING
+#
+# So pin a nixpkgs revision that ships a current Node, and install a corepack
+# that understands pnpm 11. pnpm itself still comes from the packageManager
+# field via corepack.
+
+[phases.setup]
+# nixpkgs revision Nixpacks itself uses for Node 24 (nodejs 24.10.0)
+nixpkgsArchive = "23f9169c4ccce521379e602cc82ed873a1f1b52b"
+nixPkgs = ["nodejs_24", "openssl"]
+
+[phases.install]
+cmds = [
+  "npm install -g corepack@0.35.0 && corepack enable",
+  "pnpm i --frozen-lockfile",
+]
