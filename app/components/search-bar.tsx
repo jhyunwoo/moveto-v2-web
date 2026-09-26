@@ -60,7 +60,7 @@ export default function SearchBar({ className }: { className?: string }) {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary absolute top-1 right-1 size-10 min-h-10 p-0"
+            className="btn-primary absolute top-1/2 right-1 size-11 -translate-y-1/2 p-0"
             aria-label="공유 코드 찾기"
             title="공유 코드 찾기"
           >
