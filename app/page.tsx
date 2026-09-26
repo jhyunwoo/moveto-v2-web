@@ -11,9 +11,26 @@ const steps = [
 
 export default function HomePage() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 pt-12 pb-20 sm:px-6 sm:pt-20">
+    <div className="mx-auto w-full max-w-5xl px-4 pt-6 pb-20 sm:px-6 sm:pt-10">
       <JsonLd />
-      <section aria-labelledby="home-title" className="fade-in max-w-2xl">
+      <section
+        id="upload"
+        className="grid scroll-mt-20 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px]"
+        aria-label="파일 전송 작업 영역"
+      >
+        <div className="fade-in" style={{ '--i': 1 } as CSSProperties}>
+          <FileUpload />
+        </div>
+        <div className="fade-in" style={{ '--i': 2 } as CSSProperties}>
+          <ReceivePanel />
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="home-title"
+        className="fade-in mt-16 max-w-2xl sm:mt-20"
+        style={{ '--i': 3 } as CSSProperties}
+      >
         <p className="mono-label">Moveto / File transfer</p>
         <h1
           id="home-title"
@@ -26,19 +43,6 @@ export default function HomePage() {
         <p className="text-text-secondary mt-4 text-base leading-7 sm:text-lg">
           로그인 없이 파일을 올리고, 기억하기 쉬운 한글 코드로 바로 공유하세요.
         </p>
-      </section>
-
-      <section
-        id="upload"
-        className="mt-10 grid scroll-mt-20 items-start gap-4 sm:mt-14 lg:grid-cols-[minmax(0,1fr)_340px]"
-        aria-label="파일 전송 작업 영역"
-      >
-        <div className="fade-in" style={{ '--i': 1 } as CSSProperties}>
-          <FileUpload />
-        </div>
-        <div className="fade-in" style={{ '--i': 2 } as CSSProperties}>
-          <ReceivePanel />
-        </div>
       </section>
 
       <section
