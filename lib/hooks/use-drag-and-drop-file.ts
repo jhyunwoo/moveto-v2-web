@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react'
 import fileToFileDataList from '@/lib/generate-file-info-array'
 import { useFileData } from '@/lib/stores/file-data'
 import { useFiles } from '@/lib/stores/files'
@@ -14,6 +14,7 @@ export default function useDragAndDropFile({
 
   const { fileData, addFileData, deleteFileData } = useFileData(store => store)
   const [isDragging, setIsDragging] = useState<boolean>(false)
+  const dragDepth = useRef(0)
 
   const handleFileInput = useCallback(
     (fileList: FileList | null) => {
@@ -54,22 +55,26 @@ export default function useDragAndDropFile({
   const handleDragIn = useCallback((e: DragEvent): void => {
     e.preventDefault()
     e.stopPropagation()
+
+    dragDepth.current += 1
+    if (e.dataTransfer?.types.includes('Files')) {
+      setIsDragging(true)
+    }
   }, [])
 
   const handleDragOut = useCallback((e: DragEvent): void => {
     e.preventDefault()
     e.stopPropagation()
 
-    setIsDragging(false)
+    dragDepth.current = Math.max(0, dragDepth.current - 1)
+    if (dragDepth.current === 0) {
+      setIsDragging(false)
+    }
   }, [])
 
   const handleDragOver = useCallback((e: DragEvent): void => {
     e.preventDefault()
     e.stopPropagation()
-
-    if (e.dataTransfer!.files) {
-      setIsDragging(true)
-    }
   }, [])
 
   const handleDrop = useCallback(
@@ -77,6 +82,7 @@ export default function useDragAndDropFile({
       e.preventDefault()
       e.stopPropagation()
 
+      dragDepth.current = 0
       onChangeFiles(e)
       setIsDragging(false)
     },
@@ -84,8 +90,6 @@ export default function useDragAndDropFile({
   )
 
   const initDragEvents = useCallback((): void => {
-    // 앞서 말했던 4개의 이벤트에 Listener 를 등록합니다. (마운트 될때)
-
     if (dragRef.current !== null) {
       dragRef.current.addEventListener('dragenter', handleDragIn)
       dragRef.current.addEventListener('dragleave', handleDragOut)
@@ -95,8 +99,6 @@ export default function useDragAndDropFile({
   }, [dragRef, handleDragIn, handleDragOut, handleDragOver, handleDrop])
 
   const resetDragEvents = useCallback((): void => {
-    // 앞서 말했던 4개의 이벤트에 Listener 를 삭제합니다. (언마운트 될때)
-
     if (dragRef.current !== null) {
       dragRef.current.removeEventListener('dragenter', handleDragIn)
       dragRef.current.removeEventListener('dragleave', handleDragOut)

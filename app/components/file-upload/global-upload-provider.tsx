@@ -20,12 +20,12 @@ const GlobalUploadContext = createContext<GlobalUploadContextType | null>(null)
 export function GlobalUploadProvider({ children }: { children: ReactNode }) {
   const workerRef = useRef<Worker | null>(null)
   const { setFileUploadProgress, setIsGeneratingCode, setIsPaused, setUploadError } = useFileUploadProgress(
-    (store) => store
+    store => store
   )
-  const { shareTime } = useShareTime((store) => store)
-  const { setCode } = useCode((store) => store)
-  const { files, setFiles } = useFiles((store) => store)
-  const { setFileData } = useFileData((store) => store)
+  const { shareTime } = useShareTime(store => store)
+  const { setCode } = useCode(store => store)
+  const { files, setFiles } = useFiles(store => store)
+  const { setFileData } = useFileData(store => store)
   const { mutateUsedStorage } = useUsedStorage()
 
   // Refs for values that change during upload
@@ -61,6 +61,7 @@ export function GlobalUploadProvider({ children }: { children: ReactNode }) {
           } else {
             setUploadError(response.error || '코드 생성에 실패했습니다')
             setFileUploadProgress([])
+            setIsPaused(false)
             setIsGeneratingCode(false)
           }
         } catch {
@@ -68,6 +69,13 @@ export function GlobalUploadProvider({ children }: { children: ReactNode }) {
           setFileUploadProgress([])
           setIsGeneratingCode(false)
         }
+      } else if (event.data.status === 'Error') {
+        if (event.data.id) {
+          fetch(`/api/share/${event.data.id}`, { method: 'DELETE' }).catch(() => undefined)
+        }
+        setFileUploadProgress([])
+        setIsPaused(false)
+        setUploadError(event.data.error || '업로드에 실패했습니다')
       } else if (event.data.status === 'Cancelled' && event.data.id) {
         try {
           await fetch(`/api/share/${event.data.id}`, { method: 'DELETE' })
@@ -113,9 +121,7 @@ export function GlobalUploadProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <GlobalUploadContext.Provider value={{ upload, pause, resume, cancel }}>
-      {children}
-    </GlobalUploadContext.Provider>
+    <GlobalUploadContext.Provider value={{ upload, pause, resume, cancel }}>{children}</GlobalUploadContext.Provider>
   )
 }
 

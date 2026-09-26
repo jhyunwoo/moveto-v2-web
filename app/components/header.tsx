@@ -5,24 +5,23 @@ import { Suspense } from 'react'
 
 export default function Header() {
   return (
-    <header className="site-header border-border-subtle fixed inset-x-0 top-0 z-50 h-16 w-full border-b">
-      <div className="mx-auto flex h-full w-full max-w-[1504px] items-center justify-between px-5 sm:px-8 lg:px-10">
-        <Link href="/" className="site-wordmark" aria-label="Moveto 홈">
+    <header className="border-border-subtle bg-surface/90 sticky top-0 z-40 w-full border-b backdrop-blur">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4 sm:px-6">
+        <Link href="/" className="font-800 text-text-primary text-xl tracking-[-0.04em]" aria-label="Moveto 홈">
           Moveto
         </Link>
 
-        <nav className="flex h-full items-center" aria-label="주요 메뉴">
-          <Link href="/how-to-use" className="site-header__link hidden sm:inline-flex">
+        <nav className="flex items-center gap-1" aria-label="주요 메뉴">
+          <Link
+            href="/how-to-use"
+            className="text-text-secondary hover:text-text-primary font-500 hidden rounded-lg px-3 py-2 text-sm transition-colors sm:inline-flex"
+          >
             사용 방법
           </Link>
-          <span className="site-header__divider hidden sm:block" aria-hidden="true" />
           <ThemeToggle />
-          <span className="site-header__divider" aria-hidden="true" />
-          <div className="site-header__account">
-            <Suspense fallback={<div className="bg-surface-subtle h-9 w-[58px] animate-pulse rounded-md" />}>
-              <ProfileButton />
-            </Suspense>
-          </div>
+          <Suspense fallback={<div className="bg-surface-subtle ml-1 h-9 w-16 animate-pulse rounded-lg" />}>
+            <ProfileButton />
+          </Suspense>
         </nav>
       </div>
     </header>

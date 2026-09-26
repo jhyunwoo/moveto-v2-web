@@ -2,7 +2,7 @@ import decodeKoCode from '@/lib/decode-uri-share-code'
 import db from '@/db'
 import { and, eq, gte } from 'drizzle-orm'
 import { logs, share } from '@/db/schema'
-import { CloudArrowDownIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import ShareButton from '@/app/components/share-button'
 import HomePageButton from '@/app/components/homepage-button'
 import getS3Client from '@/lib/server/get-s3-client'
@@ -11,9 +11,9 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import DeleteShareButton from '@/app/components/delete-share-button'
 import getIp from '@/lib/server/get-user-ip'
 import { getSession } from '@/auth'
-import HomeEntrance from '@/app/components/home-entrance'
 import ShareExpiryCountdown from '@/app/components/share-expiry-countdown'
 import path from 'path'
+import type { CSSProperties } from 'react'
 
 export default async function SearchPage({ params }: { params: Promise<{ code: string }> }) {
   const code = decodeKoCode((await params).code)
@@ -56,14 +56,13 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
     const serverNow = new Date().getTime()
 
     return (
-      <div className="text-text-primary mx-auto flex w-full max-w-4xl flex-col px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <HomeEntrance delay={0}>
+      <div className="text-text-primary mx-auto flex w-full max-w-4xl flex-col px-4 py-12 sm:px-6 sm:py-16">
+        <div className="fade-in">
           <div className="mb-8">
-            <p className="font-600 text-text-secondary text-sm">공유된 파일</p>
+            <p className="mono-label">Shared files</p>
             <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div className="min-w-0">
                 <h1 className="font-700 flex min-w-0 items-center gap-3 text-3xl sm:text-4xl">
-                  <FolderOpenIcon className="text-accent size-8 shrink-0" />
                   <span className="truncate">{code}</span>
                 </h1>
                 <ShareExpiryCountdown expiresAt={shareData.expireAt!.getTime()} serverNow={serverNow} />
@@ -71,12 +70,12 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
               <ShareButton url={`${process.env.NEXT_PUBLIC_SITE_URL}/search/${code.replaceAll(' ', '_')}`} />
             </div>
           </div>
-        </HomeEntrance>
+        </div>
 
-        <HomeEntrance delay={0.04}>
-          <section className="document-panel overflow-hidden" aria-labelledby="file-list-title">
+        <div className="fade-in" style={{ '--i': 1 } as CSSProperties}>
+          <section className="panel overflow-hidden" aria-labelledby="file-list-title">
             <div className="border-border-subtle border-b px-4 py-3 sm:px-5">
-              <h2 id="file-list-title" className="font-700 text-sm">
+              <h2 id="file-list-title" className="section-label">
                 다운로드할 파일
               </h2>
             </div>
@@ -89,16 +88,16 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
                 <a
                   href={downloadUrl[index]}
                   download={fileData}
-                  className="btn-primary shrink-0 px-3 sm:px-4"
+                  className="btn-secondary min-h-9 shrink-0 px-3"
                   aria-label={`${fileData} 다운로드`}
                 >
-                  <CloudArrowDownIcon className="size-[18px]" />
+                  <ArrowDownTrayIcon className="size-4" />
                   <span className="hidden sm:inline">다운로드</span>
                 </a>
               </div>
             ))}
           </section>
-        </HomeEntrance>
+        </div>
 
         <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <DeleteShareButton shareId={shareData.id} />
@@ -111,10 +110,10 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
   }
 
   return (
-    <div className="text-text-primary flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center px-4 py-16">
-      <HomeEntrance className="w-full max-w-md">
-        <div className="document-panel p-7 text-center sm:p-9">
-          <div className="font-700 text-5xl">404</div>
+    <div className="text-text-primary flex w-full flex-1 items-center justify-center px-4 py-16">
+      <div className="fade-in w-full max-w-md">
+        <div className="panel p-7 text-center sm:p-9">
+          <p className="mono-label">404</p>
           <h1 className="font-700 mt-4 text-xl">공유 코드를 찾을 수 없습니다</h1>
           <p className="text-text-secondary mt-2 text-sm leading-6">
             코드가 정확한지, 공유 시간이 만료되지 않았는지 확인해주세요.
@@ -123,7 +122,7 @@ export default async function SearchPage({ params }: { params: Promise<{ code: s
             <HomePageButton />
           </div>
         </div>
-      </HomeEntrance>
+      </div>
     </div>
   )
 }

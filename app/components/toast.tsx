@@ -8,27 +8,31 @@ export default function Toast() {
   const { toasts, removeToast } = useToastStore()
 
   return (
-    <div className="fixed bottom-6 left-4 right-4 z-50 mx-auto flex w-auto max-w-md flex-col gap-2 sm:left-1/2 sm:right-auto sm:-translate-x-1/2" aria-live="polite">
+    <div
+      className="fixed right-4 bottom-6 left-4 z-50 mx-auto flex w-auto max-w-md flex-col gap-2 sm:right-auto sm:left-1/2 sm:-translate-x-1/2"
+      aria-live="polite"
+    >
       <AnimatePresence mode="popLayout">
-        {toasts.map((toast) => (
+        {toasts.map(toast => (
           <motion.div
             key={toast.id}
             layout
-            initial={{ opacity: 0, y: 16, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="glass-panel flex items-center gap-2.5 px-4 py-3 text-sm font-600"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+            className="panel font-600 flex items-center gap-2.5 px-4 py-3 text-sm shadow-lg shadow-black/5"
           >
             {toast.type === 'success' ? (
-              <CheckCircleIcon className="size-5 shrink-0 text-success" />
+              <CheckCircleIcon className="text-success size-5 shrink-0" />
             ) : (
-              <XCircleIcon className="size-5 shrink-0 text-danger" />
+              <XCircleIcon className="text-danger size-5 shrink-0" />
             )}
-            <span className="text-text-primary">{toast.message}</span>
+            <span className="text-text-primary grow">{toast.message}</span>
             <button
+              type="button"
               onClick={() => removeToast(toast.id)}
-              className="cursor-pointer rounded-md p-0.5 text-text-muted transition-colors hover:text-text-primary"
+              className="text-text-muted hover:text-text-primary cursor-pointer rounded-md p-0.5 transition-colors"
               aria-label="닫기"
             >
               <XMarkIcon className="size-4" />

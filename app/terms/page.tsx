@@ -6,13 +6,13 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen w-full px-4 py-14 text-text-secondary sm:px-6 sm:py-20">
-      <article className="document-panel mx-auto max-w-4xl p-6 md:p-10">
-        <h1 className="mb-8 text-3xl font-700 text-text-primary sm:text-4xl">웹사이트 이용약관</h1>
+    <div className="text-text-secondary w-full px-4 py-14 sm:px-6 sm:py-20">
+      <article className="panel mx-auto max-w-4xl p-6 md:p-10">
+        <h1 className="font-700 text-text-primary mb-8 text-3xl sm:text-4xl">웹사이트 이용약관</h1>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed">
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제1조 (목적)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제1조 (목적)</h2>
             <p>
               본 약관은 Moveto(이하 &apos;회사&apos; 또는 &apos;서비스&apos;)가 제공하는 웹 기반 파일 공유 서비스의
               이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -20,25 +20,40 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제2조 (용어의 정의)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제2조 (용어의 정의)</h2>
             <ul className="list-inside list-decimal space-y-1">
-              <li>&quot;서비스&quot;란 로그인 유무와 관계없이 이용자가 파일을 업로드하고, 생성된 접속 코드를 통해 타인과 파일을 공유할 수 있도록 회사가 제공하는 모든 기능을 의미합니다.</li>
+              <li>
+                &quot;서비스&quot;란 로그인 유무와 관계없이 이용자가 파일을 업로드하고, 생성된 접속 코드를 통해 타인과
+                파일을 공유할 수 있도록 회사가 제공하는 모든 기능을 의미합니다.
+              </li>
               <li>&quot;이용자&quot;란 본 약관에 따라 회사가 제공하는 서비스를 이용하는 회원 및 비회원을 말합니다.</li>
-              <li>&quot;파일&quot;이란 이용자가 서비스를 통해 업로드, 저장, 공유, 다운로드하는 모든 데이터, 텍스트, 이미지, 영상, 소프트웨어 등을 의미합니다.</li>
+              <li>
+                &quot;파일&quot;이란 이용자가 서비스를 통해 업로드, 저장, 공유, 다운로드하는 모든 데이터, 텍스트,
+                이미지, 영상, 소프트웨어 등을 의미합니다.
+              </li>
             </ul>
           </section>
 
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제3조 (서비스의 제공 및 변경)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제3조 (서비스의 제공 및 변경)</h2>
             <ul className="list-inside list-decimal space-y-1">
-              <li>서비스는 기본적으로 제공되며, 파일 보관 기간, 업로드 용량 등 구체적인 서비스 내용은 회사의 정책에 따라 예고 없이 변경될 수 있습니다.</li>
-              <li>파일은 지정된 만료 시간이 경과하면 시스템에서 자동 삭제되며, 회사는 삭제된 파일의 복구 의무를 지지 않습니다.</li>
-              <li>회사는 안정적인 서비스 제공을 위해 서버 점검, 업데이트 등의 이유로 서비스 제공을 일시적으로 중단할 수 있으며, 이로 인해 발생하는 불이익에 대해 책임지지 않습니다.</li>
+              <li>
+                서비스는 기본적으로 제공되며, 파일 보관 기간, 업로드 용량 등 구체적인 서비스 내용은 회사의 정책에 따라
+                예고 없이 변경될 수 있습니다.
+              </li>
+              <li>
+                파일은 지정된 만료 시간이 경과하면 시스템에서 자동 삭제되며, 회사는 삭제된 파일의 복구 의무를 지지
+                않습니다.
+              </li>
+              <li>
+                회사는 안정적인 서비스 제공을 위해 서버 점검, 업데이트 등의 이유로 서비스 제공을 일시적으로 중단할 수
+                있으며, 이로 인해 발생하는 불이익에 대해 책임지지 않습니다.
+              </li>
             </ul>
           </section>
 
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제4조 (이용자의 의무 및 금지행위)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제4조 (이용자의 의무 및 금지행위)</h2>
             <p className="mb-2">
               이용자는 서비스를 이용함에 있어 다음 각 호의 행위를 하여서는 안 됩니다. 회사는 아래 규정을 위반한 파일을
               발견하거나 신고가 접수될 경우, 사전 통보 없이 해당 파일을 즉시 삭제하고 서비스 이용을 영구적으로 제한할 수
@@ -54,7 +69,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제5조 (책임의 한계 및 면책)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제5조 (책임의 한계 및 면책)</h2>
             <ul className="list-inside list-decimal space-y-4">
               <li>
                 <strong>(무보증)</strong> 회사는 서비스를 &quot;있는 그대로(As-is)&quot; 제공하며, 서비스의 무결성,
@@ -85,28 +100,26 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제6조 (파일의 관리 및 삭제 권한)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제6조 (파일의 관리 및 삭제 권한)</h2>
             <ul className="list-inside list-decimal space-y-1">
               <li>
                 회사는 이용자의 파일을 임의로 열람하지 않는 것을 원칙으로 하나, 법령에 따른 수사기관의 적법한 요청이
                 있거나 제4조의 금지행위 위반이 명백하게 의심되는 경우 해당 파일을 확인하거나 사전 통지 없이 즉시 삭제할
                 수 있습니다.
               </li>
-              <li>
-                만료 기간이 지난 파일은 시스템에 의해 자동 영구 삭제되며 어떠한 경우에도 복구되지 않습니다.
-              </li>
+              <li>만료 기간이 지난 파일은 시스템에 의해 자동 영구 삭제되며 어떠한 경우에도 복구되지 않습니다.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="mb-3 font-display text-lg font-700 text-text-primary">제7조 (준거법 및 재판관할)</h2>
+            <h2 className="font-display font-700 text-text-primary mb-3 text-lg">제7조 (준거법 및 재판관할)</h2>
             <p>
               본 약관의 해석 및 이용자와 회사 간의 분쟁에 대해서는 대한민국 법령을 적용하며, 소송이 제기될 경우 회사의
               본점 소재지를 관할하는 법원을 전속적 합의관할법원으로 합니다.
             </p>
           </section>
 
-          <section className="border-t border-border-primary pt-8">
+          <section className="border-border-primary border-t pt-8">
             <p>본 약관은 2026년 5월 10일부터 적용됩니다.</p>
           </section>
         </div>

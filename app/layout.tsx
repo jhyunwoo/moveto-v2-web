@@ -9,7 +9,6 @@ import Toast from '@/app/components/toast'
 import localFont from 'next/font/local'
 import { GlobalUploadProvider } from '@/app/components/file-upload/global-upload-provider'
 import UploadProgressModal from '@/app/components/file-upload/upload-progress-modal'
-import AnimatedBackground from '@/app/components/animated-background'
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
@@ -25,7 +24,8 @@ export const metadata: Metadata = {
     default: '모베토 Moveto | 로그인 없이 빠르고 안전한 파일 전송',
     template: '%s | 모베토 Moveto',
   },
-  description: '번거로운 로그인 과정 없이 빠르고 안전하게 파일을 옮겨보세요. 랜덤 한글 코드만으로 누구나 쉽게 다운로드할 수 있습니다.',
+  description:
+    '번거로운 로그인 과정 없이 빠르고 안전하게 파일을 옮겨보세요. 랜덤 한글 코드만으로 누구나 쉽게 다운로드할 수 있습니다.',
   keywords: ['파일 공유', '대용량 파일 전송', '무설치 파일 전송', '모베토', 'Moveto', '한글 코드 공유'],
   openGraph: {
     title: '모베토 Moveto | 빠르고 안전한 파일 전송',
@@ -62,23 +62,16 @@ const themeScript = `
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable} bg-gradient-page min-h-[100dvh]`}
-      suppressHydrationWarning
-    >
+    <html lang="ko" className={pretendard.variable} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="relative text-text-primary antialiased">
-        <AnimatedBackground />
+      <body className="text-text-primary flex min-h-dvh flex-col antialiased">
         <ThemeProvider>
           <GlobalUploadProvider>
             <Header />
-            <main className="relative z-10 flex min-h-[100dvh] flex-col pt-16">
-              {children}
-            </main>
+            <main className="flex w-full flex-1 flex-col">{children}</main>
             <UploadProgressModal />
             <Footer />
             <Toast />

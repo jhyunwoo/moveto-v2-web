@@ -51,17 +51,16 @@ export default function ModalLayout({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
-          style={{ willChange: 'opacity' }}
-          className="fixed inset-0 z-50 flex touch-none flex-col items-center justify-center bg-surface-overlay p-4 backdrop-blur-md"
+          className="bg-surface-overlay fixed inset-0 z-50 flex flex-col items-center justify-center p-4"
           ref={backgroundRef}
           onClick={handleBackgroundClick}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 8 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="glass-panel z-50 flex max-h-[90dvh] w-full max-w-xl flex-col overflow-y-auto p-5 sm:p-7"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+            className="panel z-50 flex max-h-[90dvh] w-full max-w-lg flex-col overflow-y-auto overscroll-contain p-5 sm:p-6"
             role="dialog"
             aria-modal="true"
             aria-label={ariaLabel}

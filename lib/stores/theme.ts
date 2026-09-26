@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type Theme = 'light' | 'dark' | 'system'
+export type Theme = 'light' | 'dark' | 'system'
 
 interface ThemeState {
   theme: Theme
@@ -12,7 +12,7 @@ function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle('dark', isDark)
 }
 
-export const useTheme = create<ThemeState>((set) => ({
+export const useTheme = create<ThemeState>(set => ({
   theme: 'light',
   setTheme: (theme: Theme) => {
     localStorage.setItem('theme', theme)

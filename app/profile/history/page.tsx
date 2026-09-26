@@ -23,65 +23,72 @@ function isExpired(expiredAt: Date | null) {
 export default async function HistoryPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const session = await getSession()
   const currentSearchParams = await searchParams
-  const requestedPage = Number(currentSearchParams.page ?? '1')
+  const requestedPage = Number.parseInt(currentSearchParams.page ?? '1', 10) || 1
   const { shareList, pageLimit, currentPage } = await getUserShareHistory(session!.user.id, requestedPage)
 
   return (
-    <div className="w-full text-text-primary">
+    <div className="text-text-primary w-full">
       <ConfirmShareDelete />
-      <Link href="/profile" className="mb-6 inline-flex items-center gap-1.5 text-sm font-600 text-text-secondary transition-colors hover:text-text-primary">
+      <Link
+        href="/profile"
+        className="font-600 text-text-secondary hover:text-text-primary mb-6 inline-flex items-center gap-1.5 text-sm transition-colors"
+      >
         <ChevronLeftIcon className="size-4" />
         프로필로 돌아가기
       </Link>
 
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-700 sm:text-4xl">파일 공유 기록</h1>
-          <p className="mt-2 text-sm leading-6 text-text-secondary">생성한 공유와 만료 시간을 확인하세요.</p>
+          <h1 className="font-800 text-3xl tracking-[-0.04em] sm:text-4xl">파일 공유 기록</h1>
+          <p className="text-text-secondary mt-2 text-sm leading-6">생성한 공유와 만료 시간을 확인하세요.</p>
         </div>
         <Link href="/" className="btn-primary w-fit px-4">
-          <FolderPlusIcon className="size-[18px]" />
-          새 파일 공유
+          <FolderPlusIcon className="size-[18px]" />새 파일 공유
         </Link>
       </div>
 
       {shareList.length === 0 ? (
-        <div className="document-panel flex min-h-80 flex-col items-center justify-center px-5 py-12 text-center">
-          <span className="flex size-12 items-center justify-center rounded-lg bg-accent-soft text-accent">
-            <FolderPlusIcon className="size-6" />
-          </span>
-          <h2 className="mt-5 text-lg font-700">아직 공유한 파일이 없습니다</h2>
-          <p className="mt-2 text-sm text-text-secondary">파일을 선택하면 이곳에서 공유 기록을 확인할 수 있습니다.</p>
-          <Link href="/" className="btn-primary mt-6 px-5">파일 선택하기</Link>
+        <div className="panel flex min-h-80 flex-col items-center justify-center px-5 py-12 text-center">
+          <h2 className="font-700 text-lg">아직 공유한 파일이 없습니다</h2>
+          <p className="text-text-secondary mt-2 text-sm">파일을 선택하면 이곳에서 공유 기록을 확인할 수 있습니다.</p>
+          <Link href="/" className="btn-primary mt-6 px-5">
+            파일 선택하기
+          </Link>
         </div>
       ) : (
         <>
-          <div className="document-panel overflow-hidden">
-            {shareList.map((share) => {
+          <div className="panel fade-in overflow-hidden">
+            {shareList.map(share => {
               const expired = isExpired(share.expireAt)
               return (
-                <article key={share.id} className="grid gap-4 border-b border-border-subtle p-4 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-5">
+                <article
+                  key={share.id}
+                  className="border-border-subtle grid gap-4 border-b p-4 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-5"
+                >
                   <div className="min-w-0">
                     <div className="flex items-start gap-2">
-                      <h2 className="min-w-0 grow truncate text-sm font-700 sm:text-base">
+                      <h2 className="font-700 min-w-0 grow truncate text-sm sm:text-base">
                         {share.file?.[0] ?? '파일'}
                         {share.file && share.file.length > 1 ? ` 외 ${share.file.length - 1}개` : null}
                       </h2>
                       <DeleteShareTrashIconButton shareId={share.id} />
                     </div>
-                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted">
+                    <div className="text-text-muted mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
                       <span>{dateToKor(new Date(share.createdAt))} 생성</span>
                       <span>{dateToKor(new Date(share.expireAt!))} 만료</span>
                     </div>
                   </div>
 
                   {share.code && !expired ? (
-                    <Link href={`/search/${share.code.replaceAll(' ', '_')}`} className="btn-secondary justify-between px-3 sm:min-w-44">
+                    <Link
+                      href={`/search/${share.code.replaceAll(' ', '_')}`}
+                      className="btn-secondary justify-between px-3 sm:min-w-44"
+                    >
                       <span className="truncate">{share.code}</span>
                       <ArrowRightIcon className="size-4 shrink-0" />
                     </Link>
                   ) : (
-                    <span className="inline-flex h-10 items-center justify-center rounded-lg border border-border-subtle bg-surface-subtle px-4 text-sm font-600 text-text-muted">
+                    <span className="border-border-subtle bg-surface-subtle font-600 text-text-muted inline-flex h-10 items-center justify-center rounded-lg border px-4 text-sm">
                       만료됨
                     </span>
                   )}
@@ -99,7 +106,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
               >
                 이전
               </Link>
-              <span className="flex size-10 items-center justify-center rounded-lg bg-black text-sm font-700 text-white dark:bg-white dark:text-black">
+              <span className="bg-text-primary font-700 text-surface flex size-10 items-center justify-center rounded-lg font-mono text-sm">
                 {currentPage}
               </span>
               <Link
