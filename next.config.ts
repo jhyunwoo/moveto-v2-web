@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs/config'
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['127.0.0.1'],
@@ -18,4 +19,9 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withSentryConfig(nextConfig, {
+  org: 'moveto',
+  project: 'moveto-v2-web',
+  silent: !process.env.CI,
+  tunnelRoute: '/monitoring',
+})

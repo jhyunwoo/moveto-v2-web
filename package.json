@@ -21,6 +21,7 @@
     "@better-auth/passkey": "1.5.5",
     "@heroicons/react": "^2.2.0",
     "@next/third-parties": "^16.3.1",
+    "@sentry/nextjs": "10.74.0",
     "@simplewebauthn/browser": "^13.3.0",
     "@simplewebauthn/server": "^13.3.2",
     "@tailwindcss/postcss": "^4.3.3",
