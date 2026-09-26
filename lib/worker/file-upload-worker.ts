@@ -8,7 +8,7 @@ const BASE_URL = typeof self === 'object' ? self.location.origin : ''
 let currentShareId = ''
 let lastProgressPost = 0
 const MAX_UPLOAD_RETRIES = 3
-const retryCounts = new Map<string, number>()
+let retryAttempts = 0
 
 async function createShare(fileNameList: string[], storageSize: number) {
   const bodyData: { files: string[]; storageSize: number } = {
@@ -51,7 +51,7 @@ function completeUpload() {
 
   const shareId = currentShareId
   currentShareId = ''
-  retryCounts.clear()
+  retryAttempts = 0
   uppy.clear()
 
   self.postMessage({
@@ -81,30 +81,28 @@ const uppy = new Uppy<Meta, AwsBody>()
     postProgress()
   })
   .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
-  .on('upload-error', (file, error) => {
-    console.error('error with file:', file?.id, error)
-    if (!file || !currentShareId) return
-
-    const retries = retryCounts.get(file.id) ?? 0
-    if (retries < MAX_UPLOAD_RETRIES) {
-      retryCounts.set(file.id, retries + 1)
-      uppy.retryUpload(file.id)
-      return
-    }
-
-    failUpload('파일 업로드에 실패했습니다. 네트워크 상태를 확인한 뒤 다시 시도해주세요.')
-  })
+  .on('upload-error', (file, error) => console.error('error with file:', file?.id, error))
   .on('upload-retry', fileID => {
     console.log('upload retried:', fileID)
   })
   .on('complete', result => {
-    if (currentShareId && !result?.failed?.length) completeUpload()
+    if (!currentShareId) return
+    if (!result?.failed?.length) {
+      completeUpload()
+      return
+    }
+    if (retryAttempts < MAX_UPLOAD_RETRIES) {
+      retryAttempts += 1
+      void uppy.retryAll()
+      return
+    }
+    failUpload('파일 업로드에 실패했습니다. 네트워크 상태를 확인한 뒤 다시 시도해주세요.')
   })
 
 function failUpload(message: string) {
   const shareId = currentShareId
   currentShareId = ''
-  retryCounts.clear()
+  retryAttempts = 0
   uppy.cancelAll()
   self.postMessage({ status: 'Error', id: shareId, error: message } as WorkerToClient)
 }
@@ -112,7 +110,7 @@ function failUpload(message: string) {
 async function uploadFile(files: File[]) {
   if (!files.length) return
   const fileNameList = files.map(file => file.name)
-  retryCounts.clear()
+  retryAttempts = 0
 
   let share: { shareId: string }
   try {
@@ -139,7 +137,7 @@ async function uploadFile(files: File[]) {
 function cancelUpload() {
   const shareId = currentShareId
   currentShareId = ''
-  retryCounts.clear()
+  retryAttempts = 0
   uppy.cancelAll()
   self.postMessage({
     status: 'Cancelled',
