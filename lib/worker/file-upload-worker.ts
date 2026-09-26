@@ -7,6 +7,8 @@ const BASE_URL = typeof self === 'object' ? self.location.origin : ''
 
 let currentShareId = ''
 let lastProgressPost = 0
+const MAX_UPLOAD_RETRIES = 3
+const retryCounts = new Map<string, number>()
 
 async function createShare(fileNameList: string[], storageSize: number) {
   const bodyData: { files: string[]; storageSize: number } = {
@@ -20,7 +22,7 @@ async function createShare(fileNameList: string[], storageSize: number) {
 }
 
 function postProgress() {
-  const progressState = uppy.getFiles().map((file) => {
+  const progressState = uppy.getFiles().map(file => {
     const bytesUploaded = typeof file.progress.bytesUploaded === 'number' ? file.progress.bytesUploaded : 0
     const bytesTotal = file.progress.bytesTotal ?? file.size ?? 0
     return {
@@ -37,7 +39,7 @@ function postProgress() {
 
 function completeUpload() {
   // Send final 100% progress
-  const progressState = uppy.getFiles().map((file) => ({
+  const progressState = uppy.getFiles().map(file => ({
     name: file.name,
     progress: 100,
     type: file.type,
@@ -47,13 +49,14 @@ function completeUpload() {
   }))
   self.postMessage({ progress: progressState } as WorkerToClient)
 
-  // Clear uppy after upload all files
+  const shareId = currentShareId
+  currentShareId = ''
+  retryCounts.clear()
   uppy.clear()
 
-  // Send upload complete message
   self.postMessage({
     status: 'Upload Complete',
-    id: currentShareId,
+    id: shareId,
   } as WorkerToClient)
 }
 
@@ -62,13 +65,13 @@ const uppy = new Uppy<Meta, AwsBody>()
     endpoint: `${BASE_URL}/api`,
     limit: 6,
     retryDelays: [0, 1000, 3000, 5000],
-    shouldUseMultipart: (file) => (file.size ?? 0) > 10 * 1024 * 1024,
-    getChunkSize: (file) => {
+    shouldUseMultipart: file => (file.size ?? 0) > 10 * 1024 * 1024,
+    getChunkSize: file => {
       const size = file.size ?? 0
       if (size > 500 * 1024 * 1024 * 1024) return 110 * 1024 * 1024 // 110MB for > 500GB
-      if (size > 100 * 1024 * 1024 * 1024) return 50 * 1024 * 1024  // 50MB for > 100GB
-      if (size > 10 * 1024 * 1024 * 1024) return 20 * 1024 * 1024   // 20MB for > 10GB
-      return 10 * 1024 * 1024                                       // 10MB default
+      if (size > 100 * 1024 * 1024 * 1024) return 50 * 1024 * 1024 // 50MB for > 100GB
+      if (size > 10 * 1024 * 1024 * 1024) return 20 * 1024 * 1024 // 20MB for > 10GB
+      return 10 * 1024 * 1024 // 10MB default
     },
   })
   .on('upload-progress', () => {
@@ -77,22 +80,50 @@ const uppy = new Uppy<Meta, AwsBody>()
     lastProgressPost = now
     postProgress()
   })
-  .on('upload-success', (file) => console.log(file?.name, 'successfully uploaded'))
-  .on('upload-error', async (file, error) => {
-    console.error('error with file:', file?.id)
-    console.error('error message:', error)
-    if (file) uppy.retryUpload(file.id)
+  .on('upload-success', file => console.log(file?.name, 'successfully uploaded'))
+  .on('upload-error', (file, error) => {
+    console.error('error with file:', file?.id, error)
+    if (!file || !currentShareId) return
+
+    const retries = retryCounts.get(file.id) ?? 0
+    if (retries < MAX_UPLOAD_RETRIES) {
+      retryCounts.set(file.id, retries + 1)
+      uppy.retryUpload(file.id)
+      return
+    }
+
+    failUpload('파일 업로드에 실패했습니다. 네트워크 상태를 확인한 뒤 다시 시도해주세요.')
   })
-  .on('upload-retry', (fileID) => {
+  .on('upload-retry', fileID => {
     console.log('upload retried:', fileID)
   })
-  .on('complete', () => completeUpload())
+  .on('complete', result => {
+    if (currentShareId && !result?.failed?.length) completeUpload()
+  })
+
+function failUpload(message: string) {
+  const shareId = currentShareId
+  currentShareId = ''
+  retryCounts.clear()
+  uppy.cancelAll()
+  self.postMessage({ status: 'Error', id: shareId, error: message } as WorkerToClient)
+}
 
 async function uploadFile(files: File[]) {
-  const fileNameList = files.map((file) => file.name)
+  if (!files.length) return
+  const fileNameList = files.map(file => file.name)
+  retryCounts.clear()
 
-  // Create share on DB
-  const share = await createShare(fileNameList, getTotalFileSize(files))
+  let share: { shareId: string }
+  try {
+    share = await createShare(fileNameList, getTotalFileSize(files))
+  } catch {
+    self.postMessage({
+      status: 'Error',
+      error: '공유를 만들지 못했습니다. 잠시 후 다시 시도해주세요.',
+    } as WorkerToClient)
+    return
+  }
   currentShareId = share.shareId
 
   // Set share path metadata
@@ -106,9 +137,10 @@ async function uploadFile(files: File[]) {
 }
 
 function cancelUpload() {
-  uppy.cancelAll()
   const shareId = currentShareId
   currentShareId = ''
+  retryCounts.clear()
+  uppy.cancelAll()
   self.postMessage({
     status: 'Cancelled',
     id: shareId,

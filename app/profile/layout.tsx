@@ -13,7 +13,7 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
     redirect('/auth/sign-in')
   }
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div className="mx-auto flex w-full max-w-5xl flex-col px-4 py-12 sm:px-6 sm:py-16">
       {children}
     </div>
   )

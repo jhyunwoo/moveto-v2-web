@@ -4,7 +4,7 @@ type ClientToFileUploadWorker = {
 }
 
 type WorkerToClient = {
-  status?: 'Upload Complete' | 'Cancelled'
+  status?: 'Upload Complete' | 'Cancelled' | 'Error'
   error?: string
   progress?: {
     name: string | undefined
