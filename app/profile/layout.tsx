@@ -12,9 +12,5 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
   if (!session?.user?.id) {
     redirect('/auth/sign-in')
   }
-  return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col px-4 py-12 sm:px-6 sm:py-16">
-      {children}
-    </div>
-  )
+  return <div className="mx-auto flex w-full max-w-5xl flex-col px-4 py-12 sm:px-6 sm:py-16">{children}</div>
 }
