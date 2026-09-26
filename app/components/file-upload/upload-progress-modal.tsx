@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'motion/react'
 import useMetadataTitle from '@/lib/hooks/use-metadata-title'
 import useTotalUploadProgress from '@/lib/hooks/use-total-upload-progress'
 import { useFileUploadProgress } from '@/lib/stores/file-upload-progress'
@@ -13,6 +12,8 @@ import {
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline'
 import { useGlobalUpload } from '@/app/components/file-upload/global-upload-provider'
+import PacketGrid from '@/app/components/motion/packet-grid'
+import AnimatedNumber from '@/app/components/motion/animated-number'
 
 export default function UploadProgressModal() {
   const { pause, resume, cancel } = useGlobalUpload()
@@ -101,24 +102,22 @@ export default function UploadProgressModal() {
         </button>
 
         <div className="pr-12">
-          <p className="mono-label">{isGeneratingCode ? 'Generating' : `${totalProgress}%`}</p>
-          <h2 className="font-700 mt-1 text-lg">{statusText}</h2>
+          <p className="mono-label">{isGeneratingCode ? 'Generating code' : 'Uploading'}</p>
+          <div className="font-800 text-text-primary mt-3 flex items-baseline text-6xl tracking-[-0.05em] tabular-nums">
+            <AnimatedNumber value={isGeneratingCode ? 100 : totalProgress} />
+            <span className="text-text-muted ml-1 text-2xl">%</span>
+          </div>
+          <h2 className="font-700 mt-2 text-lg">{statusText}</h2>
           {isGeneratingCode ? (
             <p className="text-text-secondary mt-1 text-sm">업로드한 파일에 연결할 공유 코드를 만들고 있습니다.</p>
           ) : null}
         </div>
 
-        {isGeneratingCode ? (
-          <div className="bg-border-subtle mt-6 h-1 w-full overflow-hidden rounded-full">
-            <motion.div
-              className="bg-accent h-full w-1/3 rounded-full"
-              animate={{ x: ['-100%', '300%'] }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </div>
-        ) : (
+        <div className="mt-6">
+          <PacketGrid progress={totalProgress} generating={isGeneratingCode} />
+        </div>
+        {isGeneratingCode ? null : (
           <>
-            <ProgressBar progress={totalProgress} className="mt-5" />
             <ul className="mt-5 overflow-y-auto">
               {fileUploadProgress.map((data, index) => (
                 <li key={`${data.name}-${index}`} className="border-border-subtle border-b py-2.5 last:border-b-0">

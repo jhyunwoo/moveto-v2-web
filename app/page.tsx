@@ -2,6 +2,8 @@ import type { CSSProperties } from 'react'
 import FileUpload from '@/app/components/file-upload/file-upload'
 import ReceivePanel from '@/app/components/receive-panel'
 import JsonLd from '@/app/components/json-ld'
+import SplitTitle from '@/app/components/motion/split-title'
+import StepTrack from '@/app/components/motion/step-track'
 
 const steps = [
   { title: '파일 선택', description: '공유할 파일을 끌어다 놓거나 선택하세요.' },
@@ -32,31 +34,17 @@ export default function HomePage() {
         style={{ '--i': 3 } as CSSProperties}
       >
         <p className="mono-label">Moveto / File transfer</p>
-        <h1
+        <SplitTitle
           id="home-title"
+          lines={['파일이 움직이는', '가장 아름다운 방법.']}
           className="font-800 text-text-primary mt-4 text-[clamp(2rem,6vw,3.5rem)] leading-[1.1] tracking-[-0.045em]"
-        >
-          파일이 움직이는
-          <br />
-          가장 아름다운 방법.
-        </h1>
+        />
         <p className="text-text-secondary mt-4 text-base leading-7 sm:text-lg">
           로그인 없이 파일을 올리고, 기억하기 쉬운 한글 코드로 바로 공유하세요.
         </p>
       </section>
 
-      <section
-        aria-label="이용 절차"
-        className="border-border-subtle mt-16 grid gap-px border-t pt-8 sm:grid-cols-3 sm:gap-8"
-      >
-        {steps.map((step, index) => (
-          <div key={step.title} className="py-3 sm:py-0">
-            <span className="mono-label">0{index + 1}</span>
-            <h2 className="font-700 text-text-primary mt-2 text-base">{step.title}</h2>
-            <p className="text-text-secondary mt-1 text-sm leading-6">{step.description}</p>
-          </div>
-        ))}
-      </section>
+      <StepTrack steps={steps} />
     </div>
   )
 }
