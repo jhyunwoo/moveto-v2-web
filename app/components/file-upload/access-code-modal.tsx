@@ -1,8 +1,11 @@
 'use client'
 
 import QRCode from 'react-qr-code'
-import { CheckCircleIcon, ClipboardDocumentIcon, LinkIcon } from '@heroicons/react/24/outline'
+import { ClipboardDocumentIcon, LinkIcon } from '@heroicons/react/24/outline'
+import { motion } from 'motion/react'
 import ModalLayout from '@/app/components/modal-layout'
+import SuccessMark from '@/app/components/motion/success-mark'
+import CodeReveal from '@/app/components/motion/code-reveal'
 import { useCode } from '@/lib/stores/code'
 import { useToastStore } from '@/lib/stores/toast'
 
@@ -23,8 +26,8 @@ export default function AccessCodeModal() {
 
   return (
     <ModalLayout isOpen={code !== ''} closeModal={() => setCode('')} ariaLabel="공유 완료">
-      <div className="flex items-start gap-3">
-        <CheckCircleIcon className="text-success size-6 shrink-0" />
+      <div className="flex items-center gap-4">
+        <SuccessMark />
         <div>
           <h2 className="font-700 text-text-primary text-xl">공유가 준비됐어요</h2>
           <p className="text-text-secondary mt-1 text-sm leading-6">코드나 링크를 상대에게 전달하세요.</p>
@@ -35,7 +38,10 @@ export default function AccessCodeModal() {
         <div className="min-w-0">
           <span className="section-label mb-2 block">공유 코드</span>
           <div className="border-border-primary flex items-center gap-2 rounded-lg border p-2 pl-4">
-            <strong className="font-700 text-text-primary min-w-0 grow text-xl break-keep sm:text-2xl">{code}</strong>
+            <CodeReveal
+              code={code}
+              className="font-700 text-text-primary min-w-0 grow text-xl break-keep sm:text-2xl"
+            />
             <button
               type="button"
               className="icon-button"
@@ -51,9 +57,14 @@ export default function AccessCodeModal() {
           </p>
         </div>
 
-        <div className="border-border-primary mx-auto rounded-lg border bg-white p-3">
+        <motion.div
+          className="border-border-primary mx-auto rounded-lg border bg-white p-3"
+          initial={{ opacity: 0, scale: 0.9, rotate: -4 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ delay: 0.8, type: 'spring', stiffness: 260, damping: 20 }}
+        >
           <QRCode title="공유 링크 QR 코드" value={shareUrl} size={132} />
-        </div>
+        </motion.div>
       </div>
 
       <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">

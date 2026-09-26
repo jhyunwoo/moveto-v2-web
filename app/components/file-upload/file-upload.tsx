@@ -28,6 +28,7 @@ export default function FileUpload() {
             dragRef={dragRef}
             handleFileInput={handleFileInput}
             isDragging={isDragging}
+            fileCount={files.length}
           />
         </div>
         <FileList files={files} deleteFile={deleteFile} />
